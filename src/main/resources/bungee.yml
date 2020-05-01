@@ -1,0 +1,5 @@
+name: ServerSelector
+version: ${project.version}
+main: eu.iteije.serverselector.bungee.ServerSelectorBungee
+authors: [iTeije]
+description: A advanced BungeeCord server selector
