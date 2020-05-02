@@ -1,5 +1,7 @@
 package eu.iteije.serverselector;
 
+import eu.iteije.serverselector.common.commands.CommandModule;
+import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
 
@@ -7,6 +9,8 @@ import lombok.Getter;
 public final class ServerSelector {
 
     // Common module instances
+    private CommandModule commandModule;
+    private MessageModule messageModule;
 
     // Common plugin instance
     @Getter private static ServerSelector instance;
@@ -24,6 +28,8 @@ public final class ServerSelector {
         }
 
         // Define modules
+        this.commandModule = new CommandModule();
+        this.messageModule = new MessageModule();
 
     }
 

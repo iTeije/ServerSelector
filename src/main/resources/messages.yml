@@ -1,0 +1,12 @@
+# Global messages
+permission_error: "&cYou are not allowed to do this!"
+
+# Global command related messages
+command_not_found: "&cCommand {command} &cnot found! Use {command_suggestion} &cfor help."
+command_error: "&cAn unexpected error occurred while executing this command, please contact the developers."
+
+# Help command
+help_command_title: "&3Showing all available commands:"
+help_command_dedicated: "&3Showing command usage for {command}&3:"
+help_command_item: "&3> &b/{command} {subcommand} &7- {description}"
+help_command_no_results: "&7No results"

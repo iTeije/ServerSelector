@@ -2,7 +2,9 @@ package eu.iteije.serverselector.spigot;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.platform.Platform;
-import eu.iteije.serverselector.spigot.messaging.BungeeMessage;
+import eu.iteije.serverselector.spigot.commands.SpigotCommandModule;
+import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -11,7 +13,9 @@ import org.bukkit.plugin.java.JavaPlugin;
 public final class ServerSelectorSpigot extends JavaPlugin {
 
     // Spigot module instances
-    BungeeMessage bungeeMessage;
+    private SpigotCommandModule commandModule;
+    private SpigotFileModule fileModule;
+    private SpigotMessageModule messageModule;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -30,9 +34,10 @@ public final class ServerSelectorSpigot extends JavaPlugin {
             return;
         }
 
-        bungeeMessage = new BungeeMessage(this);
-
-        bungeeMessage.sendMessage("HALLO FELLOW PEOPLE");
+        // Load modules
+        this.commandModule = new SpigotCommandModule(this);
+        this.fileModule = new SpigotFileModule(this);
+        this.messageModule = new SpigotMessageModule();
 
     }
 
