@@ -34,13 +34,14 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         CommonExecutor executor = new SpigotCommandSenderAdapter(sender);
+        if (!(sender instanceof Player)) return true;
         Player player = (Player) sender;
 
         SpigotMessageModule messageModule = serverSelectorSpigot.getMessageModule();
 
         // Send plugin credits if args are not given
         if (args.length == 0) {
-            messageModule.sendString("&3ServerSelector version {version} &3by {author}&3, use {help_command} &3for help.", new Player[]{player}, MessageType.SPIGOT_MESSAGE,
+            messageModule.sendString("&3ServerSelector version {version} &3by {author}&3, use {help_command} &3for help.", new Player[]{player}, MessageType.MESSAGE,
                     new Replacement("{version}", serverSelectorSpigot.getDescription().getVersion(), ReplacementType.VARIABLE),
                     new Replacement("{author}", "iTeije", ReplacementType.VARIABLE),
                     new Replacement("{help_command}", "/ss help", ReplacementType.COMMAND));
@@ -60,16 +61,16 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
                     subCommand.onExecute(executor, subArgs, label);
                 } catch (Exception exception) {
                     exception.printStackTrace();
-                    messageModule.sendToPlayer(StorageKey.COMMAND_ERROR, new Player[]{player}, MessageType.SPIGOT_MESSAGE);
+                    messageModule.sendToPlayer(StorageKey.COMMAND_ERROR, new Player[]{player}, MessageType.MESSAGE);
                 }
                 return true;
             } else {
-                messageModule.sendToPlayer(StorageKey.PERMISSION_ERROR, new Player[]{player}, MessageType.SPIGOT_MESSAGE);
+                messageModule.sendToPlayer(StorageKey.PERMISSION_ERROR, new Player[]{player}, MessageType.MESSAGE);
                 return true;
             }
         } else {
             String fullCommand = commandModule.getFullCommand(label, args);
-            messageModule.sendToPlayer(StorageKey.COMMAND_NOT_FOUND, new Player[]{player}, MessageType.SPIGOT_MESSAGE,
+            messageModule.sendToPlayer(StorageKey.COMMAND_NOT_FOUND, new Player[]{player}, MessageType.MESSAGE,
                     new Replacement("{command}", fullCommand, ReplacementType.COMMAND_ERROR),
                     new Replacement("{command_suggestion}", "/ss help", ReplacementType.COMMAND_ERROR)
                     );

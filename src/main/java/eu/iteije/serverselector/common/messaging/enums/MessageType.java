@@ -1,18 +1,27 @@
 package eu.iteije.serverselector.common.messaging.enums;
 
+import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import org.bukkit.entity.Player;
 
 public enum MessageType {
 
-    SPIGOT_MESSAGE {
+    MESSAGE {
         @Override
         public void send(String message, Player... players) {
             for (Player player : players) {
                 player.sendMessage(message);
             }
         }
+
+        @Override
+        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players) {
+            for (Player player : players) {
+                serverSelectorSpigot.getCommunicationModule().sendMessage(message, player);
+            }
+
+        }
     },
-    SPIGOT_TITLE {
+    TITLE {
         @Override
         public void send(String message, Player... players) {
             for (Player player : players) {
@@ -20,20 +29,16 @@ public enum MessageType {
                 player.sendTitle(message, "", 20, 60, 20);
             }
         }
-    },
-    BUNGEE_MESSAGE {
+
         @Override
-        public void send(String message, Player... players) {
+        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players) {
 
         }
     },
-    BUNGEE_TITLE {
-        @Override
-        public void send(String message, Player... players) {
 
-        }
-    };
+    ;
 
     public abstract void send(String message, Player... players);
+    public abstract void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players);
 
 }

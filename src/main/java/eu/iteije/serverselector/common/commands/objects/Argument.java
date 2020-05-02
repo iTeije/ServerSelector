@@ -1,5 +1,6 @@
 package eu.iteije.serverselector.common.commands.objects;
 
+import eu.iteije.serverselector.spigot.commands.subcommands.arguments.ArgumentHandler;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,5 +14,6 @@ public class Argument {
      */
     private String syntax;
     private String description;
+    private ArgumentHandler argumentHandler;
 
 }

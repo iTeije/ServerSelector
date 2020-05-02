@@ -4,6 +4,7 @@ import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.platform.Platform;
 import eu.iteije.serverselector.spigot.commands.SpigotCommandModule;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.messaging.SpigotCommunicationModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -16,6 +17,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     private SpigotCommandModule commandModule;
     private SpigotFileModule fileModule;
     private SpigotMessageModule messageModule;
+    private SpigotCommunicationModule communicationModule;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -38,6 +40,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.commandModule = new SpigotCommandModule(this);
         this.fileModule = new SpigotFileModule(this);
         this.messageModule = new SpigotMessageModule();
+        this.communicationModule = new SpigotCommunicationModule(this);
 
     }
 

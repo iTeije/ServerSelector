@@ -1,15 +1,16 @@
 package eu.iteije.serverselector.bungee;
 
 import eu.iteije.serverselector.ServerSelector;
+import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
-import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
 
 @Getter
-public class ServerSelectorBungee extends Plugin implements Listener {
+public class ServerSelectorBungee extends Plugin {
 
     // Bungee module instances
+    private BungeeCommunicationModule communicationModule;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -26,6 +27,10 @@ public class ServerSelectorBungee extends Plugin implements Listener {
             this.onDisable();
             return;
         }
+
+        this.communicationModule = new BungeeCommunicationModule(this);
+
+        this.getProxy().getPluginManager().registerListener(this, communicationModule);
 
     }
 

@@ -4,6 +4,7 @@ import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.commands.CommandModule;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.commands.labelcommands.SpigotMainCommand;
+import eu.iteije.serverselector.spigot.commands.subcommands.AdminSubCommand;
 import eu.iteije.serverselector.spigot.commands.subcommands.HelpSubCommand;
 
 public class SpigotCommandModule {
@@ -16,7 +17,8 @@ public class SpigotCommandModule {
         CommandModule commandModule = ServerSelector.getInstance().getCommandModule();
 
         commandModule.registerSubCommands(
-                new HelpSubCommand(serverSelectorSpigot)
+                new HelpSubCommand(serverSelectorSpigot),
+                new AdminSubCommand(serverSelectorSpigot)
         );
     }
 }
