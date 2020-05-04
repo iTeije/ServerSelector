@@ -2,7 +2,6 @@ package eu.iteije.serverselector.spigot.messaging;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -19,18 +18,30 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         this.serverSelectorSpigot = serverSelectorSpigot;
     }
 
-    public void sendMessage(String message, Player player) {
+    public void sendMessage(String message, String optional, String... playerNames) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(stream);
-        try {
-            outputStream.writeUTF(message);
-            outputStream.writeUTF(player.getName());
-            outputStream.writeUTF("");
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
 
-        serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        if (optional.equals("")) {
+            try {
+                outputStream.writeUTF(message);
+                outputStream.writeUTF(optional);
+                for (String player : playerNames) {
+                    outputStream.writeUTF(player);
+                    serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                }
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        } else if (optional.equals("broadcast")) {
+            try {
+                outputStream.writeUTF(message);
+                outputStream.writeUTF(optional);
+                serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -43,8 +54,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         try {
             String receivedChannel = inputStream.readUTF();
             String receivedMessage = inputStream.readUTF();
-
-            Bukkit.broadcastMessage(receivedMessage);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

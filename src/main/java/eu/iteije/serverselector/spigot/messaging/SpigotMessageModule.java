@@ -8,8 +8,9 @@ import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
-import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+
+import java.util.ArrayList;
 
 public class SpigotMessageModule {
 
@@ -33,24 +34,41 @@ public class SpigotMessageModule {
     }
 
     // Server wide (bungee) methods
-    public void sendBungeeString(String message, Player[] players, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
-        messageType.sendBungee(messageModule.convert(message, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot, players);
+    public void sendToBungeePlayer(String message, Object[] players, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
+        messageType.sendBungee(messageModule.convert(message, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot,
+                convertPlayerArray(players));
     }
 
-    public void sendToBungeePlayer(StorageKey storageKey, Player[] players, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
-        messageType.sendBungee(messageModule.convert(storageKey, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot, players);
+    public void sendToBungeePlayer(StorageKey storageKey, Object[] players, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
+        messageType.sendBungee(messageModule.convert(storageKey, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot,
+                convertPlayerArray(players));
     }
 
     public void globalBroadcast(StorageKey storageKey, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
-        messageType.sendBungee(messageModule.convert(storageKey, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot);
+        messageType.sendBungee(messageModule.convert(storageKey, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot, null);
     }
 
-
+    public void globalBroadcast(String message, MessageType messageType, ServerSelectorSpigot serverSelectorSpigot, Replacement... replacements) {
+        messageType.sendBungee(messageModule.convert(message, replacements), MessageChannel.BUNGEE_GLOBAL.getChannel(), serverSelectorSpigot, null);
+    }
 
 
 
     public String getMessage(StorageKey storageKey) {
         return SpigotFileModule.getFile(storageKey).getString(storageKey);
+    }
+
+    private String[] convertPlayerArray(Object[] players) {
+        if (players instanceof String[]) return (String[]) players;
+        if (players instanceof Player[]) {
+            Player[] playerArray = (Player[]) players.clone();
+            ArrayList<String> playerNames = new ArrayList<>();
+            for (Player player : playerArray) {
+                playerNames.add(player.getName());
+            }
+            return playerNames.toArray(new String[playerNames.size()]);
+        }
+        return null;
     }
 
 }

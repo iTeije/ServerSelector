@@ -14,11 +14,15 @@ public enum MessageType {
         }
 
         @Override
-        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players) {
-            for (Player player : players) {
-                serverSelectorSpigot.getCommunicationModule().sendMessage(message, player);
+        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, String[] playerNames) {
+            if (playerNames != null) {
+                for (String playerName : playerNames) {
+                    serverSelectorSpigot.getCommunicationModule().sendMessage(message, "", playerName);
+                }
+                return;
             }
 
+            serverSelectorSpigot.getCommunicationModule().sendMessage(message, "broadcast");
         }
     },
     TITLE {
@@ -31,14 +35,15 @@ public enum MessageType {
         }
 
         @Override
-        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players) {
-
+        public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, String[] playerNames) {
+//            serverSelectorSpigot.getCommunicationModule().sendMessage(message, "broadcast");
         }
     },
 
     ;
 
     public abstract void send(String message, Player... players);
-    public abstract void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, Player... players);
+
+    public abstract void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, String[] playerNames);
 
 }
