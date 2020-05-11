@@ -2,10 +2,7 @@ package eu.iteije.serverselector.bungee.messaging;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.chat.BaseComponent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
@@ -32,23 +29,33 @@ public class BungeeCommunicationModule implements Listener {
         // Make sure there is a player online
         if (proxiedPlayers == null || proxiedPlayers.isEmpty()) return;
 
-//        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-//        DataOutputStream output = new DataOutputStream(bytes);
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        DataOutputStream output = new DataOutputStream(bytes);
+
+        try {
+            output.writeUTF(message);
+            output.writeUTF(player.getName());
+            player.getServer().getInfo().sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
+//        BaseComponent[] components = TextComponent.fromLegacyText(message);
 //
-//        try {
-//            output.writeUTF(MessageChannel.BUNGEE_GLOBAL.getChannel());
-//            output.writeUTF(message);
-//        } catch (IOException exception) {
-//            exception.printStackTrace();
-//        }
-
-        BaseComponent[] components = TextComponent.fromLegacyText(message);
-
-        player.sendMessage(ChatMessageType.CHAT, components);
+//        player.sendMessage(ChatMessageType.CHAT, components);
     }
 
     public void broadcast(String message) {
-        ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(message));
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        DataOutputStream output = new DataOutputStream(bytes);
+
+        try {
+            output.writeUTF(message);
+            ProxyServer.getInstance().getServers().values().forEach(server -> server.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray()));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+//        ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(message));
     }
 
     @EventHandler

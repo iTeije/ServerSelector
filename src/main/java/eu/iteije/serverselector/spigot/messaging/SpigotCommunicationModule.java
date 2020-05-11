@@ -2,6 +2,7 @@ package eu.iteije.serverselector.spigot.messaging;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -45,16 +46,31 @@ public class SpigotCommunicationModule implements PluginMessageListener {
     }
 
     @Override
-    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+    public void onPluginMessageReceived(String channel, Player providedPlayer, byte[] data) {
 
         if (!channel.equals(MessageChannel.BUNGEE_GLOBAL.getChannel())) return;
 
-        ByteArrayInputStream input = new ByteArrayInputStream(message);
+        ByteArrayInputStream input = new ByteArrayInputStream(data);
         DataInputStream inputStream = new DataInputStream(input);
+
         try {
-            String receivedChannel = inputStream.readUTF();
-            String receivedMessage = inputStream.readUTF();
-        } catch (IOException exception) {
+            String message = inputStream.readUTF();
+            boolean command = message.charAt(0) == '/';
+            if (command) message = message.substring(1);
+            if (data.length == 2) {
+                Player player = Bukkit.getPlayer(inputStream.readUTF());
+                if (command) {
+                    player.performCommand(message);
+                    return;
+                }
+                player.sendMessage(message);
+            }
+            if (command) {
+                Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), message);
+                return;
+            }
+            Bukkit.broadcastMessage(message);
+        } catch (Exception exception) {
             exception.printStackTrace();
         }
     }
