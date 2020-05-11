@@ -18,6 +18,9 @@ public enum StorageKey {
 
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),
+    MENU_CLOSE("menu_close", StorageLocation.MESSAGE_FILE),
+    MENU_NEXT_PAGE("menu_next_page", StorageLocation.MESSAGE_FILE),
+    MENU_PREVIOUS_PAGE("menu_previous_page", StorageLocation.MESSAGE_FILE),
 
     // Message menu
     MESSAGE_MENU_NAME("message_menu_name", StorageLocation.MESSAGE_FILE),

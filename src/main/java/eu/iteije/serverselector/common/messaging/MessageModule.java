@@ -37,7 +37,7 @@ public class MessageModule {
         return message;
     }
 
-    private String convertColorCodes(String message) {
+    public String convertColorCodes(String message) {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 

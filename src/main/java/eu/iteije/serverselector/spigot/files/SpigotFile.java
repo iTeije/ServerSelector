@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class SpigotFile implements ServerSelectorFile {
 
-    private FileConfiguration fileConfiguration;
+    @Getter private FileConfiguration fileConfiguration;
     @Getter private StorageLocation storageLocation;
 
     private ServerSelectorSpigot serverSelectorSpigot;

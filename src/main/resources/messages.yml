@@ -13,7 +13,10 @@ help_command_no_results: "&7No results"
 
 # Menu messages
 menu_opening: "&3Opening {menu} &3menu..."
+menu_close: "&cClose menu"
+menu_next_page: "&aNext page"
+menu_previous_page: "&aPrevious page"
 
 # Message menu
 message_menu_name: "Message"
-message_menu_title: "&3&lMessage menu"
+message_menu_title: "&3&lMessages"

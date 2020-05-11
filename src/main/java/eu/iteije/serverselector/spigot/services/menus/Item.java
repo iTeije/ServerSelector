@@ -1,5 +1,8 @@
 package eu.iteije.serverselector.spigot.services.menus;
 
+import eu.iteije.serverselector.ServerSelector;
+import eu.iteije.serverselector.common.messaging.MessageModule;
+import eu.iteije.serverselector.common.storage.StorageKey;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Material;
@@ -10,7 +13,8 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.LeatherArmorMeta;
 
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.BiConsumer;
 
 public class Item {
@@ -18,6 +22,8 @@ public class Item {
     @Getter private ItemStack item;
 
     @Getter private BiConsumer<Player, Item> onClick = (a, b) -> {};
+
+    private MessageModule messageModule = ServerSelector.getInstance().getMessageModule();
 
     public Item(ItemStack itemStack) {
         if (itemStack == null) itemStack = new ItemStack(Material.AIR, 1);
@@ -62,13 +68,32 @@ public class Item {
     }
 
     public Item setLore(String[] lines) {
+        // Convert color codes
+        List<String> convertedLines = new ArrayList<>();
+        for (String line : lines) {
+            convertedLines.add(messageModule.convertColorCodes(line));
+        }
         ItemMeta meta = item.getItemMeta();
-        meta.setLore(Arrays.asList(lines));
+        meta.setLore(convertedLines);
         item.setItemMeta(meta);
         return this;
     }
 
     public Item setName(String name) {
+        // Convert color codes
+        name = messageModule.convertColorCodes(name);
+
+        ItemMeta meta = item.getItemMeta();
+        meta.setDisplayName(name);
+        item.setItemMeta(meta);
+        return this;
+    }
+
+    public Item setName(StorageKey key) {
+        String name;
+        // Convert color codes
+        name = messageModule.convert(key);
+
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);
         item.setItemMeta(meta);
