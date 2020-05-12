@@ -4,6 +4,8 @@ permission_error: "&cYou are not allowed to do this!"
 # Global command related messages
 command_not_found: "&cCommand {command} &cnot found! Use {command_suggestion} &cfor help."
 command_error: "&cAn unexpected error occurred while executing this command, please contact the developers."
+command_player_only: "&cThis command is only available to players."
+command_console_only: "&cThis command is only available to the console."
 
 # Help command
 help_command_title: "&3Showing all available commands:"

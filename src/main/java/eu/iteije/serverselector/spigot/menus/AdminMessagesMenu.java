@@ -1,13 +1,19 @@
 package eu.iteije.serverselector.spigot.menus;
 
+import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
+import eu.iteije.serverselector.spigot.players.ServerSelectorPlayer;
+import eu.iteije.serverselector.spigot.services.actionqueue.Action;
+import eu.iteije.serverselector.spigot.services.actionqueue.ActionType;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 
@@ -21,6 +27,9 @@ public class AdminMessagesMenu extends Menu {
         // Slot where the
         int start = (availableSlots * page) - availableSlots;
 
+        // Messages module
+        SpigotMessageModule messageModule = instance.getMessageModule();
+
         // Messages file
         FileConfiguration messagesFile = SpigotFileModule.getFileByName("messages.yml").getFileConfiguration();
 
@@ -30,10 +39,24 @@ public class AdminMessagesMenu extends Menu {
         if (messages.length <= availableSlots * page) availableSlots = messages.length -(availableSlots * (page - 1));
 
         for (int i = 0; i < availableSlots; i++) {
-            setItem(start + i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{new String(Objects.requireNonNull(messagesFile.getString(messages[start + i])))})
-                    .onClick((player, item) -> {
+            int finalI = i;
+            setItem(start + i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{Objects.requireNonNull(messagesFile.getString(messages[start + i]))}).onClick((player, item) -> {
+                ServerSelectorPlayer selectorPlayer = instance.getPlayerModule().getPlayer(player.getUniqueId());
+                selectorPlayer.queueAction(new Action(instance, player, ActionType.CHAT).onExecute((action, s) -> {
+                    String[] words = s.split("\\s+");
+                    for (int i2 = 0; i2 < words.length; i2++) {
+                        // You may want to check for a non-word character before blindly
+                        // performing a replacement
+                        // It may also be necessary to adjust the character class
+                        words[i2] = words[i2].replaceAll("[^\\w]", "");
+                    }
+                    words = Arrays.copyOfRange(words, 0, words.length);
 
-                    }));
+                    String message = String.join(" ", words);
+                    messageModule.globalBroadcast("/ss console message " + messages[start + finalI] + " " + message, MessageType.MESSAGE, instance);
+                }));
+                player.closeInventory();
+            }));
         }
 
         availableSlots = 36;

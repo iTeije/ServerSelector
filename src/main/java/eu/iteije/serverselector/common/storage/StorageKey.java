@@ -9,6 +9,8 @@ public enum StorageKey {
     // Global command related stuff
     COMMAND_NOT_FOUND("command_not_found", StorageLocation.MESSAGE_FILE),
     COMMAND_ERROR("command_error", StorageLocation.MESSAGE_FILE),
+    COMMAND_PLAYER_ONLY("command_player_only", StorageLocation.MESSAGE_FILE),
+    COMMAND_CONSOLE_ONLY("command_console_only", StorageLocation.MESSAGE_FILE),
 
     // Help command
     HELP_COMMAND_TITLE("help_command_title", StorageLocation.MESSAGE_FILE),
