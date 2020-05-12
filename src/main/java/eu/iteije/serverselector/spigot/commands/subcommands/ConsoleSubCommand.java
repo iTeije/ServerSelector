@@ -23,17 +23,13 @@ public class ConsoleSubCommand extends SubCommand {
     @Override
     public void onExecute(CommonExecutor executor, String[] args, String label) {
         CommandSender sender = (CommandSender) executor.getSender();
-        Bukkit.broadcastMessage("0");
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand(sender, "ss help console");
             return;
         }
 
-        Bukkit.broadcastMessage("1");
         for (Argument argument : this.getArguments()) {
-            Bukkit.broadcastMessage("2");
             if (args[0].equals(argument.getSyntax())) {
-                Bukkit.broadcastMessage("3");
                 if (argument.getArgumentHandler().hasPermission(executor)) {
                     argument.getArgumentHandler().onExecute(executor, args);
                 }

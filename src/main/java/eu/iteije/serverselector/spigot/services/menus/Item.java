@@ -92,7 +92,7 @@ public class Item {
     public Item setName(StorageKey key) {
         String name;
         // Convert color codes
-        name = messageModule.convert(key);
+        name = messageModule.convert(key, true);
 
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(name);

@@ -25,6 +25,7 @@ public class AdminSubCommand extends SubCommand {
         CommandSender sender = (CommandSender) executor.getSender();
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand(sender, "ss help admin");
+            return;
         }
 
         for (Argument argument : this.getArguments()) {

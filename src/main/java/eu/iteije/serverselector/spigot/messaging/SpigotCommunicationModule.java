@@ -35,7 +35,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                 exception.printStackTrace();
             }
         } else if (optional.equals("broadcast")) {
-            Bukkit.broadcastMessage("glob: 1");
             try {
                 outputStream.writeUTF(message);
                 outputStream.writeUTF(optional);
@@ -56,7 +55,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
         try {
             String message = inputStream.readUTF();
-            Bukkit.broadcastMessage("glob: " + message);
             boolean command = message.charAt(0) == '/';
             if (command) message = message.substring(1);
             if (data.length == 2) {
@@ -68,7 +66,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                 player.sendMessage(message);
             }
             if (command) {
-                Bukkit.broadcastMessage("executing " + message + " as command");
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), message);
                 return;
             }

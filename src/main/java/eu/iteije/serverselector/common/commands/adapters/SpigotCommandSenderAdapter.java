@@ -15,7 +15,7 @@ public class SpigotCommandSenderAdapter implements CommonExecutor {
     }
 
     @Override
-    public Object getSender() {
+    public CommandSender getSender() {
         return sender;
     }
 

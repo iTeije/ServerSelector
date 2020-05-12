@@ -10,6 +10,7 @@ import eu.iteije.serverselector.spigot.files.SpigotFile;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import org.bukkit.Bukkit;
+import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 
 import java.util.Arrays;
@@ -29,11 +30,13 @@ public class ConsoleMessageArgument extends ArgumentHandler {
 
         Bukkit.broadcastMessage("Yeah er is iets geexecute");
 
-        if (executor instanceof ConsoleCommandSender) {
-            Bukkit.broadcastMessage("Hij gaat iets executen let maar op");
-            String messageName = args[0];
+        CommandSender sender = executor.getSender();
 
-            args = Arrays.copyOfRange(args, 1, args.length);
+        if (sender instanceof ConsoleCommandSender) {
+            Bukkit.broadcastMessage("Hij gaat iets executen let maar op");
+            String messageName = args[1];
+
+            args = Arrays.copyOfRange(args, 2, args.length);
 
             String message = String.join(" ", args);
 
@@ -42,7 +45,7 @@ public class ConsoleMessageArgument extends ArgumentHandler {
             messagesFile.setStringToPath(message, messageName);
             messagesFile.save();
         } else {
-            spigotMessageModule.send(StorageKey.COMMAND_CONSOLE_ONLY, executor, MessageType.MESSAGE);
+            spigotMessageModule.send(StorageKey.COMMAND_CONSOLE_ONLY, sender, MessageType.MESSAGE);
         }
     }
 
