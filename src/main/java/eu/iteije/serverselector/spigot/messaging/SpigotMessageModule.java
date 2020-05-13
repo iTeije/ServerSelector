@@ -33,9 +33,8 @@ public class SpigotMessageModule {
     }
 
     public void sendString(String message, CommandSender sender, MessageType messageType, Replacement... replacements) {
-        Bukkit.broadcastMessage("Commandsender instance: " + sender.getClass().getName());
         if (sender instanceof Player) {
-            sendString(message, sender, messageType, replacements);
+            sendString(message, new Player[]{(Player) sender}, messageType, replacements);
         } else if (sender instanceof ConsoleCommandSender) {
             Bukkit.getServer().getConsoleSender().sendMessage(messageModule.convert(message, true, replacements));
         }

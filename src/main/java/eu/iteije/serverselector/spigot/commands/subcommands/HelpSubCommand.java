@@ -11,7 +11,7 @@ import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
-import org.bukkit.entity.Player;
+import org.bukkit.command.CommandSender;
 
 public class HelpSubCommand extends SubCommand {
 
@@ -25,29 +25,29 @@ public class HelpSubCommand extends SubCommand {
     }
 
     @Override
-    public void onExecute(CommonExecutor sender, String[] args, String label) {
+    public void onExecute(CommonExecutor executor, String[] args, String label) {
         SpigotMessageModule spigotMessageModule = serverSelectorSpigot.getMessageModule();
 
-        Player player = (Player) sender.getSender();
+        CommandSender sender = executor.getSender();
         if (args.length == 1) {
             args[0] = args[0].toLowerCase();
             SubCommand subCommand = commandModule.getSubCommand(args[0]);
             if (subCommand != null) {
-                if (!subCommand.hasPermission(sender)) {
-                    spigotMessageModule.sendToPlayer(StorageKey.PERMISSION_ERROR, new Player[]{player}, MessageType.MESSAGE);
+                if (!subCommand.hasPermission(executor)) {
+                    spigotMessageModule.send(StorageKey.PERMISSION_ERROR, sender, MessageType.MESSAGE);
                     return;
                 }
-                spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_DEDICATED, new Player[]{player}, MessageType.MESSAGE,
+                spigotMessageModule.send(StorageKey.HELP_COMMAND_DEDICATED, sender, MessageType.MESSAGE,
                         new Replacement("{command}", commandModule.getFullCommand(label, args), ReplacementType.COMMAND)
                         );
                 if (subCommand.getArguments().size() == 0) {
-                    spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_NO_RESULTS, new Player[]{player}, MessageType.MESSAGE);
+                    spigotMessageModule.send(StorageKey.HELP_COMMAND_NO_RESULTS, sender, MessageType.MESSAGE);
                     return;
                 }
                 for (Argument argument : subCommand.getArguments()) {
                     String subCmd = subCommand.getCommand();
                     if (subCommand.getSyntax() != null) subCmd = subCmd + " " + argument.getSyntax();
-                    spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_ITEM, new Player[]{player}, MessageType.MESSAGE,
+                    spigotMessageModule.send(StorageKey.HELP_COMMAND_ITEM, sender, MessageType.MESSAGE,
                             new Replacement("{command}", label, ReplacementType.COMMAND),
                             new Replacement("{subcommand}", subCmd, ReplacementType.COMMAND),
                             new Replacement("{description}", argument.getDescription(), ReplacementType.COMMAND_DESCRIPTION)
@@ -57,14 +57,14 @@ public class HelpSubCommand extends SubCommand {
             }
         }
 
-        spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_TITLE, new Player[]{player}, MessageType.MESSAGE);
+        spigotMessageModule.send(StorageKey.HELP_COMMAND_TITLE, sender, MessageType.MESSAGE);
 
         if (commandModule.getSubCommandHandlers().size() == 0) {
-            spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_NO_RESULTS, new Player[]{player}, MessageType.MESSAGE);
+            spigotMessageModule.send(StorageKey.HELP_COMMAND_NO_RESULTS, sender, MessageType.MESSAGE);
             return;
         }
         for (SubCommand subCommand : commandModule.getSubCommandHandlers()) {
-            spigotMessageModule.sendToPlayer(StorageKey.HELP_COMMAND_ITEM, new Player[]{player}, MessageType.MESSAGE,
+            spigotMessageModule.send(StorageKey.HELP_COMMAND_ITEM, sender, MessageType.MESSAGE,
                     new Replacement("{command}", label, ReplacementType.COMMAND),
                     new Replacement("{subcommand}", subCommand.getCommand(), ReplacementType.COMMAND),
                     new Replacement("{description}", subCommand.getSyntax(), ReplacementType.COMMAND_DESCRIPTION)

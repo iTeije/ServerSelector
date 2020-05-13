@@ -27,6 +27,7 @@ public enum StorageKey {
     // Message menu
     MESSAGE_MENU_NAME("message_menu_name", StorageLocation.MESSAGE_FILE),
     MESSAGE_MENU_TITLE("message_menu_title", StorageLocation.MESSAGE_FILE),
+    MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
 
     ;
 

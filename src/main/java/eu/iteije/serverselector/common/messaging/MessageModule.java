@@ -35,8 +35,6 @@ public class MessageModule {
         // Convert color codes
         if (replaceColorCodes) message = convertColorCodes(message);
 
-        Bukkit.broadcastMessage("Replacing color codes: " + replaceColorCodes + " return " + message);
-
         return message;
     }
 

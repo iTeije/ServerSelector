@@ -1,6 +1,8 @@
 package eu.iteije.serverselector.spigot.menus;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
+import eu.iteije.serverselector.common.messaging.enums.ReplacementType;
+import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
@@ -12,6 +14,7 @@ import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Player;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -44,16 +47,16 @@ public class AdminMessagesMenu extends Menu {
                 ServerSelectorPlayer selectorPlayer = instance.getPlayerModule().getPlayer(player.getUniqueId());
                 selectorPlayer.queueAction(new Action(instance, player, ActionType.CHAT).onExecute((action, s) -> {
                     String[] words = s.split("\\s+");
-                    for (int i2 = 0; i2 < words.length; i2++) {
-                        // You may want to check for a non-word character before blindly
-                        // performing a replacement
-                        // It may also be necessary to adjust the character class
-                        words[i2] = words[i2].replaceAll("[^\\w]", "");
-                    }
+
                     words = Arrays.copyOfRange(words, 0, words.length);
 
                     String message = String.join(" ", words);
                     messageModule.globalBroadcast("/ss console message " + messages[start + finalI] + " " + message, MessageType.MESSAGE, instance);
+
+                    messageModule.sendToPlayer(StorageKey.MESSAGE_MENU_SUCCESS, new Player[]{player}, MessageType.MESSAGE,
+                            new Replacement("{message_name}", messages[start + finalI], ReplacementType.VARIABLE),
+                            new Replacement("{message}", message, ReplacementType.VARIABLE)
+                            );
                 }));
                 player.closeInventory();
             }));

@@ -22,3 +22,4 @@ menu_previous_page: "&aPrevious page"
 # Message menu
 message_menu_name: "Message"
 message_menu_title: "&3&lMessages"
+message_menu_success: "&3Message {message_name} &3has been updated to {message} &3across all active servers."

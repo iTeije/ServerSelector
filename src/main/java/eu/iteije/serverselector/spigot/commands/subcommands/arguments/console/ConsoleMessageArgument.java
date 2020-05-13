@@ -28,12 +28,9 @@ public class ConsoleMessageArgument extends ArgumentHandler {
     public void onExecute(CommonExecutor executor, String[] args) {
         SpigotMessageModule spigotMessageModule = serverSelectorSpigot.getMessageModule();
 
-        Bukkit.broadcastMessage("Yeah er is iets geexecute");
-
         CommandSender sender = executor.getSender();
 
         if (sender instanceof ConsoleCommandSender) {
-            Bukkit.broadcastMessage("Hij gaat iets executen let maar op");
             String messageName = args[1];
 
             args = Arrays.copyOfRange(args, 2, args.length);
