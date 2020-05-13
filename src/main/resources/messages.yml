@@ -7,6 +7,9 @@ command_error: "&cAn unexpected error occurred while executing this command, ple
 command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
 
+# Action queue messages
+action_propose_chat: "&3Type something regarding your chat action:"
+
 # Help command
 help_command_title: "&3Showing all available commands:"
 help_command_dedicated: "&3Showing command usage for {command}&3:"

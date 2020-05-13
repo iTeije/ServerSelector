@@ -3,6 +3,7 @@ package eu.iteije.serverselector.spigot.players;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.players.listeners.PlayerChatListener;
 import eu.iteije.serverselector.spigot.players.listeners.PlayerJoinListener;
+import eu.iteije.serverselector.spigot.players.listeners.PlayerQuitListener;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
@@ -22,6 +23,7 @@ public class PlayerModule {
         PluginManager pluginManager = instance.getServer().getPluginManager();
         pluginManager.registerEvents(new PlayerChatListener(instance), instance);
         pluginManager.registerEvents(new PlayerJoinListener(instance), instance);
+        pluginManager.registerEvents(new PlayerQuitListener(instance), instance);
     }
 
     public void registerPlayers() {
@@ -36,12 +38,17 @@ public class PlayerModule {
     }
 
     public void clearCache() {
+        // loop through player hashmap and send a message to every player which is in some sort of queue (action / game)
         players.clear();
         registerPlayers();
     }
 
     public ServerSelectorPlayer getPlayer(UUID uuid) {
         return players.get(uuid);
+    }
+
+    public void removePlayer(UUID uuid) {
+        players.remove(uuid);
     }
 
 }

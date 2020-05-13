@@ -18,6 +18,9 @@ public enum StorageKey {
     HELP_COMMAND_ITEM("help_command_item", StorageLocation.MESSAGE_FILE),
     HELP_COMMAND_NO_RESULTS("help_command_no_results", StorageLocation.MESSAGE_FILE),
 
+    // Action message queue
+    ACTION_PROPOSE_CHAT("action_propose_chat", StorageLocation.MESSAGE_FILE),
+
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),
     MENU_CLOSE("menu_close", StorageLocation.MESSAGE_FILE),

@@ -44,6 +44,7 @@ public class AdminMessagesMenu extends Menu {
         for (int i = 0; i < availableSlots; i++) {
             int finalI = i;
             setItem(start + i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{Objects.requireNonNull(messagesFile.getString(messages[start + i]))}).onClick((player, item) -> {
+                messageModule.sendToPlayer(StorageKey.ACTION_PROPOSE_CHAT, new Player[]{player}, MessageType.MESSAGE);
                 ServerSelectorPlayer selectorPlayer = instance.getPlayerModule().getPlayer(player.getUniqueId());
                 selectorPlayer.queueAction(new Action(instance, player, ActionType.CHAT).onExecute((action, s) -> {
                     String[] words = s.split("\\s+");
