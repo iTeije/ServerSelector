@@ -1,0 +1,11 @@
+name: ServerSelector
+version: ${project.version}
+main: eu.iteije.serverselector.spigot.ServerSelectorSpigot
+api-version: 1.13
+authors: [iTeije]
+description: A advanced BungeeCord server selector
+
+commands:
+  serverselector:
+    aliases:
+      - ss

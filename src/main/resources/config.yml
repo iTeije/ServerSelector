@@ -1,0 +1,5 @@
+# Menu item
+selector: true
+selector_item: "COMPASS"
+selector_name: "&3&lServer Selector"
+selector_slot: 4
