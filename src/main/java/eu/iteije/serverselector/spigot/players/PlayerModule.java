@@ -2,6 +2,7 @@ package eu.iteije.serverselector.spigot.players;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.players.listeners.PlayerChatListener;
+import eu.iteije.serverselector.spigot.players.listeners.PlayerInteractListener;
 import eu.iteije.serverselector.spigot.players.listeners.PlayerJoinListener;
 import eu.iteije.serverselector.spigot.players.listeners.PlayerQuitListener;
 import org.bukkit.Bukkit;
@@ -24,6 +25,7 @@ public class PlayerModule {
         pluginManager.registerEvents(new PlayerChatListener(instance), instance);
         pluginManager.registerEvents(new PlayerJoinListener(instance), instance);
         pluginManager.registerEvents(new PlayerQuitListener(instance), instance);
+        pluginManager.registerEvents(new PlayerInteractListener(instance), instance);
     }
 
     public void registerPlayers() {

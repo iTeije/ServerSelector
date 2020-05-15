@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.spigot.menus;
+package eu.iteije.serverselector.spigot.menus.menus;
 
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;

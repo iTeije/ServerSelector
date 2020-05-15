@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.spigot.menus;
+package eu.iteije.serverselector.spigot.menus.menus;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 
@@ -8,6 +8,8 @@ public class SubSelectorMenu {
 
     public SubSelectorMenu(ServerSelectorSpigot instance) {
         this.serverSelectorSpigot = instance;
+
+
     }
 
 }

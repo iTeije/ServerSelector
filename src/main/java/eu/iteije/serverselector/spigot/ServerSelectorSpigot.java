@@ -4,6 +4,7 @@ import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.platform.Platform;
 import eu.iteije.serverselector.spigot.commands.SpigotCommandModule;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.menus.SelectorModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotCommunicationModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import eu.iteije.serverselector.spigot.players.PlayerModule;
@@ -21,6 +22,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     private SpigotCommunicationModule communicationModule;
 
     private PlayerModule playerModule;
+    private SelectorModule selectorModule;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -45,6 +47,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.messageModule = new SpigotMessageModule();
         this.communicationModule = new SpigotCommunicationModule(this);
         this.playerModule = new PlayerModule(this);
+        this.selectorModule = new SelectorModule(this);
 
         // Register online players
         this.playerModule.registerPlayers();
@@ -52,6 +55,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        // Clear player cache
+        playerModule.clearCache();
         // Plugin shutdown logic
         ServerSelector.getInstance().disable();
     }
