@@ -18,14 +18,15 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Getter private FileConfiguration fileConfiguration;
     @Getter private StorageLocation storageLocation;
+    @Getter public File file;
 
     private ServerSelectorSpigot serverSelectorSpigot;
 
     public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, StorageLocation storageLocation) {
-        this.serverSelectorSpigot = serverSelectorSpigot;
-        this.storageLocation = storageLocation;
+        this(serverSelectorSpigot, storageLocation.getFileName());
+    }
 
-        String fileName = storageLocation.getFileName();
+    public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, String fileName) {
         boolean hasFile = hasFile(fileName);
 
         // Save default
@@ -33,7 +34,8 @@ public class SpigotFile implements ServerSelectorFile {
             serverSelectorSpigot.saveResource(fileName, false);
         }
 
-        this.fileConfiguration = YamlConfiguration.loadConfiguration(new File(serverSelectorSpigot.getDataFolder(), fileName));
+        this.file = new File(serverSelectorSpigot.getDataFolder(), fileName);
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
 
         SpigotFileModule.saveFile(this);
     }

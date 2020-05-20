@@ -18,6 +18,8 @@ public class SpigotFileModule {
 
         SpigotFolder menuFolder = new SpigotFolder(serverSelectorSpigot, StorageLocation.MENU_FOLDER);
         menuFolder.load();
+
+        SpigotFile mainMenuFile = new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
     }
 
     /**
@@ -38,5 +40,9 @@ public class SpigotFileModule {
 
     public static void saveFolder(SpigotFolder spigotFolder) {
         folders.put(spigotFolder.getStorageLocation().getFileName(), spigotFolder);
+    }
+
+    public static SpigotFolder getFolderByName(String name) {
+        return folders.get(name);
     }
 }

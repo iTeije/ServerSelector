@@ -8,6 +8,7 @@ import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotCommunicationModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import eu.iteije.serverselector.spigot.players.PlayerModule;
+import eu.iteije.serverselector.spigot.selector.SelectorModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -23,6 +24,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
     private PlayerModule playerModule;
     private MenuModule menuModule;
+    private SelectorModule selectorModule;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -48,9 +50,13 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.communicationModule = new SpigotCommunicationModule(this);
         this.playerModule = new PlayerModule(this);
         this.menuModule = new MenuModule(this);
+        this.selectorModule = new SelectorModule(this);
 
         // Register online players
         this.playerModule.registerPlayers();
+
+        // Cache menus
+        this.selectorModule.cacheMenus();
     }
 
     @Override
