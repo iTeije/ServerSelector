@@ -3,7 +3,6 @@ package eu.iteije.serverselector.spigot.menus;
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.files.SpigotFile;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import lombok.Setter;
@@ -12,7 +11,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class SelectorModule {
+public class MenuModule {
 
     private ServerSelectorSpigot instance;
 
@@ -21,7 +20,7 @@ public class SelectorModule {
     private Integer selectorSlot;
     @Getter @Setter private Boolean selectorItemEnabled;
 
-    public SelectorModule(ServerSelectorSpigot serverSelectorSpigot) {
+    public MenuModule(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
         saveSelectorItem();
