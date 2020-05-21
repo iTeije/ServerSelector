@@ -10,7 +10,8 @@ import lombok.Setter;
 public class ServerInfo {
 
     public String serverName;
-    public int currentPlayers;
-    public int maxPlayers;
+    public String status;
+    public String currentPlayers;
+    public String maxPlayers;
 
 }
