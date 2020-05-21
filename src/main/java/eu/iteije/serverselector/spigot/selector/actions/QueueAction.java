@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.spigot.selector.actions;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.selector.Action;
+import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.entity.Player;
 
 public class QueueAction implements Action {

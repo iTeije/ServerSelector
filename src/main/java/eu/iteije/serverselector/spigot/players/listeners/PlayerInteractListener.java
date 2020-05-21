@@ -23,7 +23,9 @@ public class PlayerInteractListener implements Listener {
     public void onInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
 
-        if (event.getItem().equals(instance.getMenuModule().getSelectorItem())) {
+
+
+        if (player.getInventory().getItemInMainHand().equals(instance.getMenuModule().getSelectorItem())) {
             if (instance.getMenuModule().getSelectorItemEnabled()) {
                 SpigotMessageModule messageModule = instance.getMessageModule();
 

@@ -41,6 +41,20 @@ public enum StorageKey {
     // Menu action messages
     MENU_ACTION_MENU_FAILED("menu_action_menu_failed", StorageLocation.MESSAGE_FILE),
 
+    // Main menu
+    STATUS_OFFLINE("status_offline", StorageLocation.MESSAGE_FILE),
+    STATUS_WHITELISTED("status_whitelisted", StorageLocation.MESSAGE_FILE),
+    STATUS_ONLINE("status_online", StorageLocation.MESSAGE_FILE),
+
+    // Selector menus settings
+    SELECTOR_UPDATE_DELAY("selector_update_delay", StorageLocation.CONFIG_FILE),
+
+    // Queue and send messages
+    SEND_PROCESSING("send_processing", StorageLocation.MESSAGE_FILE),
+    SEND_ALREADY_CONNECTED("send_already_connected", StorageLocation.MESSAGE_FILE),
+    SEND_SERVER_NOT_FOUND("send_server_not_found", StorageLocation.MESSAGE_FILE),
+    SEND_SERVER_WHITELISTED("send_server_whitelisted", StorageLocation.MESSAGE_FILE),
+
     ;
 
     @Getter private String path;
