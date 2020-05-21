@@ -4,6 +4,7 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.selector.actions.MenuAction;
 import eu.iteije.serverselector.spigot.selector.actions.QueueAction;
 import eu.iteije.serverselector.spigot.selector.actions.SendAction;
+import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 
 import java.util.HashMap;
 

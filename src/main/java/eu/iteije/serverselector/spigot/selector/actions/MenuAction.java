@@ -5,7 +5,7 @@ import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.spigot.selector.Action;
+import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

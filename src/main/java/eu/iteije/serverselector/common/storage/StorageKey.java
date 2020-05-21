@@ -46,6 +46,9 @@ public enum StorageKey {
     STATUS_WHITELISTED("status_whitelisted", StorageLocation.MESSAGE_FILE),
     STATUS_ONLINE("status_online", StorageLocation.MESSAGE_FILE),
 
+    // Selector menus settings
+    SELECTOR_UPDATE_DELAY("selector_update_delay", StorageLocation.CONFIG_FILE),
+
     // Queue and send messages
     SEND_PROCESSING("send_processing", StorageLocation.MESSAGE_FILE),
     SEND_ALREADY_CONNECTED("send_already_connected", StorageLocation.MESSAGE_FILE),

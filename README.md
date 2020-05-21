@@ -28,7 +28,7 @@ An example of a lore for a server item:
 "&b&lQueue: &3{queue}"
 ]
 ```
-Note: a status object has its own color codes which you can edit via the /ss admin messages menu.
+Note: a status object will be having its own color codes in a future release which you could edit via the /ss admin messages menu.
 ### Items
 ```
 material - the material of the item (e.g. redstone_block or brown_wool)

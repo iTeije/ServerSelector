@@ -2,6 +2,8 @@ package eu.iteije.serverselector.spigot.messaging;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
+import eu.iteije.serverselector.spigot.selector.SelectorModule;
+import eu.iteije.serverselector.spigot.selector.objects.ServerInfo;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -59,6 +61,46 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         }
     }
 
+    public void requestServerInfo(String server) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream outputStream = new DataOutputStream(stream);
+
+        try {
+            outputStream.writeUTF(server);
+            outputStream.writeUTF("serverinforequest");
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void sendServerInfo(String server) {
+        try {
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            DataOutputStream output = new DataOutputStream(bytes);
+            // Getting information of the current server
+            output.writeUTF("context");
+            // Making clear its server information
+            output.writeUTF("serverinfo");
+            // Requester server name
+            output.writeUTF(server);
+            // Status
+            if (serverSelectorSpigot.getServer().hasWhitelist()) {
+                output.writeUTF("WHITELISTED");
+            } else {
+                output.writeUTF("ONLINE");
+            }
+            // Current players
+            output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getOnlinePlayers().size()));
+            // Max players
+            output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getMaxPlayers()));
+            Bukkit.broadcastMessage("SpigotCommunicationModule: returning server information");
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void onPluginMessageReceived(String channel, Player providedPlayer, byte[] data) {
 
@@ -69,6 +111,21 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
         try {
             String message = inputStream.readUTF();
+            if (message.equals("serverinforequest")) {
+                sendServerInfo(inputStream.readUTF());
+                return;
+            } else if (message.equals("serverinfo")) {
+                Bukkit.broadcastMessage("SpigotCommunicationModule: processing received information");
+                SelectorModule selectorModule = serverSelectorSpigot.getSelectorModule();
+                ServerInfo serverInfo = new ServerInfo(
+                        inputStream.readUTF(),
+                        inputStream.readUTF(),
+                        inputStream.readUTF(),
+                        inputStream.readUTF()
+                );
+                selectorModule.getMenuUpdater().updateServerInfo(serverInfo);
+                return;
+            }
             boolean command = message.charAt(0) == '/';
             if (command) message = message.substring(1);
             if (data.length == 2) {

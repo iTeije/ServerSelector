@@ -117,6 +117,43 @@ public class BungeeCommunicationModule implements Listener {
             } else if (optional.equals("send")) {
                 String playerName = inputStream.readUTF();
                 sendPlayer(context, playerName);
+            } else if (optional.equals("serverinforequest")) {
+                // context = server name
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                DataOutputStream output = new DataOutputStream(bytes);
+
+                try {
+                    output.writeUTF("serverinforequest");
+                    // Requester server name (so u can send information back)
+                    output.writeUTF(((Server) event.getSender()).getInfo().getName());
+
+                    ServerInfo info = ProxyServer.getInstance().getServerInfo(context);
+
+                    info.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                    broadcast("BungeeCommunicationModule: send data to target server (" + context + ")");
+                } catch (IOException exception) {
+                    exception.printStackTrace();
+                }
+            } else if (optional.equals("serverinfo")) {
+                broadcast("BungeeCommunicationModule: received server info from !!!" + ((Server) event.getSender()).getInfo().getName());
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                DataOutputStream output = new DataOutputStream(bytes);
+
+                output.writeUTF("serverinfo");
+                // Sender
+                output.writeUTF(((Server) event.getSender()).getInfo().getName());
+                // Define target server
+                String target = inputStream.readUTF();
+                // Server status
+                output.writeUTF(inputStream.readUTF());
+                // Current players
+                output.writeUTF(inputStream.readUTF());
+                // Max players
+                output.writeUTF(inputStream.readUTF());
+
+                // Send back to the requester
+                ServerInfo info = ProxyServer.getInstance().getServerInfo(target);
+                info.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }
         } catch (IOException exception) {
             exception.printStackTrace();

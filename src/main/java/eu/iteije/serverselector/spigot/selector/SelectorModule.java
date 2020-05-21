@@ -4,9 +4,12 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
+import eu.iteije.serverselector.spigot.selector.objects.ServerInfo;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,16 +17,22 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class SelectorModule {
 
     private ServerSelectorSpigot instance;
     private ActionManager actionManager;
+    @Getter private MenuUpdater menuUpdater;
 
     public SelectorModule(ServerSelectorSpigot instance) {
         this.instance = instance;
         this.actionManager = new ActionManager(instance);
+
+        this.menuUpdater = new MenuUpdater(instance);
+        this.menuUpdater.initializeUpdateScheduler();
     }
 
     public void cacheMenus() {
@@ -81,7 +90,18 @@ public class SelectorModule {
             try {
                 JSONArray jsonLore = (JSONArray) itemData.get("lore");
                 if (jsonLore != null && jsonLore.size() != 0) {
-                    item.setLore((String[]) jsonLore.toArray(new String[jsonLore.size()]));
+                    List<String> lore = new ArrayList<>();
+                    for (int i = 0; i < jsonLore.size(); i++) {
+                        String line = (String) jsonLore.get(i);
+                        if (actionType.equalsIgnoreCase("SEND") || actionType.equalsIgnoreCase("QUEUE")) {
+                            String server = (String) itemData.get("action");
+                            instance.getCommunicationModule().requestServerInfo(server);
+                            line = convertLore(line, server);
+                        }
+                        lore.add(line);
+                    }
+
+                    item.setLore(lore.toArray(new String[lore.size()]));
                 }
             } catch (Exception exception) {
                 exception.printStackTrace();
@@ -95,6 +115,23 @@ public class SelectorModule {
         }
 
         return menu;
+    }
+
+    public String convertLore(String line, String serverName) {
+        Bukkit.broadcastMessage("SelectorModule: getting server info for server " + serverName);
+        ServerInfo serverInfo = this.menuUpdater.getServerInfo(serverName);
+        if (serverInfo == null) {
+            Bukkit.broadcastMessage("SelectorModule: serverinfo is null");
+        } else {
+            Bukkit.broadcastMessage(serverInfo.currentPlayers + serverInfo.maxPlayers);
+        }
+
+        line = line.replace("{status}", serverInfo != null ? serverInfo.getStatus() : "OFFLINE");
+        line = line.replace("{current_players}", serverInfo != null ? serverInfo.getCurrentPlayers() : "0");
+        line = line.replace("{max_players}", serverInfo != null ? serverInfo.getMaxPlayers() : "0");
+        line = line.replace("{queue}", "soon");
+
+        return line;
     }
 
 }
