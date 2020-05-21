@@ -2,7 +2,7 @@
 permission_error: "&cYou are not allowed to do this!"
 
 # Global command related messages
-command_not_found: "&cCommand {command} &cnot found! Use {command_suggestion} &cfor help."
+command_not_found: "&cCommand &4{command} &cnot found! Use &4{command_suggestion} &cfor help."
 command_error: "&cAn unexpected error occurred while executing this command, please contact the developers."
 command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
@@ -12,12 +12,12 @@ action_propose_chat: "&3Type something regarding your chat action:"
 
 # Help command
 help_command_title: "&3Showing all available commands:"
-help_command_dedicated: "&3Showing command usage for {command}&3:"
+help_command_dedicated: "&3Showing command usage for &b{command}&3:"
 help_command_item: "&3> &b/{command} {subcommand} &7- {description}"
 help_command_no_results: "&7No results"
 
-# Menu messages
-menu_opening: "&3Opening {menu} &3menu..."
+# Menu messages (only applies to plugin menus which are not editable unless you clone the plugin from Github)
+menu_opening: "&3Opening &b{menu} &3menu..."
 menu_close: "&cClose menu"
 menu_next_page: "&aNext page"
 menu_previous_page: "&aPrevious page"
@@ -25,7 +25,7 @@ menu_previous_page: "&aPrevious page"
 # Message menu
 message_menu_name: "Message"
 message_menu_title: "&9&lMessages"
-message_menu_success: "&3Message {message_name} &3has been updated to {message} &3across all active servers."
+message_menu_success: "&3Message &b{message_name} &3has been updated to \"{message}&3\" across all active servers."
 
 # Menu actions
-menu_action_menu_failed: "&cFailed opening menu {menu}&c!"
+menu_action_menu_failed: "&cFailed opening menu &4{menu}&c!"

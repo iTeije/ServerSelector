@@ -7,7 +7,6 @@ import eu.iteije.serverselector.common.commands.interfaces.CommonExecutor;
 import eu.iteije.serverselector.common.commands.objects.Argument;
 import eu.iteije.serverselector.common.commands.objects.SubCommand;
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
-import eu.iteije.serverselector.common.messaging.enums.ReplacementType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
@@ -38,10 +37,10 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
 
         // Send plugin credits if args are not given
         if (args.length == 0) {
-            messageModule.sendString("&3ServerSelector version {version} &3by {author}&3, use {help_command} &3for help.", sender, MessageType.MESSAGE,
-                    new Replacement("{version}", serverSelectorSpigot.getDescription().getVersion(), ReplacementType.VARIABLE),
-                    new Replacement("{author}", "iTeije", ReplacementType.VARIABLE),
-                    new Replacement("{help_command}", "/ss help", ReplacementType.COMMAND));
+            messageModule.sendString("&3ServerSelector version &b{version} &3by &b{author}&3, use &b{help_command} &3for help.", sender, MessageType.MESSAGE,
+                    new Replacement("{version}", serverSelectorSpigot.getDescription().getVersion()),
+                    new Replacement("{author}", "iTeije"),
+                    new Replacement("{help_command}", "/ss help"));
             return true;
         }
 
@@ -68,8 +67,8 @@ public class SpigotMainCommand implements CommandExecutor, TabCompleter {
         } else {
             String fullCommand = commandModule.getFullCommand(label, args);
             messageModule.send(StorageKey.COMMAND_NOT_FOUND, sender, MessageType.MESSAGE,
-                    new Replacement("{command}", fullCommand, ReplacementType.COMMAND_ERROR),
-                    new Replacement("{command_suggestion}", "/ss help", ReplacementType.COMMAND_ERROR)
+                    new Replacement("{command}", fullCommand),
+                    new Replacement("{command_suggestion}", "/ss help")
                     );
             return true;
         }
