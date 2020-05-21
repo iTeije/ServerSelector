@@ -1,8 +1,13 @@
 package eu.iteije.serverselector.bungee.messaging;
 
+import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
+import eu.iteije.serverselector.common.messaging.objects.Replacement;
+import eu.iteije.serverselector.common.storage.StorageKey;
 import net.md_5.bungee.api.ProxyServer;
+import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
@@ -39,10 +44,6 @@ public class BungeeCommunicationModule implements Listener {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-
-//        BaseComponent[] components = TextComponent.fromLegacyText(message);
-//
-//        player.sendMessage(ChatMessageType.CHAT, components);
     }
 
     public void broadcast(String message) {
@@ -55,8 +56,43 @@ public class BungeeCommunicationModule implements Listener {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
-//        ProxyServer.getInstance().broadcast(TextComponent.fromLegacyText(message));
     }
+
+    public void sendPlayer(String server, String playerName) {
+        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(playerName);
+
+        MessageModule messageModule = ServerSelector.getInstance().getMessageModule();
+
+        // Send 'summon' message regardless of the server the player is currently on
+        sendTargeted(player, messageModule.convert(StorageKey.SEND_PROCESSING, true,
+                new Replacement("{server}", server)
+                ));
+
+        // Check if the player is already connected to the server
+        if (player.getServer().getInfo().getName().equalsIgnoreCase(server)) {
+            sendTargeted(player, messageModule.convert(StorageKey.SEND_ALREADY_CONNECTED, true));
+        }
+
+        ServerInfo targetServer = ProxyServer.getInstance().getServerInfo(server);
+        if (targetServer != null) {
+            targetServer.ping((result, error) -> {
+                if (error != null) {
+                    sendTargeted(player, messageModule.convert(StorageKey.SEND_SERVER_NOT_FOUND, true,
+                            new Replacement("{server}", server)
+                    ));
+                } else {
+                    player.connect(targetServer);
+                }
+            });
+        } else {
+            sendTargeted(player, messageModule.convert(StorageKey.SEND_SERVER_NOT_FOUND, true,
+                    new Replacement("{server}", server)
+                    ));
+        }
+
+    }
+
+
 
     @EventHandler
     public void onPluginMessage(PluginMessageEvent event) {
@@ -66,7 +102,7 @@ public class BungeeCommunicationModule implements Listener {
         ByteArrayInputStream stream = new ByteArrayInputStream(event.getData());
         DataInputStream inputStream = new DataInputStream(stream);
         try {
-            String message = inputStream.readUTF();
+            String context = inputStream.readUTF();
             String optional = inputStream.readUTF();
 
             if (optional.equals("")) {
@@ -75,12 +111,13 @@ public class BungeeCommunicationModule implements Listener {
                 // Pass data to all subservers
                 ProxiedPlayer player = ProxyServer.getInstance().getPlayer(username);
 
-                sendTargeted(player, message);
+                sendTargeted(player, context);
             } else if (optional.equals("broadcast")) {
-                broadcast(message);
+                broadcast(context);
+            } else if (optional.equals("send")) {
+                String playerName = inputStream.readUTF();
+                sendPlayer(context, playerName);
             }
-
-            serverSelectorBungee.getLogger().info(message);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

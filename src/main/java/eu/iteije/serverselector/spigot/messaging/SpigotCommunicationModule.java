@@ -19,13 +19,13 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         this.serverSelectorSpigot = serverSelectorSpigot;
     }
 
-    public void sendMessage(String message, String optional, String... playerNames) {
+    public void sendMessage(String context, String optional, String... playerNames) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(stream);
 
         if (optional.equals("")) {
             try {
-                outputStream.writeUTF(message);
+                outputStream.writeUTF(context);
                 outputStream.writeUTF(optional);
                 for (String player : playerNames) {
                     outputStream.writeUTF(player);
@@ -36,12 +36,26 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             }
         } else if (optional.equals("broadcast")) {
             try {
-                outputStream.writeUTF(message);
+                outputStream.writeUTF(context);
                 outputStream.writeUTF(optional);
                 serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+        }
+    }
+
+    public void sendPlayer(String server, String playerName) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream outputStream = new DataOutputStream(stream);
+
+        try {
+            outputStream.writeUTF(server);
+            outputStream.writeUTF("send");
+            outputStream.writeUTF(playerName);
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 

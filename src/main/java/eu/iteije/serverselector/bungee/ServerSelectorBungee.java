@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee;
 
 import eu.iteije.serverselector.ServerSelector;
+import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
@@ -11,6 +12,7 @@ public class ServerSelectorBungee extends Plugin {
 
     // Bungee module instances
     private BungeeCommunicationModule communicationModule;
+    private BungeeFileModule fileModule;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -29,6 +31,7 @@ public class ServerSelectorBungee extends Plugin {
         }
 
         this.communicationModule = new BungeeCommunicationModule(this);
+        this.fileModule = new BungeeFileModule(this);
 
         this.getProxy().getPluginManager().registerListener(this, communicationModule);
 

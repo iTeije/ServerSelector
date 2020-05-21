@@ -5,25 +5,33 @@
   "items": [
     {
       "material": "RED_WOOL",
-      "display_name": "&3&lServer 1 &f(queue)",
+      "display_name": "&3&lLobby &f(send)",
       "slot": 10,
-      "action_type": "QUEUE",
+      "action_type": "SEND",
       "action": "lobby"
     },
 
     {
       "material": "ORANGE_WOOL",
-      "display_name": "&3&lServer 2 &f(queue)",
-      "slot": 13,
-      "action_type": "QUEUE",
-      "action": "some_server_here"
+      "display_name": "&3&lGame 1 &f(send)",
+      "slot": 12,
+      "action_type": "SEND",
+      "action": "game_1"
     },
 
     {
       "material": "YELLOW_WOOL",
-      "display_name": "&3&lServer 3 &f(send)",
+      "display_name": "&3&lLobby &f(queue)",
+      "slot": 14,
+      "action_type": "QUEUE",
+      "action": "lobby"
+    },
+
+    {
+      "material": "GREEN_WOOL",
+      "display_name": "&3&lGame 1 &f(queue)",
       "slot": 16,
-      "action_type": "SEND",
+      "action_type": "QUEUE",
       "action": "game_1"
     },
 
@@ -40,6 +48,14 @@
       "display_name": "&cClose menu",
       "slot": 49,
       "action_type": "CLOSE"
+    },
+
+    {
+      "material": "OBSIDIAN",
+      "display_name": "&3&lAnother server &f(send)",
+      "slot": 53,
+      "action_type": "SEND",
+      "action": "nonexisting_server"
     }
   ]
 }
