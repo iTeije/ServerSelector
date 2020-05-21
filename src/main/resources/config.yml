@@ -3,3 +3,7 @@ selector: true
 selector_item: "COMPASS"
 selector_name: "&3&lServer Selector"
 selector_slot: 4
+
+# Settings for the selector menus
+# Menu update delay in seconds
+selector_update_delay: 20

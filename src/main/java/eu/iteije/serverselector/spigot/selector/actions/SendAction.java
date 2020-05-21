@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.spigot.selector.actions;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.selector.Action;
+import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.entity.Player;
 
 public class SendAction implements Action {
@@ -14,8 +14,7 @@ public class SendAction implements Action {
 
     @Override
     public void execute(String context, Player player) {
-        // Queue for a given server
-        // TODO: queue
-        player.sendMessage("You're sent");
+        // Send a player to a server bypassing the queue (not recommended)
+        instance.getCommunicationModule().sendPlayer(context, player.getName());
     }
 }
