@@ -94,7 +94,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getOnlinePlayers().size()));
             // Max players
             output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getMaxPlayers()));
-            Bukkit.broadcastMessage("SpigotCommunicationModule: returning server information");
             serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
         } catch (IOException exception) {
             exception.printStackTrace();
@@ -115,7 +114,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                 sendServerInfo(inputStream.readUTF());
                 return;
             } else if (message.equals("serverinfo")) {
-                Bukkit.broadcastMessage("SpigotCommunicationModule: processing received information");
                 SelectorModule selectorModule = serverSelectorSpigot.getSelectorModule();
                 ServerInfo serverInfo = new ServerInfo(
                         inputStream.readUTF(),

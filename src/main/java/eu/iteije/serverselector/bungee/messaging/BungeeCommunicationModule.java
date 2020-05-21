@@ -130,12 +130,11 @@ public class BungeeCommunicationModule implements Listener {
                     ServerInfo info = ProxyServer.getInstance().getServerInfo(context);
 
                     info.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
-                    broadcast("BungeeCommunicationModule: send data to target server (" + context + ")");
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
             } else if (optional.equals("serverinfo")) {
-                broadcast("BungeeCommunicationModule: received server info from !!!" + ((Server) event.getSender()).getInfo().getName());
+                broadcast("BungeeCommunicationModule: received server info from !!! " + ((Server) event.getSender()).getInfo().getName());
                 ByteArrayOutputStream bytes = new ByteArrayOutputStream();
                 DataOutputStream output = new DataOutputStream(bytes);
 

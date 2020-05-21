@@ -49,7 +49,6 @@ public class MenuUpdater {
 
     public void updateServerInfo(ServerInfo info) {
         if (serverData.containsKey(info.getServerName())) serverData.remove(info.getServerName());
-        Bukkit.broadcastMessage("MenuUpdated: storing information");
         serverData.put(info.getServerName(), info);
     }
 
