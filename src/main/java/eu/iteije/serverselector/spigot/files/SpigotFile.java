@@ -18,6 +18,7 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Getter private FileConfiguration fileConfiguration;
     @Getter private StorageLocation storageLocation;
+    @Getter private String fileName;
     @Getter public File file;
 
     private ServerSelectorSpigot serverSelectorSpigot;
@@ -34,6 +35,7 @@ public class SpigotFile implements ServerSelectorFile {
             serverSelectorSpigot.saveResource(fileName, false);
         }
 
+        this.fileName = fileName;
         this.file = new File(serverSelectorSpigot.getDataFolder(), fileName);
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
 
@@ -173,8 +175,13 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Override
     public boolean hasFile(String fileName) {
-        File file = new File(serverSelectorSpigot.getDataFolder(), fileName);
-        return file.exists();
+        try {
+            File file = new File(serverSelectorSpigot.getDataFolder(), fileName);
+            return file.exists();
+        } catch (NullPointerException exception) {
+            return false;
+        }
+
     }
 
 }

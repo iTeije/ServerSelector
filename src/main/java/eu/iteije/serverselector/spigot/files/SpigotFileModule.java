@@ -35,11 +35,11 @@ public class SpigotFileModule {
     }
 
     public static void saveFile(SpigotFile spigotFile) {
-        files.put(spigotFile.getStorageLocation().getFileName(), spigotFile);
+        files.put(spigotFile.getFileName(), spigotFile);
     }
 
     public static void saveFolder(SpigotFolder spigotFolder) {
-        folders.put(spigotFolder.getStorageLocation().getFileName(), spigotFolder);
+        folders.put(spigotFolder.getFolderName(), spigotFolder);
     }
 
     public static SpigotFolder getFolderByName(String name) {

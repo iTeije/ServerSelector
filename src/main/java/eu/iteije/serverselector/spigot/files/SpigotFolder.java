@@ -9,7 +9,7 @@ import java.io.File;
 public class SpigotFolder {
 
     private ServerSelectorSpigot instance;
-    private String folderName;
+    @Getter private String folderName;
     @Getter private StorageLocation storageLocation;
 
     @Getter public File folder;

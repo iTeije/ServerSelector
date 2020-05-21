@@ -30,6 +30,8 @@ public class PlayerInteractListener implements Listener {
                 messageModule.sendToPlayer(StorageKey.MENU_OPENING, new Player[]{player}, MessageType.MESSAGE,
                         new Replacement("{menu}", "Selector", ReplacementType.VARIABLE)
                 );
+
+                instance.getMenuModule().getCachedMenu("Main").open(player);
             }
         }
     }

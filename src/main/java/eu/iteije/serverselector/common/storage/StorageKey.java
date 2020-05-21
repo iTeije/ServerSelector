@@ -32,11 +32,6 @@ public enum StorageKey {
     MESSAGE_MENU_TITLE("message_menu_title", StorageLocation.MESSAGE_FILE),
     MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
 
-    // Main menu
-    MAIN_MENU_NAME("main_menu_name", StorageLocation.MESSAGE_FILE),
-    MAIN_MENU_TITLE("main_menu_title", StorageLocation.MESSAGE_FILE),
-
-
     // Selector item
     CONFIG_SELECTOR("selector", StorageLocation.CONFIG_FILE),
     CONFIG_SELECTOR_ITEM("selector_item", StorageLocation.CONFIG_FILE),
