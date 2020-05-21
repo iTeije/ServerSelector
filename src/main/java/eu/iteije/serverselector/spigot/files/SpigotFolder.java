@@ -2,7 +2,6 @@ package eu.iteije.serverselector.spigot.files;
 
 import eu.iteije.serverselector.common.storage.StorageLocation;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import lombok.Getter;
 
 import java.io.File;
@@ -10,10 +9,10 @@ import java.io.File;
 public class SpigotFolder {
 
     private ServerSelectorSpigot instance;
-    private String folderName;
+    @Getter private String folderName;
     @Getter private StorageLocation storageLocation;
 
-    File folder;
+    @Getter public File folder;
 
     public SpigotFolder(ServerSelectorSpigot instance, StorageLocation storageLocation) {
         this.instance = instance;
