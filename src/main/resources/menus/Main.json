@@ -5,7 +5,14 @@
   "items": [
     {
       "material": "RED_WOOL",
-      "display_name": "&3&lLobby &f(send)",
+      "display_name": "&3&lLobby",
+      "lore": [
+        "&7Example lobby server item (you will be send to the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
       "slot": 10,
       "action_type": "SEND",
       "action": "lobby"
@@ -13,7 +20,14 @@
 
     {
       "material": "ORANGE_WOOL",
-      "display_name": "&3&lGame 1 &f(send)",
+      "display_name": "&3&lGame 1",
+      "lore": [
+        "&7Example game 1 server item (you will be send to the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
       "slot": 12,
       "action_type": "SEND",
       "action": "game_1"
@@ -21,7 +35,14 @@
 
     {
       "material": "YELLOW_WOOL",
-      "display_name": "&3&lLobby &f(queue)",
+      "display_name": "&3&lLobby",
+      "lore": [
+        "&7Example lobby server item (you will be queued for the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
       "slot": 14,
       "action_type": "QUEUE",
       "action": "lobby"
@@ -29,7 +50,14 @@
 
     {
       "material": "GREEN_WOOL",
-      "display_name": "&3&lGame 1 &f(queue)",
+      "display_name": "&3&lGame 1",
+      "lore": [
+        "&7Example game 1 server item (you will be queued for the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
       "slot": 16,
       "action_type": "QUEUE",
       "action": "game_1"

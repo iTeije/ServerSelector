@@ -30,6 +30,11 @@ message_menu_success: "&3Message &b{message_name} &3has been updated to \"{messa
 # Menu actions
 menu_action_menu_failed: "&cFailed opening menu &4{menu}&c!"
 
+# Main menu
+status_offline: "&c&lOFFLINE"
+status_whitelisted: "&e&lWHITELISTED"
+status_online: "&a&lONLINE"
+
 # Bungee messages (only the messages below are used by the bungee server)
 send_processing: "&3Summoning you to &b{server}&3..."
 send_already_connected: "&cYou are already connected to this server!"

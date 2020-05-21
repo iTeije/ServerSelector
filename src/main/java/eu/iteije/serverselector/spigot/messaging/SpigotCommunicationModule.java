@@ -78,6 +78,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                     return;
                 }
                 player.sendMessage(message);
+                return;
             }
             if (command) {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), message);

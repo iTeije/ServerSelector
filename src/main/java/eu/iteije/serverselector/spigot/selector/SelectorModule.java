@@ -7,7 +7,6 @@ import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import org.apache.commons.io.FilenameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -57,8 +56,6 @@ public class SelectorModule {
         // Parse all items and create a new menu object including these items
         JSONArray items = (JSONArray) object.get("items");
 
-        Bukkit.broadcastMessage(items.toJSONString());
-
         Iterator iterator = items.iterator();
 
         // Loop through all JSON item elements
@@ -80,6 +77,16 @@ public class SelectorModule {
                     }));
                 }
             }
+
+            try {
+                JSONArray jsonLore = (JSONArray) itemData.get("lore");
+                if (jsonLore != null && jsonLore.size() != 0) {
+                    item.setLore((String[]) jsonLore.toArray(new String[jsonLore.size()]));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
 
             menu.setItem(Integer.parseInt(String.valueOf(itemData.get("slot"))), item);
             iterator.next();
