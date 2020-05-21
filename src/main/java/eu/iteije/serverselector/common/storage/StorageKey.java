@@ -38,6 +38,9 @@ public enum StorageKey {
     CONFIG_SELECTOR_NAME("selector_name", StorageLocation.CONFIG_FILE),
     CONFIG_SELECTOR_SLOT("selector_slot", StorageLocation.CONFIG_FILE),
 
+    // Menu action messages
+    MENU_ACTION_MENU_FAILED("menu_action_menu_failed", StorageLocation.MESSAGE_FILE),
+
     ;
 
     @Getter private String path;

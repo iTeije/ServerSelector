@@ -20,9 +20,11 @@ import java.util.Iterator;
 public class SelectorModule {
 
     private ServerSelectorSpigot instance;
+    private ActionManager actionManager;
 
     public SelectorModule(ServerSelectorSpigot instance) {
         this.instance = instance;
+        this.actionManager = new ActionManager(instance);
     }
 
     public void cacheMenus() {
@@ -67,6 +69,17 @@ public class SelectorModule {
             Material material = Material.getMaterial((String) itemData.get("material"));
             Item item = new Item(material);
             item.setName((String) itemData.get("display_name"));
+
+            String actionType = (String) itemData.get("action_type");
+            if (!actionType.equals("NONE")) {
+                if (actionType.equals("CLOSE")) {
+                    item.onClick(((player, item1) -> player.closeInventory()));
+                } else {
+                    item.onClick(((player, item1) -> {
+                        actionManager.getActionByName(actionType).execute((String) itemData.get("action"), player);
+                    }));
+                }
+            }
 
             menu.setItem(Integer.parseInt(String.valueOf(itemData.get("slot"))), item);
             iterator.next();

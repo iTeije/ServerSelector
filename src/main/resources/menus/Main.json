@@ -29,9 +29,10 @@
 
     {
       "material": "BOOK",
-      "display_name": "&0-",
+      "display_name": "&eSub menu",
       "slot": 31,
-      "action_type": "NONE"
+      "action_type": "MENU",
+      "action": "Events"
     },
 
     {

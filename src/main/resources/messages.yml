@@ -26,3 +26,6 @@ menu_previous_page: "&aPrevious page"
 message_menu_name: "Message"
 message_menu_title: "&9&lMessages"
 message_menu_success: "&3Message {message_name} &3has been updated to {message} &3across all active servers."
+
+# Menu actions
+menu_action_menu_failed: "&cFailed opening menu {menu}&c!"
