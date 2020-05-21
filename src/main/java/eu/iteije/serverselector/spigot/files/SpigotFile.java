@@ -158,7 +158,7 @@ public class SpigotFile implements ServerSelectorFile {
     public void reload() {
         // Prevent plugin failures
         try {
-            fileConfiguration = YamlConfiguration.loadConfiguration(new File(serverSelectorSpigot.getDataFolder(), storageLocation.getFileName()));
+            fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -166,7 +166,7 @@ public class SpigotFile implements ServerSelectorFile {
 
     public void save() {
         try {
-            fileConfiguration.save(new File(serverSelectorSpigot.getDataFolder(), storageLocation.getFileName()));
+            fileConfiguration.save(this.file);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

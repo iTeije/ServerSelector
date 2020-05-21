@@ -29,7 +29,7 @@
 
     {
       "material": "BOOK",
-      "display_name": "&eSub menu",
+      "display_name": "&eEvents (sub) menu",
       "slot": 31,
       "action_type": "MENU",
       "action": "Events"
