@@ -1,7 +1,6 @@
 package eu.iteije.serverselector.spigot.menus;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
-import eu.iteije.serverselector.common.messaging.enums.ReplacementType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
@@ -55,8 +54,8 @@ public class AdminMessagesMenu extends Menu {
                     messageModule.globalBroadcast("/ss console message " + messages[start + finalI] + " " + message, MessageType.MESSAGE, instance);
 
                     messageModule.sendToPlayer(StorageKey.MESSAGE_MENU_SUCCESS, new Player[]{player}, MessageType.MESSAGE,
-                            new Replacement("{message_name}", messages[start + finalI], ReplacementType.VARIABLE),
-                            new Replacement("{message}", message, ReplacementType.VARIABLE)
+                            new Replacement("{message_name}", messages[start + finalI]),
+                            new Replacement("{message}", message)
                             );
                 }));
                 player.closeInventory();
