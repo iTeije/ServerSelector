@@ -19,6 +19,10 @@ public class Menu implements InventoryHolder {
     private Map<Integer, Item> slotMap = new HashMap<>();
 
     public Menu(JavaPlugin javaPlugin, String name, int size) {
+        this(javaPlugin, name, size, "Menu");
+    }
+
+    public Menu(JavaPlugin javaPlugin, String name, int size, String chatName) {
         inventory = Bukkit.createInventory(this, size, ServerSelector.getInstance().getMessageModule().convert(name, true));
         InventoryManager.getInstance(javaPlugin);
     }

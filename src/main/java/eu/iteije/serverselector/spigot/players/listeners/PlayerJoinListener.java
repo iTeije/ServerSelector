@@ -23,8 +23,8 @@ public class PlayerJoinListener implements Listener {
         instance.getPlayerModule().registerPlayer(player);
 
         // Give selector item whenever the item is enabled
-        if (instance.getSelectorModule().getSelectorItemEnabled()) {
-            instance.getSelectorModule().giveSelectorItem(player);
+        if (instance.getMenuModule().getSelectorItemEnabled()) {
+            instance.getMenuModule().giveSelectorItem(player);
         }
     }
 

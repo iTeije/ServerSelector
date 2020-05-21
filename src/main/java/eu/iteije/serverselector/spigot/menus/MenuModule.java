@@ -3,8 +3,8 @@ package eu.iteije.serverselector.spigot.menus;
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.files.SpigotFile;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
@@ -12,7 +12,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-public class SelectorModule {
+import java.util.HashMap;
+
+public class MenuModule {
 
     private ServerSelectorSpigot instance;
 
@@ -21,7 +23,10 @@ public class SelectorModule {
     private Integer selectorSlot;
     @Getter @Setter private Boolean selectorItemEnabled;
 
-    public SelectorModule(ServerSelectorSpigot serverSelectorSpigot) {
+    // Menu caching
+    private HashMap<String, Menu> cachedMenus = new HashMap<>();
+
+    public MenuModule(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
         saveSelectorItem();
@@ -49,4 +54,23 @@ public class SelectorModule {
     private void checkSelector() {
         this.selectorItemEnabled = SpigotFileModule.getFile(StorageKey.CONFIG_SELECTOR).getBoolean(StorageKey.CONFIG_SELECTOR);
     }
+
+
+
+    public void cacheMenu(Menu menu, String name) {
+        this.cachedMenus.put(name, menu);
+    }
+
+    public Menu getCachedMenu(String name) {
+        return this.cachedMenus.get(name);
+    }
+
+    public HashMap<String, Menu> getCachedMenus() {
+        return this.cachedMenus;
+    }
+
+    public void deleteCachedMenu(String name) {
+        this.cachedMenus.remove(name);
+    }
+
 }

@@ -1,0 +1,45 @@
+{
+  "title": "&9&lServer Selector",
+  "chat_name": "Main",
+  "size": 54,
+  "items": [
+    {
+      "material": "RED_WOOL",
+      "display_name": "&3&lServer 1 &f(queue)",
+      "slot": 10,
+      "action_type": "QUEUE",
+      "action": "lobby"
+    },
+
+    {
+      "material": "ORANGE_WOOL",
+      "display_name": "&3&lServer 2 &f(queue)",
+      "slot": 13,
+      "action_type": "QUEUE",
+      "action": "some_server_here"
+    },
+
+    {
+      "material": "YELLOW_WOOL",
+      "display_name": "&3&lServer 3 &f(send)",
+      "slot": 16,
+      "action_type": "SEND",
+      "action": "game_1"
+    },
+
+    {
+      "material": "BOOK",
+      "display_name": "&eEvents (sub) menu",
+      "slot": 31,
+      "action_type": "MENU",
+      "action": "Events"
+    },
+
+    {
+      "material": "REDSTONE_BLOCK",
+      "display_name": "&cClose menu",
+      "slot": 49,
+      "action_type": "CLOSE"
+    }
+  ]
+}

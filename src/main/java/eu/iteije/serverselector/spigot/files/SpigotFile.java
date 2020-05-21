@@ -18,14 +18,16 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Getter private FileConfiguration fileConfiguration;
     @Getter private StorageLocation storageLocation;
+    @Getter private String fileName;
+    @Getter public File file;
 
     private ServerSelectorSpigot serverSelectorSpigot;
 
     public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, StorageLocation storageLocation) {
-        this.serverSelectorSpigot = serverSelectorSpigot;
-        this.storageLocation = storageLocation;
+        this(serverSelectorSpigot, storageLocation.getFileName());
+    }
 
-        String fileName = storageLocation.getFileName();
+    public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, String fileName) {
         boolean hasFile = hasFile(fileName);
 
         // Save default
@@ -33,7 +35,9 @@ public class SpigotFile implements ServerSelectorFile {
             serverSelectorSpigot.saveResource(fileName, false);
         }
 
-        this.fileConfiguration = YamlConfiguration.loadConfiguration(new File(serverSelectorSpigot.getDataFolder(), fileName));
+        this.fileName = fileName;
+        this.file = new File(serverSelectorSpigot.getDataFolder(), fileName);
+        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
 
         SpigotFileModule.saveFile(this);
     }
@@ -154,7 +158,7 @@ public class SpigotFile implements ServerSelectorFile {
     public void reload() {
         // Prevent plugin failures
         try {
-            fileConfiguration = YamlConfiguration.loadConfiguration(new File(serverSelectorSpigot.getDataFolder(), storageLocation.getFileName()));
+            fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -162,7 +166,7 @@ public class SpigotFile implements ServerSelectorFile {
 
     public void save() {
         try {
-            fileConfiguration.save(new File(serverSelectorSpigot.getDataFolder(), storageLocation.getFileName()));
+            fileConfiguration.save(this.file);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -171,8 +175,13 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Override
     public boolean hasFile(String fileName) {
-        File file = new File(serverSelectorSpigot.getDataFolder(), fileName);
-        return file.exists();
+        try {
+            File file = new File(serverSelectorSpigot.getDataFolder(), fileName);
+            return file.exists();
+        } catch (NullPointerException exception) {
+            return false;
+        }
+
     }
 
 }
