@@ -49,10 +49,11 @@ NONE - does nothing but displaying an item
 Please note everything is case-sensitive, and that action types which are not described below will ignore
 this JSON element.
 ```
-QUEUE - server name to queue the player for
+QUEUE - server name to queue the player for (not available yet)
 SEND - server name to send the player to
 MENU - menu name (has to be the same as the JSON file name of the specific menu)
 ```
-
-#### Permissions ("permission")
-You could add a permission element to a menu item, so it will only load whenever the player has the permission. 
+#### Future features
+- Permission (only load a menu item whenever the player has the given permission)
+- Queue
+- More efficient sockets and bungee messaging

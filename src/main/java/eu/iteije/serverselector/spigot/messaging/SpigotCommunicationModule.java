@@ -3,7 +3,7 @@ package eu.iteije.serverselector.spigot.messaging;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.selector.SelectorModule;
-import eu.iteije.serverselector.spigot.selector.objects.ServerInfo;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -74,32 +74,6 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         }
     }
 
-    public void sendServerInfo(String server) {
-        try {
-            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-            DataOutputStream output = new DataOutputStream(bytes);
-            // Getting information of the current server
-            output.writeUTF("context");
-            // Making clear its server information
-            output.writeUTF("serverinfo");
-            // Requester server name
-            output.writeUTF(server);
-            // Status
-            if (serverSelectorSpigot.getServer().hasWhitelist()) {
-                output.writeUTF("WHITELISTED");
-            } else {
-                output.writeUTF("ONLINE");
-            }
-            // Current players
-            output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getOnlinePlayers().size()));
-            // Max players
-            output.writeUTF(String.valueOf(serverSelectorSpigot.getServer().getMaxPlayers()));
-            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
-    }
-
     @Override
     public void onPluginMessageReceived(String channel, Player providedPlayer, byte[] data) {
 
@@ -110,18 +84,15 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
         try {
             String message = inputStream.readUTF();
-            if (message.equals("serverinforequest")) {
-                sendServerInfo(inputStream.readUTF());
-                return;
-            } else if (message.equals("serverinfo")) {
+            if (message.equals("serverinfo")) {
                 SelectorModule selectorModule = serverSelectorSpigot.getSelectorModule();
-                ServerInfo serverInfo = new ServerInfo(
+                ServerData serverData = new ServerData(
                         inputStream.readUTF(),
                         inputStream.readUTF(),
                         inputStream.readUTF(),
                         inputStream.readUTF()
                 );
-                selectorModule.getMenuUpdater().updateServerInfo(serverInfo);
+                selectorModule.getMenuUpdater().updateServerInfo(serverData);
                 return;
             }
             boolean command = message.charAt(0) == '/';
