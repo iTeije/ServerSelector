@@ -19,9 +19,11 @@ public class MenuUpdater {
     private ServerSelectorSpigot instance;
 
     // Update delay in seconds
-    @Getter private int updateDelay;
+    @Getter
+    private int updateDelay;
     // Fetch delay in seconds
-    @Getter private int fetchDelay;
+    @Getter
+    private int fetchDelay;
 
     private List<Integer> tasks = new ArrayList<>();
 
@@ -40,7 +42,7 @@ public class MenuUpdater {
         try {
             this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            instance.getLogger().info("Failed to initialize socket (" + exception.getMessage() + ")");
         }
     }
 
@@ -72,14 +74,22 @@ public class MenuUpdater {
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            instance.getLogger().info("Proxy server is offline.");
+
+            instance.getLogger().info("Reinitializing socket... (" + exception.getMessage() + ")");
+            instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         }
 
     }
 
     public void initializeUpdateScheduler() {
-        tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, this::updateServerInfo,
-                0L, this.updateDelay * 20L));
+        tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
+            try {
+                updateServerInfo();
+            } catch (Exception exception) {
+
+            }
+        }, 0L, this.updateDelay * 20L));
     }
 
     public void initializeFetchScheduler() {
