@@ -53,7 +53,7 @@ QUEUE - server name to queue the player for (not available yet)
 SEND - server name to send the player to
 MENU - menu name (has to be the same as the JSON file name of the specific menu)
 ```
-#### Future features
+## Future features
 - Permission (only load a menu item whenever the player has the given permission)
 - Queue
 - More efficient sockets and bungee messaging

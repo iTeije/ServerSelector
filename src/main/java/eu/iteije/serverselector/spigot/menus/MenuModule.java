@@ -52,7 +52,7 @@ public class MenuModule {
     }
 
     private void checkSelector() {
-        this.selectorItemEnabled = SpigotFileModule.getFile(StorageKey.CONFIG_SELECTOR).getBoolean(StorageKey.CONFIG_SELECTOR);
+        this.selectorItemEnabled = SpigotFileModule.getFile(StorageKey.CONFIG_SELECTOR_ENABLED).getBoolean(StorageKey.CONFIG_SELECTOR_ENABLED);
     }
 
 

@@ -19,7 +19,6 @@ public class ClientCacheModule {
     public void updateServerData(ServerData data) {
         serverData.remove(data.getServerName());
         serverData.put(data.getServerName(), data);
-        instance.getCommunicationModule().broadcast("--> Succesfully imported server data");
     }
 
     public ServerData getServerData(String server) {
