@@ -56,3 +56,4 @@ MENU - menu name (has to be the same as the JSON file name of the specific menu)
 #### Future features
 - Permission (only load a menu item whenever the player has the given permission)
 - Queue
+- More efficient sockets and bungee messaging

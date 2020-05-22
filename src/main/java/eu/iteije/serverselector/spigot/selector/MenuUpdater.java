@@ -1,6 +1,6 @@
 package eu.iteije.serverselector.spigot.selector;
 
-import eu.iteije.serverselector.common.clients.objects.ServerData;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
@@ -33,7 +33,7 @@ public class MenuUpdater {
 
     public void initializeSocket() {
         try {
-            this.socket = new Socket("127.0.0.1", 25500);
+            this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

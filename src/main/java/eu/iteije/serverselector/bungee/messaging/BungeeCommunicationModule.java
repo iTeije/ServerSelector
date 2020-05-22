@@ -2,7 +2,7 @@ package eu.iteije.serverselector.bungee.messaging;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.common.clients.objects.ServerData;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;

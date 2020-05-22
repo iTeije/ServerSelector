@@ -3,7 +3,7 @@ package eu.iteije.serverselector.spigot.messaging;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.selector.SelectorModule;
-import eu.iteije.serverselector.common.clients.objects.ServerData;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;

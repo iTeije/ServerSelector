@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.common.clients.objects;
+package eu.iteije.serverselector.common.networking.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

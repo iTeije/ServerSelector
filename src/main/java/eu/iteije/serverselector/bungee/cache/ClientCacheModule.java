@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.bungee.cache;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.common.clients.objects.ServerData;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import lombok.Getter;
 
 import java.util.HashMap;

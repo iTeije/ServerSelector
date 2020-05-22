@@ -1,15 +1,14 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.common.clients.objects.ServerData;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -118,12 +117,7 @@ public class SelectorModule {
     }
 
     public String convertLore(String line, String serverName) {
-        Bukkit.broadcastMessage("SelectorModule: getting server info for server " + serverName);
         ServerData serverData = this.menuUpdater.getServerInfo(serverName);
-        if (serverData == null) {
-        } else {
-            Bukkit.broadcastMessage(serverData.currentPlayers + "   /   "  + serverData.maxPlayers);
-        }
 
         line = line.replace("{status}", serverData != null ? serverData.getStatus() : "OFFLINE");
         line = line.replace("{current_players}", serverData != null ? serverData.getCurrentPlayers() : "0");

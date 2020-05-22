@@ -4,7 +4,7 @@ import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.cache.ClientCacheModule;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
-import eu.iteije.serverselector.bungee.networking.BungeeSocket;
+import eu.iteije.serverselector.bungee.networking.SocketManager;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -17,6 +17,8 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeCommunicationModule communicationModule;
     private BungeeFileModule fileModule;
     private ClientCacheModule clientCacheModule;
+
+    private SocketManager socketManager;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -42,12 +44,8 @@ public class ServerSelectorBungee extends Plugin {
 
         this.fileModule = new BungeeFileModule(this);
 
-
-        new Thread(() -> {
-            System.out.println("Executing thread");
-            new BungeeSocket(this, new String[]{"25500"});
-        }).start();
-
+        this.socketManager = new SocketManager(this);
+        socketManager.initializeSockets();
     }
 
     @Override
