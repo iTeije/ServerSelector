@@ -2,6 +2,7 @@ package eu.iteije.serverselector.bungee.messaging;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.clients.objects.ServerData;
 import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
@@ -123,36 +124,27 @@ public class BungeeCommunicationModule implements Listener {
                 DataOutputStream output = new DataOutputStream(bytes);
 
                 try {
-                    output.writeUTF("serverinforequest");
-                    // Requester server name (so u can send information back)
-                    output.writeUTF(((Server) event.getSender()).getInfo().getName());
+                    output.writeUTF("serverinfo");
 
-                    ServerInfo info = ProxyServer.getInstance().getServerInfo(context);
+                    // If there's no cached ServerData element, the server won't return anything (which is handled by the spigot plugin)
+                    String requester = ((Server) event.getSender()).getInfo().getName();
+                    ServerData serverData = serverSelectorBungee.getClientCacheModule().getServerData(context);
 
-                    info.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                    if (serverData != null) {
+                        output.writeUTF(serverData.getServerName());
+                        output.writeUTF(serverData.getStatus());
+                        output.writeUTF(serverData.getCurrentPlayers());
+                        output.writeUTF(serverData.getMaxPlayers());
+
+                        ServerInfo client = ProxyServer.getInstance().getServerInfo(requester);
+
+                        client.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                        return;
+
+                    }
                 } catch (IOException exception) {
                     exception.printStackTrace();
                 }
-            } else if (optional.equals("serverinfo")) {
-                broadcast("BungeeCommunicationModule: received server info from !!! " + ((Server) event.getSender()).getInfo().getName());
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                DataOutputStream output = new DataOutputStream(bytes);
-
-                output.writeUTF("serverinfo");
-                // Sender
-                output.writeUTF(((Server) event.getSender()).getInfo().getName());
-                // Define target server
-                String target = inputStream.readUTF();
-                // Server status
-                output.writeUTF(inputStream.readUTF());
-                // Current players
-                output.writeUTF(inputStream.readUTF());
-                // Max players
-                output.writeUTF(inputStream.readUTF());
-
-                // Send back to the requester
-                ServerInfo info = ProxyServer.getInstance().getServerInfo(target);
-                info.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }
         } catch (IOException exception) {
             exception.printStackTrace();

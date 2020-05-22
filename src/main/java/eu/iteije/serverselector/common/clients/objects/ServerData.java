@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.spigot.selector.objects;
+package eu.iteije.serverselector.common.clients.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class ServerInfo {
+public class ServerData {
 
     public String serverName;
     public String status;
