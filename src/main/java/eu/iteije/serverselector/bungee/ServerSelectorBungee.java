@@ -1,9 +1,13 @@
 package eu.iteije.serverselector.bungee;
 
 import eu.iteije.serverselector.ServerSelector;
+import eu.iteije.serverselector.bungee.cache.ClientCacheModule;
+import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
+import eu.iteije.serverselector.bungee.networking.SocketManager;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import net.md_5.bungee.api.plugin.Plugin;
 
 @Getter
@@ -11,10 +15,15 @@ public class ServerSelectorBungee extends Plugin {
 
     // Bungee module instances
     private BungeeCommunicationModule communicationModule;
+    private BungeeFileModule fileModule;
+    private ClientCacheModule clientCacheModule;
+
+    private SocketManager socketManager;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
 
+    @SneakyThrows
     @Override
     public void onEnable() {
         instance = this;
@@ -28,10 +37,15 @@ public class ServerSelectorBungee extends Plugin {
             return;
         }
 
-        this.communicationModule = new BungeeCommunicationModule(this);
+        this.clientCacheModule = new ClientCacheModule(this);
 
+        this.communicationModule = new BungeeCommunicationModule(this);
         this.getProxy().getPluginManager().registerListener(this, communicationModule);
 
+        this.fileModule = new BungeeFileModule(this);
+
+        this.socketManager = new SocketManager(this);
+        socketManager.initializeSockets();
     }
 
     @Override

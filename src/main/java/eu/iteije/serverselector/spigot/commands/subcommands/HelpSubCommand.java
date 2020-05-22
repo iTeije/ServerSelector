@@ -6,7 +6,6 @@ import eu.iteije.serverselector.common.commands.interfaces.CommonExecutor;
 import eu.iteije.serverselector.common.commands.objects.Argument;
 import eu.iteije.serverselector.common.commands.objects.SubCommand;
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
-import eu.iteije.serverselector.common.messaging.enums.ReplacementType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
@@ -38,7 +37,7 @@ public class HelpSubCommand extends SubCommand {
                     return;
                 }
                 spigotMessageModule.send(StorageKey.HELP_COMMAND_DEDICATED, sender, MessageType.MESSAGE,
-                        new Replacement("{command}", commandModule.getFullCommand(label, args), ReplacementType.COMMAND)
+                        new Replacement("{command}", commandModule.getFullCommand(label, args))
                         );
                 if (subCommand.getArguments().size() == 0) {
                     spigotMessageModule.send(StorageKey.HELP_COMMAND_NO_RESULTS, sender, MessageType.MESSAGE);
@@ -48,9 +47,9 @@ public class HelpSubCommand extends SubCommand {
                     String subCmd = subCommand.getCommand();
                     if (subCommand.getSyntax() != null) subCmd = subCmd + " " + argument.getSyntax();
                     spigotMessageModule.send(StorageKey.HELP_COMMAND_ITEM, sender, MessageType.MESSAGE,
-                            new Replacement("{command}", label, ReplacementType.COMMAND),
-                            new Replacement("{subcommand}", subCmd, ReplacementType.COMMAND),
-                            new Replacement("{description}", argument.getDescription(), ReplacementType.COMMAND_DESCRIPTION)
+                            new Replacement("{command}", label),
+                            new Replacement("{subcommand}", subCmd),
+                            new Replacement("{description}", argument.getDescription())
                     );
                 }
                 return;
@@ -65,9 +64,9 @@ public class HelpSubCommand extends SubCommand {
         }
         for (SubCommand subCommand : commandModule.getSubCommandHandlers()) {
             spigotMessageModule.send(StorageKey.HELP_COMMAND_ITEM, sender, MessageType.MESSAGE,
-                    new Replacement("{command}", label, ReplacementType.COMMAND),
-                    new Replacement("{subcommand}", subCommand.getCommand(), ReplacementType.COMMAND),
-                    new Replacement("{description}", subCommand.getSyntax(), ReplacementType.COMMAND_DESCRIPTION)
+                    new Replacement("{command}", label),
+                    new Replacement("{subcommand}", subCommand.getCommand()),
+                    new Replacement("{description}", subCommand.getSyntax())
             );
         }
 

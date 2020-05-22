@@ -1,45 +1,43 @@
-package eu.iteije.serverselector.spigot.files;
+package eu.iteije.serverselector.bungee.files;
 
+import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.common.storage.ServerSelectorFile;
 import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.common.storage.StorageLocation;
-import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import lombok.Getter;
-import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SpigotFile implements ServerSelectorFile {
+public class BungeeFile implements ServerSelectorFile {
 
-    @Getter private FileConfiguration fileConfiguration;
+    @Getter private Configuration configuration;
     @Getter private StorageLocation storageLocation;
     @Getter private String fileName;
     @Getter public File file;
 
-    private ServerSelectorSpigot serverSelectorSpigot;
+    private ServerSelectorBungee serverSelectorBungee;
 
-    public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, StorageLocation storageLocation) {
-        this(serverSelectorSpigot, storageLocation.getFileName());
+    public BungeeFile(ServerSelectorBungee serverSelectorBungee, StorageLocation storageLocation) {
+        this(serverSelectorBungee, storageLocation.getFileName());
     }
 
-    public SpigotFile(ServerSelectorSpigot serverSelectorSpigot, String fileName) {
-        boolean hasFile = hasFile(fileName);
+    public BungeeFile(ServerSelectorBungee serverSelectorBungee, String fileName) {
+        this.serverSelectorBungee = serverSelectorBungee;
 
-        // Save default
-        if (!hasFile) {
-            serverSelectorSpigot.saveResource(fileName, false);
-        }
+        hasFile(fileName);
+        this.configuration = getFile(fileName);
 
         this.fileName = fileName;
-        this.file = new File(serverSelectorSpigot.getDataFolder(), fileName);
-        this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
 
-        SpigotFileModule.saveFile(this);
+        BungeeFileModule.saveFile(this);
     }
 
     /**
@@ -48,7 +46,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public String getString(StorageKey storageKey) {
-        return this.fileConfiguration.getString(storageKey.getPath());
+        return this.configuration.getString(storageKey.getPath());
     }
 
 
@@ -58,7 +56,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public Integer getInt(StorageKey storageKey) {
-        return this.fileConfiguration.getInt(storageKey.getPath());
+        return this.configuration.getInt(storageKey.getPath());
     }
 
 
@@ -68,7 +66,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public Boolean getBoolean(StorageKey storageKey) {
-        return this.fileConfiguration.getBoolean(storageKey.getPath());
+        return this.configuration.getBoolean(storageKey.getPath());
     }
 
 
@@ -78,7 +76,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public String getStringFromPath(String path) {
-        return this.fileConfiguration.getString(path);
+        return this.configuration.getString(path);
     }
 
 
@@ -88,7 +86,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public Integer getIntFromPath(String path) {
-        return this.fileConfiguration.getInt(path);
+        return this.configuration.getInt(path);
     }
 
 
@@ -98,7 +96,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public Boolean getBooleanFromPath(String path) {
-        return this.fileConfiguration.getBoolean(path);
+        return this.configuration.getBoolean(path);
     }
 
 
@@ -108,10 +106,10 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public Set<String> getStringSet(String path) {
-        ConfigurationSection section = fileConfiguration.getConfigurationSection(path);
+        Configuration section = configuration.getSection(path);
 
         if (section == null) return new HashSet<>();
-        return section.getKeys(false);
+        return new HashSet<>(section.getKeys());
     }
 
 
@@ -121,7 +119,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public void setString(String string, StorageKey storageKey) {
-        fileConfiguration.set(storageKey.getPath(), string);
+        configuration.set(storageKey.getPath(), string);
     }
 
 
@@ -131,7 +129,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public void setInt(int integer, StorageKey storageKey) {
-        fileConfiguration.set(storageKey.getPath(), integer);
+        configuration.set(storageKey.getPath(), integer);
     }
 
 
@@ -141,7 +139,7 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public void setStringToPath(String string, String path) {
-        fileConfiguration.set(path, string);
+        configuration.set(path, string);
     }
 
 
@@ -151,14 +149,14 @@ public class SpigotFile implements ServerSelectorFile {
      */
     @Override
     public void setIntToPath(int integer, String path) {
-        fileConfiguration.set(path, integer);
+        configuration.set(path, integer);
     }
 
 
     public void reload() {
         // Prevent plugin failures
         try {
-            fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
+            configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(this.file);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
@@ -166,7 +164,7 @@ public class SpigotFile implements ServerSelectorFile {
 
     public void save() {
         try {
-            fileConfiguration.save(this.file);
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, this.file);
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -175,13 +173,29 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Override
     public boolean hasFile(String fileName) {
-        try {
-            File file = new File(serverSelectorSpigot.getDataFolder(), fileName);
-            return file.exists();
-        } catch (NullPointerException exception) {
-            return false;
-        }
+        if (!serverSelectorBungee.getDataFolder().exists())
+            serverSelectorBungee.getDataFolder().mkdir();
 
+        File file = new File(serverSelectorBungee.getDataFolder(), fileName);
+
+        if (!file.exists()) {
+            try (InputStream inputStream = serverSelectorBungee.getResourceAsStream(fileName)) {
+                Files.copy(inputStream, file.toPath());
+            } catch (IOException exception) {
+                exception.printStackTrace();
+            }
+        }
+        return true;
+    }
+
+    public Configuration getFile(String fileName) {
+        Configuration configuration = null;
+        try {
+            configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(serverSelectorBungee.getDataFolder(), fileName));
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+        return configuration;
     }
 
 }

@@ -1,13 +1,14 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
+import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -15,16 +16,22 @@ import org.json.simple.parser.JSONParser;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class SelectorModule {
 
     private ServerSelectorSpigot instance;
     private ActionManager actionManager;
+    @Getter private MenuUpdater menuUpdater;
 
     public SelectorModule(ServerSelectorSpigot instance) {
         this.instance = instance;
         this.actionManager = new ActionManager(instance);
+
+        this.menuUpdater = new MenuUpdater(instance);
+        this.menuUpdater.initializeUpdateScheduler();
     }
 
     public void cacheMenus() {
@@ -57,8 +64,6 @@ public class SelectorModule {
         // Parse all items and create a new menu object including these items
         JSONArray items = (JSONArray) object.get("items");
 
-        Bukkit.broadcastMessage(items.toJSONString());
-
         Iterator iterator = items.iterator();
 
         // Loop through all JSON item elements
@@ -81,6 +86,27 @@ public class SelectorModule {
                 }
             }
 
+            try {
+                JSONArray jsonLore = (JSONArray) itemData.get("lore");
+                if (jsonLore != null && jsonLore.size() != 0) {
+                    List<String> lore = new ArrayList<>();
+                    for (int i = 0; i < jsonLore.size(); i++) {
+                        String line = (String) jsonLore.get(i);
+                        if (actionType.equalsIgnoreCase("SEND") || actionType.equalsIgnoreCase("QUEUE")) {
+                            String server = (String) itemData.get("action");
+                            instance.getCommunicationModule().requestServerInfo(server);
+                            line = convertLore(line, server);
+                        }
+                        lore.add(line);
+                    }
+
+                    item.setLore(lore.toArray(new String[lore.size()]));
+                }
+            } catch (Exception exception) {
+                exception.printStackTrace();
+            }
+
+
             menu.setItem(Integer.parseInt(String.valueOf(itemData.get("slot"))), item);
             iterator.next();
 
@@ -88,6 +114,17 @@ public class SelectorModule {
         }
 
         return menu;
+    }
+
+    public String convertLore(String line, String serverName) {
+        ServerData serverData = this.menuUpdater.getServerInfo(serverName);
+
+        line = line.replace("{status}", serverData != null ? serverData.getStatus() : "OFFLINE");
+        line = line.replace("{current_players}", serverData != null ? serverData.getCurrentPlayers() : "0");
+        line = line.replace("{max_players}", serverData != null ? serverData.getMaxPlayers() : "0");
+        line = line.replace("{queue}", "soon");
+
+        return line;
     }
 
 }

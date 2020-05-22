@@ -2,6 +2,8 @@ package eu.iteije.serverselector.spigot.messaging;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
+import eu.iteije.serverselector.spigot.selector.SelectorModule;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
@@ -19,13 +21,13 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         this.serverSelectorSpigot = serverSelectorSpigot;
     }
 
-    public void sendMessage(String message, String optional, String... playerNames) {
+    public void sendMessage(String context, String optional, String... playerNames) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         DataOutputStream outputStream = new DataOutputStream(stream);
 
         if (optional.equals("")) {
             try {
-                outputStream.writeUTF(message);
+                outputStream.writeUTF(context);
                 outputStream.writeUTF(optional);
                 for (String player : playerNames) {
                     outputStream.writeUTF(player);
@@ -36,12 +38,39 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             }
         } else if (optional.equals("broadcast")) {
             try {
-                outputStream.writeUTF(message);
+                outputStream.writeUTF(context);
                 outputStream.writeUTF(optional);
                 serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
+        }
+    }
+
+    public void sendPlayer(String server, String playerName) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream outputStream = new DataOutputStream(stream);
+
+        try {
+            outputStream.writeUTF(server);
+            outputStream.writeUTF("send");
+            outputStream.writeUTF(playerName);
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    public void requestServerInfo(String server) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream outputStream = new DataOutputStream(stream);
+
+        try {
+            outputStream.writeUTF(server);
+            outputStream.writeUTF("serverinforequest");
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
         }
     }
 
@@ -55,6 +84,17 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
         try {
             String message = inputStream.readUTF();
+            if (message.equals("serverinfo")) {
+                SelectorModule selectorModule = serverSelectorSpigot.getSelectorModule();
+                ServerData serverData = new ServerData(
+                        inputStream.readUTF(),
+                        inputStream.readUTF(),
+                        inputStream.readUTF(),
+                        inputStream.readUTF()
+                );
+                selectorModule.getMenuUpdater().updateServerInfo(serverData);
+                return;
+            }
             boolean command = message.charAt(0) == '/';
             if (command) message = message.substring(1);
             if (data.length == 2) {
@@ -64,6 +104,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                     return;
                 }
                 player.sendMessage(message);
+                return;
             }
             if (command) {
                 Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), message);

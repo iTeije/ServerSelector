@@ -5,31 +5,67 @@
   "items": [
     {
       "material": "RED_WOOL",
-      "display_name": "&3&lServer 1 &f(queue)",
+      "display_name": "&3&lLobby",
+      "lore": [
+        "&7Example lobby server item (you will be send to the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
       "slot": 10,
-      "action_type": "QUEUE",
+      "action_type": "SEND",
       "action": "lobby"
     },
 
     {
       "material": "ORANGE_WOOL",
-      "display_name": "&3&lServer 2 &f(queue)",
-      "slot": 13,
-      "action_type": "QUEUE",
-      "action": "some_server_here"
-    },
-
-    {
-      "material": "YELLOW_WOOL",
-      "display_name": "&3&lServer 3 &f(send)",
-      "slot": 16,
+      "display_name": "&3&lGame 1",
+      "lore": [
+        "&7Example game 1 server item (you will be send to the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
+      "slot": 12,
       "action_type": "SEND",
       "action": "game_1"
     },
 
     {
+      "material": "YELLOW_WOOL",
+      "display_name": "&3&lLobby",
+      "lore": [
+        "&7Example lobby server item (you will be queued for the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
+      "slot": 14,
+      "action_type": "QUEUE",
+      "action": "lobby"
+    },
+
+    {
+      "material": "GREEN_WOOL",
+      "display_name": "&3&lGame 1",
+      "lore": [
+        "&7Example game 1 server item (you will be queued for the server)",
+        "",
+        "&b&lStatus: {status}",
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lQueue: &3{queue}"
+      ],
+      "slot": 16,
+      "action_type": "QUEUE",
+      "action": "game_1"
+    },
+
+    {
       "material": "BOOK",
-      "display_name": "&eSub menu",
+      "display_name": "&eEvents (sub) menu",
       "slot": 31,
       "action_type": "MENU",
       "action": "Events"
@@ -40,6 +76,14 @@
       "display_name": "&cClose menu",
       "slot": 49,
       "action_type": "CLOSE"
+    },
+
+    {
+      "material": "OBSIDIAN",
+      "display_name": "&3&lAnother server &f(send)",
+      "slot": 53,
+      "action_type": "SEND",
+      "action": "nonexisting_server"
     }
   ]
 }

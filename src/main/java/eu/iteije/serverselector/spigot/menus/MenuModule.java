@@ -69,6 +69,10 @@ public class MenuModule {
         return this.cachedMenus;
     }
 
+    public void deleteCachedMenus() {
+        cachedMenus.clear();
+    }
+
     public void deleteCachedMenu(String name) {
         this.cachedMenus.remove(name);
     }
