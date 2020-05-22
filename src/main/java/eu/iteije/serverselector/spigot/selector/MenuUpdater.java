@@ -31,11 +31,18 @@ public class MenuUpdater {
         this.delay = SpigotFileModule.getFile(StorageKey.SELECTOR_UPDATE_DELAY).getInt(StorageKey.SELECTOR_UPDATE_DELAY);
     }
 
+    public void initializeSocket() {
+        try {
+            this.socket = new Socket("127.0.0.1", 25500);
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
+    @SuppressWarnings("deprecation")
     public void updateServerInfo() {
         try {
-//            if (this.socket == null || socket.isClosed()) {
-                this.socket = new Socket("127.0.0.1", 25500);
-//            }
+            if (socket == null) initializeSocket();
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -55,6 +62,10 @@ public class MenuUpdater {
             dataOutputStream.flush();
 
             dataOutputStream.close();
+            socket.close();
+            socket = null;
+
+            instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
             exception.printStackTrace();
         }

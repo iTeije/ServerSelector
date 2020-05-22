@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.bungee.sockets;
+package eu.iteije.serverselector.bungee.networking;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.common.clients.objects.ServerData;
@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class BungeeSocket {
 
-    public BungeeSocket(ServerSelectorBungee instance, String[] args) throws IOException {
+    public BungeeSocket(ServerSelectorBungee instance, String[] args) {
         if (args.length < 1) {
             System.out.println("instance = " + instance + ", args = " + Arrays.deepToString(args));
             return;
@@ -54,12 +54,17 @@ public class BungeeSocket {
                         instance.getCommunicationModule().broadcast("name: " + name + ", status: " + status + ", curp:" + currentPlayers + ", maxp:" + maxPlayers);
 
                         instance.getClientCacheModule().updateServerData(data);
+
+                        serverSocket.close();
+
+                        new Thread(() -> {
+                            new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});
+                        }).start();
                     } catch (NullPointerException exception) {
                         exception.printStackTrace();
                     }
                     break;
             }
-            in.close();
         } catch (IOException exception) {
             System.out.println("Exception caught when trying to listen on port " + portNumber);
             exception.printStackTrace();

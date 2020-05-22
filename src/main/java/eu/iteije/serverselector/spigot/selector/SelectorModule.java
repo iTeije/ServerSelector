@@ -121,9 +121,8 @@ public class SelectorModule {
         Bukkit.broadcastMessage("SelectorModule: getting server info for server " + serverName);
         ServerData serverData = this.menuUpdater.getServerInfo(serverName);
         if (serverData == null) {
-            Bukkit.broadcastMessage("SelectorModule: serverinfo is null");
         } else {
-            Bukkit.broadcastMessage(serverData.currentPlayers + serverData.maxPlayers);
+            Bukkit.broadcastMessage(serverData.currentPlayers + "   /   "  + serverData.maxPlayers);
         }
 
         line = line.replace("{status}", serverData != null ? serverData.getStatus() : "OFFLINE");
