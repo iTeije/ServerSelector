@@ -43,9 +43,10 @@ public class BungeeSocket {
                         String status = in.readUTF();
                         String currentPlayers = in.readUTF();
                         String maxPlayers = in.readUTF();
+                        long lastUpdate = in.readLong();
 
                         ServerData data = new ServerData(
-                                name, status, currentPlayers, maxPlayers
+                                name, status, currentPlayers, maxPlayers, lastUpdate
                         );
 
                         instance.getClientCacheModule().updateServerData(data);

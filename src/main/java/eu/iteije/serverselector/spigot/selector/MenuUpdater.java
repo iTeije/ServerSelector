@@ -67,6 +67,11 @@ public class MenuUpdater {
             dataOutputStream.writeUTF(String.valueOf(instance.getServer().getOnlinePlayers().size()));
             // Max players
             dataOutputStream.writeUTF(String.valueOf(instance.getServer().getMaxPlayers()));
+
+            // Current unix timestamp
+            long unix = System.currentTimeMillis() / 1000L;
+            dataOutputStream.writeLong(unix);
+
             dataOutputStream.flush();
 
             dataOutputStream.close();
@@ -117,6 +122,10 @@ public class MenuUpdater {
     public ServerData getServerInfo(String server) {
         if (serverData.containsKey(server)) return serverData.get(server);
         return null;
+    }
+
+    public void removeServerInfo(String server) {
+        serverData.remove(server);
     }
 
 }

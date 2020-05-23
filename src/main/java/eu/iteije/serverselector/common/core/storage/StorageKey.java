@@ -61,6 +61,7 @@ public enum StorageKey {
     // Server pinging settings
     CONFIG_UPDATE_DELAY("update-delay", StorageLocation.CONFIG_FILE),
     CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
+    CONFIG_OFFLINE_TIME("offline-time", StorageLocation.CONFIG_FILE),
 
 
     ;

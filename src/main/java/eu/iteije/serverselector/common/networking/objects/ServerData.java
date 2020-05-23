@@ -13,5 +13,6 @@ public class ServerData {
     public String status;
     public String currentPlayers;
     public String maxPlayers;
+    public long lastUpdate;
 
 }

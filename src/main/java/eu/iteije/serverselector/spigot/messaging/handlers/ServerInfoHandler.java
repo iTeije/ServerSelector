@@ -26,7 +26,8 @@ public class ServerInfoHandler implements SpigotCommunicationImplementation {
                     input.readUTF(),
                     input.readUTF(),
                     input.readUTF(),
-                    input.readUTF()
+                    input.readUTF(),
+                    input.readLong()
             );
 
             selectorModule.getMenuUpdater().updateServerInfo(data);
