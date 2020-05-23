@@ -2,8 +2,10 @@ package eu.iteije.serverselector.spigot.selector.actions.interfaces;
 
 import org.bukkit.entity.Player;
 
-public interface Action {
+public class Action {
 
-    void execute(String context, Player player);
+    public void execute(String context, Player player) {
+
+    }
 
 }

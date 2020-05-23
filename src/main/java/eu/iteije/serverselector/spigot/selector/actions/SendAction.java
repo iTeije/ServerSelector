@@ -4,7 +4,7 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.entity.Player;
 
-public class SendAction implements Action {
+public class SendAction extends Action {
 
     private ServerSelectorSpigot instance;
 

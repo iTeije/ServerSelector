@@ -9,9 +9,9 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import org.bukkit.ChatColor;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
+import java.io.DataOutputStream;
 
 public class MessageModule {
 
@@ -57,9 +57,23 @@ public class MessageModule {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
+    // It's a hell of a pain to look at this code, but otherwise it's complaining
     public DataInputStream getDataInputStream(String[] bytes) {
-        ByteArrayInputStream temp = new ByteArrayInputStream(String.join(System.lineSeparator(), Arrays.asList(bytes)).getBytes(StandardCharsets.UTF_8));
-        return new DataInputStream(temp);
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+
+            for (String byteComponent : bytes) {
+                dataOutputStream.writeUTF(byteComponent);
+            }
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+
+            return new DataInputStream(inputStream);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 
 }

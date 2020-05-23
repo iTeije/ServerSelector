@@ -4,7 +4,7 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.entity.Player;
 
-public class QueueAction implements Action {
+public class QueueAction extends Action {
 
     private ServerSelectorSpigot instance;
 
@@ -16,6 +16,6 @@ public class QueueAction implements Action {
     public void execute(String context, Player player) {
         // Queue for a given server
         // TODO: queue
-        player.sendMessage("You're queued");
+        player.sendMessage("Queueing is not available yet.");
     }
 }

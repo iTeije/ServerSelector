@@ -56,7 +56,7 @@ public class BungeeCommunicationModule implements Listener {
             String type = inputStream.readUTF();
 
             BungeeCommunicationImplementation implementation = getHandler(type);
-            if (implementation != null) implementation.process(inputStream, event.getSender());
+            if (implementation != null) implementation.process(inputStream, ((Server) event.getSender()).getInfo().getName());
         } catch (IOException exception) {
             exception.printStackTrace();
         }

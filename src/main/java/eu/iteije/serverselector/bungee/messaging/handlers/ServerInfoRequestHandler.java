@@ -1,14 +1,12 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
-import net.md_5.bungee.api.connection.Connection;
-import net.md_5.bungee.api.connection.Server;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -24,7 +22,7 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
     }
 
     @Override
-    public void process(DataInputStream input, Connection connection) {
+    public void process(DataInputStream input, String sender) {
         try {
             // Read server name
             String server = input.readUTF();
@@ -43,14 +41,13 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
                 output.writeUTF(serverData.getMaxPlayers());
                 output.writeLong(serverData.getLastUpdate());
 
-                String senderName = ((Server) connection).getInfo().getName();
-                ServerInfo sender = ProxyServer.getInstance().getServerInfo(senderName);
+                ServerInfo senderInfo = ProxyServer.getInstance().getServerInfo(sender);
 
-                sender.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }
 
         } catch (IOException exception) {
-            ServerSelectorLogger.console("IOException thrown in ServerInfoRequest.", exception);
+            ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
         }
     }
 }

@@ -9,7 +9,7 @@ import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class MenuAction implements Action {
+public class MenuAction extends Action {
 
     private ServerSelectorSpigot instance;
 

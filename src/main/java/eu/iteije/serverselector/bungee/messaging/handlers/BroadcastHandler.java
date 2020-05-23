@@ -1,12 +1,11 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.connection.Connection;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -23,7 +22,7 @@ public class BroadcastHandler implements BungeeCommunicationImplementation {
     }
 
     @Override
-    public void process(DataInputStream input, Connection connection) {
+    public void process(DataInputStream input, String sender) {
         try {
             ByteArrayOutputStream bytes = new ByteArrayOutputStream();
             DataOutputStream output = new DataOutputStream(bytes);
@@ -43,7 +42,7 @@ public class BroadcastHandler implements BungeeCommunicationImplementation {
                 }
             });
         } catch (IOException exception) {
-            ServerSelectorLogger.console("IOException thrown in BroadcastRequest.", exception);
+            ServerSelectorLogger.console("IOException thrown in BroadcastHandler.", exception);
         }
     }
 }
