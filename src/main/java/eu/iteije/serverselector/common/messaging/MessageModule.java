@@ -2,11 +2,16 @@ package eu.iteije.serverselector.common.messaging;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.platform.Platform;
-import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import org.bukkit.ChatColor;
+
+import java.io.ByteArrayInputStream;
+import java.io.DataInputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 
 public class MessageModule {
 
@@ -50,6 +55,11 @@ public class MessageModule {
         if (ServerSelector.getInstance().getPlatform() == Platform.BUNGEE) return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
 
         return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public DataInputStream getDataInputStream(String[] bytes) {
+        ByteArrayInputStream temp = new ByteArrayInputStream(String.join(System.lineSeparator(), Arrays.asList(bytes)).getBytes(StandardCharsets.UTF_8));
+        return new DataInputStream(temp);
     }
 
 }

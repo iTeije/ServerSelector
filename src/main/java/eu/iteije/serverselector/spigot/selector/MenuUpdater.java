@@ -1,7 +1,8 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
-import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
@@ -42,7 +43,7 @@ public class MenuUpdater {
         try {
             this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
-            instance.getLogger().info("Failed to initialize socket (" + exception.getMessage() + ")");
+            ServerSelectorLogger.console("Failed to initialize socket.", exception);
         }
     }
 
@@ -74,9 +75,9 @@ public class MenuUpdater {
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
-            instance.getLogger().info("Proxy server is offline.");
+            ServerSelectorLogger.console("Proxy server is offline.");
 
-            instance.getLogger().info("Reinitializing socket... (" + exception.getMessage() + ")");
+            ServerSelectorLogger.console("Reinitializing socket...", exception);
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         }
 
