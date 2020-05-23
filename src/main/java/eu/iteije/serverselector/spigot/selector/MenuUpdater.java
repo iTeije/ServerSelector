@@ -1,10 +1,12 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
-import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
+import org.bukkit.Bukkit;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -16,8 +18,13 @@ import java.util.List;
 public class MenuUpdater {
 
     private ServerSelectorSpigot instance;
-    // Delay in seconds
-    @Getter private int delay;
+
+    // Update delay in seconds
+    @Getter
+    private int updateDelay;
+    // Fetch delay in seconds
+    @Getter
+    private int fetchDelay;
 
     private List<Integer> tasks = new ArrayList<>();
 
@@ -28,14 +35,15 @@ public class MenuUpdater {
     public MenuUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
-        this.delay = SpigotFileModule.getFile(StorageKey.SELECTOR_UPDATE_DELAY).getInt(StorageKey.SELECTOR_UPDATE_DELAY);
+        this.updateDelay = SpigotFileModule.getFile(StorageKey.CONFIG_UPDATE_DELAY).getInt(StorageKey.CONFIG_UPDATE_DELAY);
+        this.fetchDelay = SpigotFileModule.getFile(StorageKey.CONFIG_FETCH_DELAY).getInt(StorageKey.CONFIG_FETCH_DELAY);
     }
 
     public void initializeSocket() {
         try {
             this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            ServerSelectorLogger.console("Failed to initialize socket.", exception);
         }
     }
 
@@ -67,30 +75,38 @@ public class MenuUpdater {
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
-            exception.printStackTrace();
+            ServerSelectorLogger.console("Proxy server is offline.");
+
+            ServerSelectorLogger.console("Reinitializing socket...", exception);
+            instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         }
 
     }
 
     public void initializeUpdateScheduler() {
         tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
-            updateServerInfo();
-            instance.getMenuModule().deleteCachedMenus();
-            instance.getSelectorModule().cacheMenus();
-        }, 0L, delay * 20L));
+            try {
+                updateServerInfo();
+            } catch (Exception exception) {
+
+            }
+        }, 0L, this.updateDelay * 20L));
+    }
+
+    public void initializeFetchScheduler() {
+        tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
+            // Only fetch if there is at least 1 player online or if force is true
+            if (Bukkit.getOnlinePlayers().size() != 0) {
+                instance.getMenuModule().deleteCachedMenus();
+                instance.getSelectorModule().cacheMenus();
+            }
+        }, 0L, this.fetchDelay * 20L));
     }
 
     public void destroyTasks() {
         for (Integer task : this.tasks) {
             instance.getServer().getScheduler().cancelTask(task);
         }
-    }
-
-    public void updateDelay(int seconds) {
-        this.delay = seconds;
-
-        destroyTasks();
-        initializeUpdateScheduler();
     }
 
     public void updateServerInfo(ServerData info) {

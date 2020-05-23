@@ -5,7 +5,7 @@ import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import org.bukkit.Bukkit;

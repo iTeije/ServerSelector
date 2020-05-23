@@ -4,7 +4,7 @@ import eu.iteije.serverselector.common.commands.interfaces.CommonExecutor;
 import eu.iteije.serverselector.common.commands.objects.SubCommand;
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.commands.subcommands.arguments.ArgumentHandler;
 import eu.iteije.serverselector.spigot.menus.AdminMessagesMenu;

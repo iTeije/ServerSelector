@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.spigot.files;
 
-import eu.iteije.serverselector.common.storage.StorageKey;
-import eu.iteije.serverselector.common.storage.StorageLocation;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageLocation;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 
 import java.util.HashMap;

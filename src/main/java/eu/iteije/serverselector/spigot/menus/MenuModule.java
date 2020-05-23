@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.spigot.menus;
 
 import eu.iteije.serverselector.ServerSelector;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
@@ -52,7 +52,7 @@ public class MenuModule {
     }
 
     private void checkSelector() {
-        this.selectorItemEnabled = SpigotFileModule.getFile(StorageKey.CONFIG_SELECTOR).getBoolean(StorageKey.CONFIG_SELECTOR);
+        this.selectorItemEnabled = SpigotFileModule.getFile(StorageKey.CONFIG_SELECTOR_ENABLED).getBoolean(StorageKey.CONFIG_SELECTOR_ENABLED);
     }
 
 

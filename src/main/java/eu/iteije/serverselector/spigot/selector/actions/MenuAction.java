@@ -2,7 +2,7 @@ package eu.iteije.serverselector.spigot.selector.actions;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;

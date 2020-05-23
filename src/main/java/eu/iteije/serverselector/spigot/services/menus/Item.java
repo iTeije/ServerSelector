@@ -2,7 +2,7 @@ package eu.iteije.serverselector.spigot.services.menus;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.common.messaging.MessageModule;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import lombok.Getter;
 import org.bukkit.Color;
 import org.bukkit.Material;

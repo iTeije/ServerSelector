@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.common.storage;
+package eu.iteije.serverselector.common.core.storage;
 
 import lombok.Getter;
 
@@ -32,12 +32,6 @@ public enum StorageKey {
     MESSAGE_MENU_TITLE("message_menu_title", StorageLocation.MESSAGE_FILE),
     MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
 
-    // Selector item
-    CONFIG_SELECTOR("selector", StorageLocation.CONFIG_FILE),
-    CONFIG_SELECTOR_ITEM("selector_item", StorageLocation.CONFIG_FILE),
-    CONFIG_SELECTOR_NAME("selector_name", StorageLocation.CONFIG_FILE),
-    CONFIG_SELECTOR_SLOT("selector_slot", StorageLocation.CONFIG_FILE),
-
     // Menu action messages
     MENU_ACTION_MENU_FAILED("menu_action_menu_failed", StorageLocation.MESSAGE_FILE),
 
@@ -46,14 +40,28 @@ public enum StorageKey {
     STATUS_WHITELISTED("status_whitelisted", StorageLocation.MESSAGE_FILE),
     STATUS_ONLINE("status_online", StorageLocation.MESSAGE_FILE),
 
-    // Selector menus settings
-    SELECTOR_UPDATE_DELAY("selector_update_delay", StorageLocation.CONFIG_FILE),
-
     // Queue and send messages
     SEND_PROCESSING("send_processing", StorageLocation.MESSAGE_FILE),
     SEND_ALREADY_CONNECTED("send_already_connected", StorageLocation.MESSAGE_FILE),
     SEND_SERVER_NOT_FOUND("send_server_not_found", StorageLocation.MESSAGE_FILE),
     SEND_SERVER_WHITELISTED("send_server_whitelisted", StorageLocation.MESSAGE_FILE),
+
+
+
+
+
+    // Selector item
+    CONFIG_SELECTOR_ENABLED("selector-enabled", StorageLocation.CONFIG_FILE),
+    CONFIG_SELECTOR_ITEM("selector-item", StorageLocation.CONFIG_FILE),
+    CONFIG_SELECTOR_NAME("selector-name", StorageLocation.CONFIG_FILE),
+    CONFIG_SELECTOR_SLOT("selector-slot", StorageLocation.CONFIG_FILE),
+    CONFIG_SELECTOR_MOVE("selector-move", StorageLocation.CONFIG_FILE),
+    CONFIG_SELECTOR_DROP("selector-drop", StorageLocation.CONFIG_FILE),
+
+    // Server pinging settings
+    CONFIG_UPDATE_DELAY("update-delay", StorageLocation.CONFIG_FILE),
+    CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
+
 
     ;
 

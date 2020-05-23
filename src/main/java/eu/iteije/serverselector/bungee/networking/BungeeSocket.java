@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.networking;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -9,6 +10,7 @@ import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
 
 public class BungeeSocket {
@@ -59,8 +61,15 @@ public class BungeeSocket {
                     break;
             }
         } catch (IOException exception) {
-            System.out.println("Exception caught when trying to listen on port " + portNumber);
-            exception.printStackTrace();
+            if (exception instanceof SocketException) {
+                System.out.println("The server on port " + portNumber + " has disconnected, opening new socket on port " + portNumber + "...");
+            } else {
+                ServerSelectorLogger.console("Exception caught when trying to listen to port " + portNumber + ", opening new socket on port " + portNumber);
+            }
+
+            new Thread(() -> {
+                new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});
+            }).start();
         }
     }
 }

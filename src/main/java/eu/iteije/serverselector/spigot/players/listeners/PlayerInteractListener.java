@@ -2,7 +2,7 @@ package eu.iteije.serverselector.spigot.players.listeners;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
