@@ -30,9 +30,9 @@ selector-drop: false
 # All values listed below are treated as seconds
 # Important to note is that the queue will be processed by the bungeecord server
 
-# How long the server waits before updating their information
+# How long the server waits before updating their information (at least 5 seconds)
 # This information includes; status (whitelist/online), player capacity, max players
-update-delay: 10
+update-delay: 5
 
-# How long the server waits before fetching any new information the bungee got from other servers
-fetch-delay: 10
+# How long the server waits before fetching any new information the bungee got from other servers (at least 5 seconds)
+fetch-delay: 5

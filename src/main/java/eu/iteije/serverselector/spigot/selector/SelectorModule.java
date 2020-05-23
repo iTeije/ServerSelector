@@ -33,6 +33,8 @@ public class SelectorModule {
         this.menuUpdater = new MenuUpdater(instance);
         this.menuUpdater.initializeUpdateScheduler();
         this.menuUpdater.initializeFetchScheduler();
+
+        this.menuUpdater.updateServerInfo();
     }
 
     public void cacheMenus() {
