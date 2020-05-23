@@ -6,6 +6,7 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
+import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
@@ -80,14 +81,11 @@ public class SelectorModule {
             item.setName((String) itemData.get("display_name"));
 
             String actionType = (String) itemData.get("action_type");
-            if (!actionType.equals("NONE")) {
-                if (actionType.equals("CLOSE")) {
-                    item.onClick(((player, item1) -> player.closeInventory()));
-                } else {
-                    item.onClick(((player, item1) -> {
-                        actionManager.getActionByName(actionType).execute((String) itemData.get("action"), player);
-                    }));
-                }
+            Action action = actionManager.getActionByName(actionType);
+            if (action != null) {
+                item.onClick(((player, item1) -> {
+                    action.execute((String) itemData.get("action"), player);
+                }));
             }
 
             try {
