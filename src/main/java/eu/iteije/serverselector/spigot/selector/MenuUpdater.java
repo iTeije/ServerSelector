@@ -80,7 +80,7 @@ public class MenuUpdater {
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
-            ServerSelectorLogger.console("Proxy server is offline.");
+            ServerSelectorLogger.console("Proxy server not responding.");
 
             ServerSelectorLogger.console("Reinitializing socket...", exception);
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);

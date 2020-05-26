@@ -16,6 +16,7 @@ public class ActionManager {
         registerAction("SEND", new SendAction(instance));
         registerAction("CLOSE", new CloseAction());
         registerAction("MESSAGE", new MessageAction(instance));
+        registerAction("CONSOLE_COMMAND", new ConsoleCommandAction(instance));
     }
 
     public void registerAction(String name, Action action) {
