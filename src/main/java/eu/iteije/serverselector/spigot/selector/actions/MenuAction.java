@@ -28,10 +28,10 @@ public class MenuAction extends Action {
         try {
             menuModule.getCachedMenu(context).open(player);
         } catch (Exception exception) {
-            instance.getMessageModule().send(StorageKey.MENU_ACTION_MENU_FAILED, Bukkit.getConsoleSender(), MessageType.MESSAGE,
+            instance.getMessageModule().send(StorageKey.ACTION_MENU_FAILED, Bukkit.getConsoleSender(), MessageType.MESSAGE,
                     new Replacement("{menu}", context)
                     );
-            instance.getMessageModule().sendToPlayer(StorageKey.MENU_ACTION_MENU_FAILED, new Player[]{player}, MessageType.MESSAGE,
+            instance.getMessageModule().sendToPlayer(StorageKey.ACTION_MENU_FAILED, new Player[]{player}, MessageType.MESSAGE,
                     new Replacement("{menu}", context)
                     );
         }

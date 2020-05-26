@@ -32,7 +32,7 @@
       "action": "tell {player} This is a console-executed command"
     },
     {
-      "material": "RED_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lPlayer command",
       "lore": [
         "&7This action will execute a command on behalf of the player.",
@@ -42,22 +42,22 @@
         "&b&lAction: &3the command you want the player to execute without the / (slash)"
       ],
       "slot": 14,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "PLAYER_COMMAND",
+      "action": "tell {player} I am technically whispering this to myself"
     },
     {
-      "material": "RED_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lPlay sound",
       "lore": [
         "&7This action will play a Minecraft sound to you.",
         "",
-        "&b&lStatus: &3unavailable",
+        "&b&lStatus: &3available",
         "&b&lAction type: &3SOUND",
         "&b&lAction: &3the sound you want to be played when clicking (minecraft sounds)"
       ],
       "slot": 16,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "SOUND",
+      "action": "BLOCK_ANVIL_LAND"
     },
     {
       "material": "GREEN_STAINED_GLASS",

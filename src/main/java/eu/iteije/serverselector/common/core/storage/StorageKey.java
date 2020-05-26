@@ -18,8 +18,8 @@ public enum StorageKey {
     HELP_COMMAND_ITEM("help_command_item", StorageLocation.MESSAGE_FILE),
     HELP_COMMAND_NO_RESULTS("help_command_no_results", StorageLocation.MESSAGE_FILE),
 
-    // Action message queue
-    ACTION_PROPOSE_CHAT("action_propose_chat", StorageLocation.MESSAGE_FILE),
+    // Action queue messages
+    ACTIONQUEUE_PROPOSE_CHAT("actionqueue_propose_chat", StorageLocation.MESSAGE_FILE),
 
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),
@@ -33,7 +33,8 @@ public enum StorageKey {
     MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
 
     // Menu action messages
-    MENU_ACTION_MENU_FAILED("menu_action_menu_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_MENU_FAILED("action_menu_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_SOUND_FAILED("action_sound_failed", StorageLocation.MESSAGE_FILE),
 
     // Main menu
     STATUS_OFFLINE("status_offline", StorageLocation.MESSAGE_FILE),

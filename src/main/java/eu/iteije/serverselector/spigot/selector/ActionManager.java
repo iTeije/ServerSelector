@@ -17,6 +17,8 @@ public class ActionManager {
         registerAction("CLOSE", new CloseAction());
         registerAction("MESSAGE", new MessageAction(instance));
         registerAction("CONSOLE_COMMAND", new ConsoleCommandAction(instance));
+        registerAction("PLAYER_COMMAND", new PlayerCommandAction());
+        registerAction("SOUND", new PlaySoundAction(instance));
     }
 
     public void registerAction(String name, Action action) {
