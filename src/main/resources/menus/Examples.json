@@ -88,32 +88,32 @@
       "action": "&cThis action is not available yet"
     },
     {
-      "material": "RED_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lTeleport",
       "lore": [
         "&7This action will teleport you to a specific location.",
         "",
-        "&b&lStatus: &3unavailable",
+        "&b&lStatus: &3available",
         "&b&lAction type: &3TELEPORT",
-        "&b&lAction: &3coordinates in world/x/y/z"
+        "&b&lAction: &3coordinates in world!x!y!z"
       ],
       "slot": 28,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "TELEPORT",
+      "action": "world!0!108!-103!-180!0"
     },
     {
-      "material": "RED_STAINED_GLASS",
-      "display_name": "&3&lToggle effect",
+      "material": "GREEN_STAINED_GLASS",
+      "display_name": "&3&lEffect",
       "lore": [
-        "&7This action will toggle a Minecraft effect.",
+        "&7This action will enable a Minecraft effect.",
         "",
-        "&b&lStatus: &3unavailable",
-        "&b&lAction type: &3TOGGLE_EFFECT",
-        "&b&lAction: &3the effect you want to toggle"
+        "&b&lStatus: &3available",
+        "&b&lAction type: &3EFFECT",
+        "&b&lAction: &3effect to enable!amplifier!duration in s"
       ],
       "slot": 30,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "EFFECT",
+      "action": "SPEED!2!50"
     },
     {
       "material": "RED_STAINED_GLASS",

@@ -35,6 +35,8 @@ public enum StorageKey {
     // Menu action messages
     ACTION_MENU_FAILED("action_menu_failed", StorageLocation.MESSAGE_FILE),
     ACTION_SOUND_FAILED("action_sound_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_TELEPORT_INVALID("action_teleport_invalid", StorageLocation.MESSAGE_FILE),
+    ACTION_EFFECT_FAILED("action_effect_failed", StorageLocation.MESSAGE_FILE),
 
     // Main menu
     STATUS_OFFLINE("status_offline", StorageLocation.MESSAGE_FILE),

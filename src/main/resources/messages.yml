@@ -30,6 +30,8 @@ message_menu_success: "&3Message &b{message_name} &3has been updated to \"{messa
 # Menu actions
 action_menu_failed: "&cUnable to open menu &4{menu}&c!"
 action_sound_failed: "&cUnable to play sound &4{sound}&c!"
+action_teleport_invalid: "&cThe given coordinates are invalid!"
+action_effect_failed: "&cFailed to toggle effect &4{effect}&c!"
 
 # Main menu
 status_offline: "&c&lOFFLINE"

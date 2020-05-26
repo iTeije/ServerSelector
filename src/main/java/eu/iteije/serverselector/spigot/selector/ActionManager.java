@@ -19,6 +19,8 @@ public class ActionManager {
         registerAction("CONSOLE_COMMAND", new ConsoleCommandAction(instance));
         registerAction("PLAYER_COMMAND", new PlayerCommandAction());
         registerAction("SOUND", new PlaySoundAction(instance));
+        registerAction("TELEPORT", new TeleportAction(instance));
+        registerAction("EFFECT", new EffectAction(instance));
     }
 
     public void registerAction(String name, Action action) {
