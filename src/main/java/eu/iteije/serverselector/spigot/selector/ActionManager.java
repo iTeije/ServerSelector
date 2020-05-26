@@ -1,10 +1,7 @@
 package eu.iteije.serverselector.spigot.selector;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.selector.actions.CloseAction;
-import eu.iteije.serverselector.spigot.selector.actions.MenuAction;
-import eu.iteije.serverselector.spigot.selector.actions.QueueAction;
-import eu.iteije.serverselector.spigot.selector.actions.SendAction;
+import eu.iteije.serverselector.spigot.selector.actions.*;
 import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 
 import java.util.HashMap;
@@ -18,6 +15,7 @@ public class ActionManager {
         registerAction("QUEUE", new QueueAction(instance));
         registerAction("SEND", new SendAction(instance));
         registerAction("CLOSE", new CloseAction());
+        registerAction("MESSAGE", new MessageAction(instance));
     }
 
     public void registerAction(String name, Action action) {

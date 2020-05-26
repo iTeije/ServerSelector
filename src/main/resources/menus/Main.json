@@ -65,10 +65,10 @@
 
     {
       "material": "BOOK",
-      "display_name": "&eEvents (sub) menu",
+      "display_name": "&eAction examples",
       "slot": 31,
       "action_type": "MENU",
-      "action": "Events"
+      "action": "Examples"
     },
 
     {

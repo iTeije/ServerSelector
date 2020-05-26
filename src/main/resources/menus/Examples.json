@@ -1,0 +1,53 @@
+{
+  "title": "&9&lAction examples",
+  "chat_name": "Examples",
+  "size": 54,
+  "items": [
+    {
+      "material": "GREEN_STAINED_GLASS",
+      "display_name": "&3&lMessage",
+      "lore": [
+        "&7This item will send a message to you."
+      ],
+      "slot": 10,
+      "action_type": "MESSAGE",
+      "action": "&3Hello there, this is a test message."
+    },
+    {
+      "material": "RED_STAINED_GLASS",
+      "display_name": "&3&lGame 1",
+      "lore": [
+        "&7Example game 1 server item (you will be queued for the server)"
+      ],
+      "slot": 12,
+      "action_type": "MESSAGE",
+      "action": "&cThis item is not available yet"
+    },
+    {
+      "display_name": "&3&lExample item",
+      "material": "RED_STAINED_GLASS",
+      "lore": [
+        "&7Example game 1 server item (you will be queued for the server)"
+      ],
+      "slot": 14,
+      "action_type": "MESSAGE",
+      "action": "&cThis item is not available yet"
+    },
+    {
+      "material": "RED_STAINED_GLASS",
+      "display_name": "&3&lExample item",
+      "lore": [
+        "&7Example game 1 server item (you will be queued for the server)"
+        ],
+      "slot": 16,
+      "action_type": "MESSAGE",
+      "action": "&cThis item is not available yet"
+    },
+    {
+      "material": "REDSTONE_BLOCK",
+      "display_name": "&cClose menu",
+      "slot": 49,
+      "action_type": "CLOSE"
+    }
+  ]
+}

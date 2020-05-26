@@ -78,7 +78,11 @@ public class SelectorModule {
 
             Material material = Material.getMaterial((String) itemData.get("material"));
             Item item = new Item(material);
-            item.setName((String) itemData.get("display_name"));
+
+            String displayName = (String) itemData.get("display_name");
+            if (displayName != null) {
+                item.setName((String) itemData.get("display_name"));
+            }
 
             String actionType = (String) itemData.get("action_type");
             Action action = actionManager.getActionByName(actionType);
