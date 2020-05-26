@@ -22,6 +22,7 @@ public class ActionManager {
         registerAction("TELEPORT", new TeleportAction(instance));
         registerAction("EFFECT", new EffectAction(instance));
         registerAction("TOGGLE_PLAYERS", new TogglePlayersAction(instance));
+        registerAction("URL", new UrlAction());
     }
 
     public void registerAction(String name, Action action) {

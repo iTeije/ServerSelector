@@ -75,6 +75,21 @@
     },
     {
       "material": "RED_STAINED_GLASS",
+      "display_name": "&3&lTitle",
+      "lore": [
+        "&7This action will display a title.",
+        "",
+        "&b&lStatus: &3unavailable",
+        "&b&lAction type: &3TITLE",
+        "&b&lAction: &3title!subtitle!fadein!stay!fadeout",
+        "&3-> Or just use title!subtitle and apply default fade times"
+      ],
+      "slot": 22,
+      "action_type": "MESSAGE",
+      "action": "&aCheck the lore of this item for a bit of documentation."
+    },
+    {
+      "material": "RED_STAINED_GLASS",
       "display_name": "&3&lQueue",
       "lore": [
         "&7This action will queue you for a server.",
@@ -130,18 +145,19 @@
       "action": "true"
     },
     {
-      "material": "RED_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lURL",
       "lore": [
         "&7This action will send a text component with a clickable URL.",
         "",
         "&b&lStatus: &3unavailable",
         "&b&lAction type: &3URL",
-        "&b&lAction: &3the url you want to share"
+        "&b&lAction: &3url!message!hover",
+        "&3-> Or just url!message without hover"
       ],
       "slot": 34,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "URL",
+      "action": "https://github.com/iTeije/ServerSelector!&3ServerSelector is a open source project, watch it on GitHub.!&bClick here to go to GitHub."
     },
     {
       "material": "REDSTONE_BLOCK",
