@@ -21,6 +21,7 @@ public class ActionManager {
         registerAction("SOUND", new PlaySoundAction(instance));
         registerAction("TELEPORT", new TeleportAction(instance));
         registerAction("EFFECT", new EffectAction(instance));
+        registerAction("TOGGLE_PLAYERS", new TogglePlayersAction(instance));
     }
 
     public void registerAction(String name, Action action) {

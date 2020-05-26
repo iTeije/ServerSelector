@@ -26,6 +26,15 @@ public class PlayerJoinListener implements Listener {
         if (instance.getMenuModule().getSelectorItemEnabled()) {
             instance.getMenuModule().giveSelectorItem(player);
         }
+
+        // Check if the joining player has the permission to bypass the toggling of others
+        if (!player.hasPermission("serverselector.actions.toggleplayers.bypass")) {
+            // Loop through all players to hide the joining player from people who toggled players
+            instance.getPlayerModule().players.values().forEach(onlinePlayer -> {
+                if (onlinePlayer.isToggledPlayers()) onlinePlayer.getBukkitPlayer().hidePlayer(instance, player);
+            });
+        }
+
     }
 
 }

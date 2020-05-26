@@ -16,7 +16,7 @@ public class PlayerModule {
 
     private ServerSelectorSpigot instance;
 
-    public static HashMap<UUID, ServerSelectorPlayer> players = new HashMap<>();
+    public HashMap<UUID, ServerSelectorPlayer> players = new HashMap<>();
 
     public PlayerModule(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;

@@ -116,18 +116,18 @@
       "action": "SPEED!2!50"
     },
     {
-      "material": "RED_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lToggle players",
       "lore": [
         "&7This action will toggle player visibility.",
         "",
-        "&b&lStatus: &3unavailable",
+        "&b&lStatus: &3available",
         "&b&lAction type: &3TOGGLE_PLAYERS",
-        "&b&lAction: &3permission to always be visible to others"
+        "&b&lAction: &3no need to fill in something there, it'll be ignored"
       ],
       "slot": 32,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "action_type": "TOGGLE_PLAYERS",
+      "action": "true"
     },
     {
       "material": "RED_STAINED_GLASS",
