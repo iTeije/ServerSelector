@@ -1,10 +1,8 @@
 package eu.iteije.serverselector.spigot.selector;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.selector.actions.MenuAction;
-import eu.iteije.serverselector.spigot.selector.actions.QueueAction;
-import eu.iteije.serverselector.spigot.selector.actions.SendAction;
-import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
+import eu.iteije.serverselector.spigot.selector.actions.*;
+import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 
 import java.util.HashMap;
 
@@ -16,6 +14,16 @@ public class ActionManager {
         registerAction("MENU", new MenuAction(instance));
         registerAction("QUEUE", new QueueAction(instance));
         registerAction("SEND", new SendAction(instance));
+        registerAction("CLOSE", new CloseAction());
+        registerAction("MESSAGE", new MessageAction(instance));
+        registerAction("CONSOLE_COMMAND", new ConsoleCommandAction(instance));
+        registerAction("PLAYER_COMMAND", new PlayerCommandAction());
+        registerAction("SOUND", new PlaySoundAction(instance));
+        registerAction("TELEPORT", new TeleportAction(instance));
+        registerAction("EFFECT", new EffectAction(instance));
+        registerAction("TOGGLE_PLAYERS", new TogglePlayersAction(instance));
+        registerAction("URL", new UrlAction());
+        registerAction("TITLE", new TitleAction());
     }
 
     public void registerAction(String name, Action action) {
@@ -25,4 +33,5 @@ public class ActionManager {
     public Action getActionByName(String name) {
         return actions.get(name);
     }
+
 }

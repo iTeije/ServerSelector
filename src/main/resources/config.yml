@@ -36,3 +36,7 @@ update-delay: 5
 
 # How long the server waits before fetching any new information the bungee got from other servers (at least 5 seconds)
 fetch-delay: 5
+
+# How long the server may be offline before appearing as offline in the menus
+# This value must be at least twice as high as the update delay
+offline-time: 30

@@ -5,8 +5,8 @@ import eu.iteije.serverselector.bungee.messaging.handlers.BroadcastHandler;
 import eu.iteije.serverselector.bungee.messaging.handlers.MessagePlayerHandler;
 import eu.iteije.serverselector.bungee.messaging.handlers.SendPlayerHandler;
 import eu.iteije.serverselector.bungee.messaging.handlers.ServerInfoRequestHandler;
-import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import net.md_5.bungee.api.connection.Server;
 import net.md_5.bungee.api.event.PluginMessageEvent;
 import net.md_5.bungee.api.plugin.Listener;
@@ -56,7 +56,7 @@ public class BungeeCommunicationModule implements Listener {
             String type = inputStream.readUTF();
 
             BungeeCommunicationImplementation implementation = getHandler(type);
-            if (implementation != null) implementation.process(inputStream, event.getSender());
+            if (implementation != null) implementation.process(inputStream, ((Server) event.getSender()).getInfo().getName());
         } catch (IOException exception) {
             exception.printStackTrace();
         }

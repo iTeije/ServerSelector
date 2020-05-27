@@ -1,10 +1,12 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
+import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
@@ -76,17 +78,18 @@ public class SelectorModule {
 
             Material material = Material.getMaterial((String) itemData.get("material"));
             Item item = new Item(material);
-            item.setName((String) itemData.get("display_name"));
+
+            String displayName = (String) itemData.get("display_name");
+            if (displayName != null) {
+                item.setName((String) itemData.get("display_name"));
+            }
 
             String actionType = (String) itemData.get("action_type");
-            if (!actionType.equals("NONE")) {
-                if (actionType.equals("CLOSE")) {
-                    item.onClick(((player, item1) -> player.closeInventory()));
-                } else {
-                    item.onClick(((player, item1) -> {
-                        actionManager.getActionByName(actionType).execute((String) itemData.get("action"), player);
-                    }));
-                }
+            Action action = actionManager.getActionByName(actionType);
+            if (action != null) {
+                item.onClick(((player, item1) -> {
+                    action.execute((String) itemData.get("action"), player);
+                }));
             }
 
             try {
@@ -122,9 +125,22 @@ public class SelectorModule {
     public String convertLore(String line, String serverName) {
         ServerData serverData = this.menuUpdater.getServerInfo(serverName);
 
-        line = line.replace("{status}", serverData != null ? serverData.getStatus() : "OFFLINE");
-        line = line.replace("{current_players}", serverData != null ? serverData.getCurrentPlayers() : "0");
-        line = line.replace("{max_players}", serverData != null ? serverData.getMaxPlayers() : "0");
+        boolean online;
+        if (serverData != null) {
+            Long allowedOfflineTime = Long.parseLong(String.valueOf(SpigotFileModule.getFile(StorageKey.CONFIG_OFFLINE_TIME).getInt(StorageKey.CONFIG_OFFLINE_TIME)));
+            Long currentOfflineTime = serverData.getLastUpdate();
+            long currentTime = System.currentTimeMillis() / 1000L;
+
+            online = currentTime <= (currentOfflineTime + allowedOfflineTime);
+
+            if (!online) menuUpdater.removeServerInfo(serverData.serverName);
+        } else {
+            online = false;
+        }
+
+        line = line.replace("{status}", online ? serverData.getStatus() : "OFFLINE");
+        line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "0");
+        line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "0");
         line = line.replace("{queue}", "soon");
 
         return line;

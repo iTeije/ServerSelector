@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.cache;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import lombok.Getter;
 

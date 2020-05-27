@@ -18,8 +18,8 @@ public enum StorageKey {
     HELP_COMMAND_ITEM("help_command_item", StorageLocation.MESSAGE_FILE),
     HELP_COMMAND_NO_RESULTS("help_command_no_results", StorageLocation.MESSAGE_FILE),
 
-    // Action message queue
-    ACTION_PROPOSE_CHAT("action_propose_chat", StorageLocation.MESSAGE_FILE),
+    // Action queue messages
+    ACTIONQUEUE_PROPOSE_CHAT("actionqueue_propose_chat", StorageLocation.MESSAGE_FILE),
 
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),
@@ -33,7 +33,10 @@ public enum StorageKey {
     MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
 
     // Menu action messages
-    MENU_ACTION_MENU_FAILED("menu_action_menu_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_MENU_FAILED("action_menu_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_SOUND_FAILED("action_sound_failed", StorageLocation.MESSAGE_FILE),
+    ACTION_TELEPORT_INVALID("action_teleport_invalid", StorageLocation.MESSAGE_FILE),
+    ACTION_EFFECT_FAILED("action_effect_failed", StorageLocation.MESSAGE_FILE),
 
     // Main menu
     STATUS_OFFLINE("status_offline", StorageLocation.MESSAGE_FILE),
@@ -61,6 +64,7 @@ public enum StorageKey {
     // Server pinging settings
     CONFIG_UPDATE_DELAY("update-delay", StorageLocation.CONFIG_FILE),
     CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
+    CONFIG_OFFLINE_TIME("offline-time", StorageLocation.CONFIG_FILE),
 
 
     ;

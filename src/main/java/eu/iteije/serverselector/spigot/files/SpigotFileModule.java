@@ -19,7 +19,9 @@ public class SpigotFileModule {
         SpigotFolder menuFolder = new SpigotFolder(serverSelectorSpigot, StorageLocation.MENU_FOLDER);
         menuFolder.load();
 
-        SpigotFile mainMenuFile = new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
+        // Initialize default plugin files
+        new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
+        new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Examples.json");
     }
 
     /**
