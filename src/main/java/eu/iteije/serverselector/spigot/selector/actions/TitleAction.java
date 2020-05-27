@@ -17,7 +17,7 @@ public class TitleAction extends Action {
 
     @Override
     public void execute(String context, Player player) {
-        String[] arguments = context.split("!");
+        String[] arguments = context.split("\\|");
 
         if (arguments.length >= 2) {
             String title = messageModule.convertColorCodes(arguments[0]);
@@ -32,7 +32,5 @@ public class TitleAction extends Action {
             }
             player.sendTitle(title, subTitle, fadeIn, stay, fadeOut);
         }
-
-        player.closeInventory();
     }
 }

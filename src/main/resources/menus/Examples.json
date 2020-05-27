@@ -10,12 +10,12 @@
         "&7This action will send you a given message.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3MESSAGE",
-        "&b&lAction: &3the message you want to be send to the player"
+        "&b&lFormat: &3MESSAGE!the message you want to be send to the player"
       ],
       "slot": 10,
-      "action_type": "MESSAGE",
-      "action": "&3Hello there, this is a test message."
+      "actions": [
+        "MESSAGE!&3Hello there, this is a test message."
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -24,12 +24,12 @@
         "&7This action will execute a command on behalf of the console.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3CONSOLE_COMMAND",
-        "&b&lAction: &3the command you want to execute without the / (slash)"
+        "&b&lFormat: &3CONSOLE_COMMAND!the command you want to execute without slash"
       ],
       "slot": 12,
-      "action_type": "CONSOLE_COMMAND",
-      "action": "tell {player} This is a console-executed command"
+      "actions": [
+        "CONSOLE_COMMAND!tell {player} This is a console-executed command"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -37,13 +37,13 @@
       "lore": [
         "&7This action will execute a command on behalf of the player.",
         "",
-        "&b&lStatus: &3unavailable",
-        "&b&lAction type: &3PLAYER_COMMAND",
-        "&b&lAction: &3the command you want the player to execute without the / (slash)"
+        "&b&lStatus: &3available",
+        "&b&lFormat: &3PLAYER_COMMAND!the command you want the player to execute without slash"
       ],
       "slot": 14,
-      "action_type": "PLAYER_COMMAND",
-      "action": "tell {player} I am technically whispering this to myself"
+      "actions": [
+        "PLAYER_COMMAND!tell {player} I am technically whispering this to myself"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -52,12 +52,27 @@
         "&7This action will play a Minecraft sound to you.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3SOUND",
-        "&b&lAction: &3the sound you want to be played when clicking (minecraft sounds)"
+        "&b&lFormat: &3SOUND!the minecraft sound you want to play"
       ],
       "slot": 16,
-      "action_type": "SOUND",
-      "action": "BLOCK_ANVIL_LAND"
+      "actions": [
+        "SOUND!BLOCK_ANVIL_LAND"
+      ]
+    },
+    {
+      "material": "GREEN_STAINED_GLASS",
+      "display_name": "&3&lDelayed message",
+      "lore": [
+        "&7This will delay any action you want.",
+        "&7In this case it'll be a message delayed for 60 ticks (3s)",
+        "",
+        "&b&lStatus: &3available",
+        "&b&lFormat: &3DELAY!60!ACTION:context"
+      ],
+      "slot": 18,
+      "actions": [
+        "delay!60!MESSAGE!&7This message was delayed 60 ticks (3 seconds)"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -66,12 +81,13 @@
         "&7This action will send you to another server.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3SEND",
-        "&b&lAction: &3the server you want to get send to"
+        "&b&lFormat: &3SEND!the server you want to get send to",
+        "&3-> Must include the server name as \"server\" json element"
       ],
       "slot": 20,
-      "action_type": "MESSAGE",
-      "action": "&aCheck the lore of this item for a bit of documentation."
+      "actions": [
+        "MESSAGE!&aCheck the lore of this item for a bit of documentation."
+      ]
     },
     {
       "material": "RED_STAINED_GLASS",
@@ -80,13 +96,13 @@
         "&7This action will display a title.",
         "",
         "&b&lStatus: &3unavailable",
-        "&b&lAction type: &3TITLE",
-        "&b&lAction: &3title!subtitle!fadein!stay!fadeout in seconds",
-        "&3-> Or just use title!subtitle and apply default fade times"
+        "&b&lFormat: &3TITLE!title|subtitle|fadein|stay|fadeout in sec",
+        "&3-> Or TITLE!title|subtitle and apply default fade times"
       ],
       "slot": 22,
-      "action_type": "TITLE",
-      "action": "&3ServerSelector!&bExample subtitle"
+      "actions": [
+        "TITLE!&3ServerSelector|&bExample subtitle"
+      ]
     },
     {
       "material": "RED_STAINED_GLASS",
@@ -95,12 +111,13 @@
         "&7This action will queue you for a server.",
         "",
         "&b&lStatus: &3unavailable",
-        "&b&lAction type: &3QUEUE",
-        "&b&lAction: &3the server you want to get queued for"
+        "&b&lFormat: &3QUEUE:the server you want to get queued for",
+        "&3-> Must include the server name as \"server\" json element"
       ],
       "slot": 24,
-      "action_type": "MESSAGE",
-      "action": "&cThis action is not available yet"
+      "actions": [
+        "MESSAGE!&cThis action is not available yet"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -109,12 +126,12 @@
         "&7This action will teleport you to a specific location.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3TELEPORT",
-        "&b&lAction: &3coordinates in world!x!y!z"
+        "&b&lFormat: &3TELEPORT!world|x|y|z"
       ],
       "slot": 28,
-      "action_type": "TELEPORT",
-      "action": "world!0!108!-103!-180!0"
+      "actions": [
+        "TELEPORT!world|0|108|-103|-180|0"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -123,12 +140,12 @@
         "&7This action will enable a Minecraft effect.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3EFFECT",
-        "&b&lAction: &3effect to enable!amplifier!duration in s"
+        "&b&lFormat: &3EFFECT!name|amplifier|duration in sec"
       ],
       "slot": 30,
-      "action_type": "EFFECT",
-      "action": "SPEED!2!50"
+      "actions": [
+        "EFFECT!SPEED|2|50"
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -137,12 +154,12 @@
         "&7This action will toggle player visibility.",
         "",
         "&b&lStatus: &3available",
-        "&b&lAction type: &3TOGGLE_PLAYERS",
-        "&b&lAction: &3no need to fill in something there, it'll be ignored"
+        "&b&lFormat: &3TOGGLE_PLAYERS! "
       ],
       "slot": 32,
-      "action_type": "TOGGLE_PLAYERS",
-      "action": ""
+      "actions": [
+        "TOGGLE_PLAYERS! "
+      ]
     },
     {
       "material": "GREEN_STAINED_GLASS",
@@ -150,20 +167,21 @@
       "lore": [
         "&7This action will send a text component with a clickable URL.",
         "",
-        "&b&lStatus: &3unavailable",
-        "&b&lAction type: &3URL",
-        "&b&lAction: &3url!message!hover",
-        "&3-> Or just url!message without hover"
+        "&b&lStatus: &3available",
+        "&b&lFormat: &3URL!url|message|hover"
       ],
       "slot": 34,
-      "action_type": "URL",
-      "action": "https://github.com/iTeije/ServerSelector!&3ServerSelector is a open source project, watch it on GitHub.!&bClick here to go to GitHub."
+      "actions": [
+        "URL!https://github.com/iTeije/ServerSelector|&3ServerSelector is a open source project, watch it on GitHub.|&bClick here to go to GitHub."
+      ]
     },
     {
       "material": "REDSTONE_BLOCK",
       "display_name": "&cClose menu",
       "slot": 49,
-      "action_type": "CLOSE"
+      "actions": [
+        "CLOSE! "
+      ]
     }
   ]
 }

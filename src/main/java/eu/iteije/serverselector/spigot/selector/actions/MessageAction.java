@@ -24,7 +24,5 @@ public class MessageAction extends Action {
         messageModule.sendString(context, new Player[]{player}, MessageType.MESSAGE,
                 new Replacement("{player}", player.getName())
         );
-
-        player.closeInventory();
     }
 }

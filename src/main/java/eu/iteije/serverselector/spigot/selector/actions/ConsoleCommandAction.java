@@ -19,7 +19,5 @@ public class ConsoleCommandAction extends Action {
         context = context.replace("{player}", player.getName());
 
         instance.getServer().dispatchCommand(instance.getServer().getConsoleSender(), context);
-
-        player.closeInventory();
     }
 }

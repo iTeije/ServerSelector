@@ -6,7 +6,6 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
@@ -84,11 +83,10 @@ public class SelectorModule {
                 item.setName((String) itemData.get("display_name"));
             }
 
-            String actionType = (String) itemData.get("action_type");
-            Action action = actionManager.getActionByName(actionType);
-            if (action != null) {
+            JSONArray actions = (JSONArray) itemData.get("actions");
+            if (actions != null) {
                 item.onClick(((player, item1) -> {
-                    action.execute((String) itemData.get("action".toUpperCase()), player);
+                    actionManager.processActions((JSONArray) itemData.get("actions"), player);
                 }));
             }
 
@@ -96,10 +94,13 @@ public class SelectorModule {
                 JSONArray jsonLore = (JSONArray) itemData.get("lore");
                 if (jsonLore != null && jsonLore.size() != 0) {
                     List<String> lore = new ArrayList<>();
+
+                    String server = (String) itemData.get("server");
+
                     for (int i = 0; i < jsonLore.size(); i++) {
                         String line = (String) jsonLore.get(i);
-                        if (actionType.equalsIgnoreCase("SEND") || actionType.equalsIgnoreCase("QUEUE")) {
-                            String server = (String) itemData.get("action");
+
+                        if (server != null) {
                             instance.getCommunicationModule().requestServerInfo(server);
                             line = convertLore(line, server);
                         }

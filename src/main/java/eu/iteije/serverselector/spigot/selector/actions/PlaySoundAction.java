@@ -37,7 +37,5 @@ public class PlaySoundAction extends Action {
             messageModule.sendToPlayer(StorageKey.ACTION_SOUND_FAILED, new Player[]{player}, MessageType.MESSAGE,
                     new Replacement("{sound}", context));
         }
-
-        player.closeInventory();
     }
 }
