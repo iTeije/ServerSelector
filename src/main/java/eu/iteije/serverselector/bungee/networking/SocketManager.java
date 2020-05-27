@@ -19,6 +19,7 @@ public class SocketManager {
         for (ServerInfo server : servers.values()) {
             int port = server.getAddress().getPort() + 10000;
             new Thread(() -> {
+                instance.getLogger().info("Server started. Listening on port " + port);
                 new BungeeSocket(instance, new String[]{String.valueOf(port)});
             }).start();
         }

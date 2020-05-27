@@ -1,9 +1,42 @@
-# Menu item
-selector: true
-selector_item: "COMPASS"
-selector_name: "&3&lServer Selector"
-selector_slot: 4
+# ------------------------------------ #
+#     ServerSelector Configuration     #
+# ------------------------------------ #
 
-# Settings for the selector menus
-# Menu update delay in seconds
-selector_update_delay: 20
+# ------------------------------------ #
+#            Main menu item            #
+# ------------------------------------ #
+
+# Whether the selector item is enabled or not
+# If set to true the selector item will be put in your inventory at the given slot once you join (regardless of what item is currently at that slot)
+selector-enabled: true
+# The item of the selector (id's are not supported)
+# Use https://www.digminecraft.com/lists/item_id_list_pc.php for a list of 1.15.2 materials
+selector-item: "COMPASS"
+# The display name of the selector item in your inventory
+selector-name: "&3&lServer Selector"
+# The slot to put your selector item in (if enabled), start counting at 0
+selector-slot: 4
+
+# If set to true you can move the item around in your inventory
+selector-move: false
+# If set to true you can drop the selector item
+selector-drop: false
+
+
+# ------------------------------------ #
+#            Server Pinging            #
+# ------------------------------------ #
+
+# All values listed below are treated as seconds
+# Important to note is that the queue will be processed by the bungeecord server
+
+# How long the server waits before updating their information (at least 5 seconds)
+# This information includes; status (whitelist/online), player capacity, max players
+update-delay: 5
+
+# How long the server waits before fetching any new information the bungee got from other servers (at least 5 seconds)
+fetch-delay: 5
+
+# How long the server may be offline before appearing as offline in the menus
+# This value must be at least twice as high as the update delay
+offline-time: 30

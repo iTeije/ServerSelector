@@ -1,14 +1,17 @@
 package eu.iteije.serverselector.bungee.networking;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
 
 public class BungeeSocket {
@@ -41,9 +44,10 @@ public class BungeeSocket {
                         String status = in.readUTF();
                         String currentPlayers = in.readUTF();
                         String maxPlayers = in.readUTF();
+                        long lastUpdate = in.readLong();
 
                         ServerData data = new ServerData(
-                                name, status, currentPlayers, maxPlayers
+                                name, status, currentPlayers, maxPlayers, lastUpdate
                         );
 
                         instance.getClientCacheModule().updateServerData(data);
@@ -59,8 +63,18 @@ public class BungeeSocket {
                     break;
             }
         } catch (IOException exception) {
-            System.out.println("Exception caught when trying to listen on port " + portNumber);
-            exception.printStackTrace();
+            if (exception instanceof SocketException) {
+                System.out.println("The server on port " + portNumber + " has disconnected, opening new socket on port " + portNumber + "...");
+            } else if (exception instanceof EOFException) {
+                // Ignore it, since it's not important for now and it's just opening a new socket
+            } else {
+                ServerSelectorLogger.console("Exception caught when trying to listen to port " + portNumber + ", opening new socket on port " + portNumber);
+                exception.printStackTrace();
+            }
+
+            new Thread(() -> {
+                new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});
+            }).start();
         }
     }
 }

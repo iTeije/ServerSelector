@@ -2,11 +2,16 @@ package eu.iteije.serverselector.common.messaging;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import eu.iteije.serverselector.common.platform.Platform;
-import eu.iteije.serverselector.common.storage.StorageKey;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import org.bukkit.ChatColor;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 
 public class MessageModule {
 
@@ -50,6 +55,25 @@ public class MessageModule {
         if (ServerSelector.getInstance().getPlatform() == Platform.BUNGEE) return net.md_5.bungee.api.ChatColor.translateAlternateColorCodes('&', message);
 
         return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    // It's a hell of a pain to look at this code, but otherwise it's complaining
+    public DataInputStream getDataInputStream(String[] bytes) {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            DataOutputStream dataOutputStream = new DataOutputStream(byteArrayOutputStream);
+
+            for (String byteComponent : bytes) {
+                dataOutputStream.writeUTF(byteComponent);
+            }
+
+            ByteArrayInputStream inputStream = new ByteArrayInputStream(byteArrayOutputStream.toByteArray());
+
+            return new DataInputStream(inputStream);
+        } catch (Exception exception) {
+            exception.printStackTrace();
+        }
+        return null;
     }
 
 }

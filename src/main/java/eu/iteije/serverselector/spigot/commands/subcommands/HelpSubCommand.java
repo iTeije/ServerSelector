@@ -7,7 +7,7 @@ import eu.iteije.serverselector.common.commands.objects.Argument;
 import eu.iteije.serverselector.common.commands.objects.SubCommand;
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import org.bukkit.command.CommandSender;

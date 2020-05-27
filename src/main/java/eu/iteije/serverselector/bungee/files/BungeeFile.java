@@ -1,9 +1,9 @@
 package eu.iteije.serverselector.bungee.files;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.common.storage.ServerSelectorFile;
-import eu.iteije.serverselector.common.storage.StorageKey;
-import eu.iteije.serverselector.common.storage.StorageLocation;
+import eu.iteije.serverselector.common.core.storage.ServerSelectorFile;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageLocation;
 import lombok.Getter;
 import net.md_5.bungee.config.Configuration;
 import net.md_5.bungee.config.ConfigurationProvider;

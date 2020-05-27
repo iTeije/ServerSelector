@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.cache;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import lombok.Getter;
 
@@ -19,7 +20,6 @@ public class ClientCacheModule {
     public void updateServerData(ServerData data) {
         serverData.remove(data.getServerName());
         serverData.put(data.getServerName(), data);
-        instance.getCommunicationModule().broadcast("--> Succesfully imported server data");
     }
 
     public ServerData getServerData(String server) {

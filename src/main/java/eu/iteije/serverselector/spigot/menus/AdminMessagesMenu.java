@@ -2,7 +2,7 @@ package eu.iteije.serverselector.spigot.menus;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
@@ -43,7 +43,7 @@ public class AdminMessagesMenu extends Menu {
         for (int i = 0; i < availableSlots; i++) {
             int finalI = i;
             setItem(start + i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{Objects.requireNonNull(messagesFile.getString(messages[start + i]))}).onClick((player, item) -> {
-                messageModule.sendToPlayer(StorageKey.ACTION_PROPOSE_CHAT, new Player[]{player}, MessageType.MESSAGE);
+                messageModule.sendToPlayer(StorageKey.ACTIONQUEUE_PROPOSE_CHAT, new Player[]{player}, MessageType.MESSAGE);
                 ServerSelectorPlayer selectorPlayer = instance.getPlayerModule().getPlayer(player.getUniqueId());
                 selectorPlayer.queueAction(new Action(instance, player, ActionType.CHAT).onExecute((action, s) -> {
                     String[] words = s.split("\\s+");
