@@ -28,7 +28,9 @@ public class BroadcastHandler implements BungeeCommunicationImplementation {
             DataOutputStream output = new DataOutputStream(bytes);
 
             // Write message
-            output.writeUTF(input.readUTF());
+            String message = input.readUTF();
+            output.writeUTF("MessagePlayer");
+            output.writeUTF(message);
 
             // Check which servers have more than 1 player online, since we don't want a spam of broadcast messages once the first player connects
             HashMap<String, ServerData> serverData = instance.getClientCacheModule().getServerData();

@@ -23,6 +23,7 @@ public class ActionManager {
         registerAction("EFFECT", new EffectAction(instance));
         registerAction("TOGGLE_PLAYERS", new TogglePlayersAction(instance));
         registerAction("URL", new UrlAction());
+        registerAction("TITLE", new TitleAction());
     }
 
     public void registerAction(String name, Action action) {

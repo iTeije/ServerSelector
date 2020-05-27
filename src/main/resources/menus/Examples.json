@@ -81,12 +81,12 @@
         "",
         "&b&lStatus: &3unavailable",
         "&b&lAction type: &3TITLE",
-        "&b&lAction: &3title!subtitle!fadein!stay!fadeout",
+        "&b&lAction: &3title!subtitle!fadein!stay!fadeout in seconds",
         "&3-> Or just use title!subtitle and apply default fade times"
       ],
       "slot": 22,
-      "action_type": "MESSAGE",
-      "action": "&aCheck the lore of this item for a bit of documentation."
+      "action_type": "TITLE",
+      "action": "&3ServerSelector!&bExample subtitle"
     },
     {
       "material": "RED_STAINED_GLASS",

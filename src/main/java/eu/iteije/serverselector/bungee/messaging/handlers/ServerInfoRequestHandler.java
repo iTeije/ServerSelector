@@ -48,6 +48,7 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
 
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
+            exception.printStackTrace();
         }
     }
 }
