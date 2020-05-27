@@ -142,7 +142,7 @@
       ],
       "slot": 32,
       "action_type": "TOGGLE_PLAYERS",
-      "action": "true"
+      "action": ""
     },
     {
       "material": "GREEN_STAINED_GLASS",

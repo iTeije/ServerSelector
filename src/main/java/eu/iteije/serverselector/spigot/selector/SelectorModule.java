@@ -88,7 +88,7 @@ public class SelectorModule {
             Action action = actionManager.getActionByName(actionType);
             if (action != null) {
                 item.onClick(((player, item1) -> {
-                    action.execute((String) itemData.get("action"), player);
+                    action.execute((String) itemData.get("action".toUpperCase()), player);
                 }));
             }
 
