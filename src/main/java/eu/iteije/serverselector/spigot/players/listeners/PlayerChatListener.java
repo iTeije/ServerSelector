@@ -21,7 +21,11 @@ public class PlayerChatListener implements Listener {
         ServerSelectorPlayer player = instance.getPlayerModule().getPlayer(event.getPlayer().getUniqueId());
         if (player.hasAction(ActionType.CHAT)) {
             Action action = player.getAction(ActionType.CHAT);
-            action.execute(event.getMessage());
+            if (event.getMessage().toLowerCase().equalsIgnoreCase("cancel")) {
+                action.cancel();
+            } else {
+                action.execute(event.getMessage());
+            }
             event.setCancelled(true);
         }
     }

@@ -20,6 +20,7 @@ public enum StorageKey {
 
     // Action queue messages
     ACTIONQUEUE_PROPOSE_CHAT("actionqueue_propose_chat", StorageLocation.MESSAGE_FILE),
+    ACTIONQUEUE_CANCELLED("actionqueue_cancelled", StorageLocation.MESSAGE_FILE),
 
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),

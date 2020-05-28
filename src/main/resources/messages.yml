@@ -8,7 +8,8 @@ command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
 
 # Action queue messages
-actionqueue_propose_chat: "&3Type something regarding your chat action:"
+actionqueue_propose_chat: "&3Type something regarding your chat action (type \"cancel\" to cancel):"
+actionqueue_cancelled: "&cCancelled action."
 
 # Help command
 help_command_title: "&3Showing all available commands:"
