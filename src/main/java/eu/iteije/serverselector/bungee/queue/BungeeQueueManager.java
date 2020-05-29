@@ -2,6 +2,7 @@ package eu.iteije.serverselector.bungee.queue;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
@@ -24,6 +25,11 @@ public class BungeeQueueManager {
             updated.add(uuid);
 
             updateQueue(server, updated);
+        } else {
+            List<UUID> init = new ArrayList<>();
+            init.add(uuid);
+
+            updateQueue(server, init);
         }
     }
 

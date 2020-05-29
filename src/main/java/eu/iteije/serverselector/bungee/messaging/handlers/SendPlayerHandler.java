@@ -2,6 +2,7 @@ package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
 import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
@@ -33,29 +34,31 @@ public class SendPlayerHandler implements BungeeCommunicationImplementation {
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(playerName);
 
             MessageModule messageModule = ServerSelector.getInstance().getMessageModule();
+            BungeeCommunicationModule communicationModule = instance.getCommunicationModule();
 
             // Check whether the player is already connected to the given server
             if (player.getServer().getInfo().getName().equalsIgnoreCase(server)) {
                 // Send already connected message
-                sendMessage(StorageKey.SEND_ALREADY_CONNECTED, player, messageModule, sender);
+                communicationModule.sendMessage(StorageKey.SEND_ALREADY_CONNECTED, player, messageModule, sender);
             }
 
             ServerInfo targetServer = ProxyServer.getInstance().getServerInfo(server);
             if (targetServer != null) {
                 targetServer.ping(((result, error) -> {
                     if (error != null) {
-                        sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
+                        communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
                                 new Replacement("{server}", server)
                         );
                     } else {
-                        sendMessage(StorageKey.SEND_PROCESSING, player,  messageModule, sender,
+                        communicationModule.sendMessage(StorageKey.SEND_PROCESSING, player,  messageModule, sender,
                                 new Replacement("{server}", server)
                         );
                         player.connect(targetServer);
                     }
                 }));
             } else {
-                sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
+
+                communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
                         new Replacement("{server}", server)
                 );
             }

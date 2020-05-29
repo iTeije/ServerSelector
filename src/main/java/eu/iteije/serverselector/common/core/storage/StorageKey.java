@@ -50,7 +50,8 @@ public enum StorageKey {
     SEND_SERVER_NOT_FOUND("send_server_not_found", StorageLocation.MESSAGE_FILE),
     SEND_SERVER_WHITELISTED("send_server_whitelisted", StorageLocation.MESSAGE_FILE),
 
-
+    QUEUE_PROCESSING("queue_processing", StorageLocation.MESSAGE_FILE),
+    QUEUE_ALREADY_QUEUED("queue_already_queued", StorageLocation.MESSAGE_FILE),
 
 
 
