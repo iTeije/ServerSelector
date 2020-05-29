@@ -2,7 +2,6 @@ package eu.iteije.serverselector.bungee.messaging;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.bungee.messaging.handlers.BroadcastHandler;
-import eu.iteije.serverselector.bungee.messaging.handlers.MessagePlayerHandler;
 import eu.iteije.serverselector.bungee.messaging.handlers.SendPlayerHandler;
 import eu.iteije.serverselector.bungee.messaging.handlers.ServerInfoRequestHandler;
 import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
@@ -39,7 +38,6 @@ public class BungeeCommunicationModule implements Listener {
     }
 
     public void saveHandlers() {
-        addHandler("MessagePlayer", new MessagePlayerHandler());
         addHandler("Broadcast", new BroadcastHandler(serverSelectorBungee));
         addHandler("SendPlayer", new SendPlayerHandler(serverSelectorBungee));
         addHandler("ServerInfoRequest", new ServerInfoRequestHandler(serverSelectorBungee));
