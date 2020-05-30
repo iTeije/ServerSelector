@@ -51,7 +51,7 @@ public class StatusUpdater {
     @SuppressWarnings("deprecation")
     public void updateServerInfo(Map<String, String> force) {
         try {
-            if (socket == null) initializeSocket();
+            if (this.socket == null) initializeSocket();
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -79,9 +79,9 @@ public class StatusUpdater {
             dataOutputStream.flush();
 
             dataOutputStream.close();
-            socket.close();
+            this.socket.close();
             // Its garbage collector time
-            socket = null;
+            this.socket = null;
 
             force = null;
 

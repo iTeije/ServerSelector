@@ -1,12 +1,10 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
-import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
 import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
-import eu.iteije.serverselector.common.messaging.MessageModule;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
@@ -33,32 +31,32 @@ public class SendPlayerHandler implements BungeeCommunicationImplementation {
             // Try fetching proxy player
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(playerName);
 
-            MessageModule messageModule = ServerSelector.getInstance().getMessageModule();
             BungeeCommunicationModule communicationModule = instance.getCommunicationModule();
 
             // Check whether the player is already connected to the given server
             if (player.getServer().getInfo().getName().equalsIgnoreCase(server)) {
                 // Send already connected message
-                communicationModule.sendMessage(StorageKey.SEND_ALREADY_CONNECTED, player, messageModule, sender);
+                communicationModule.sendMessage(StorageKey.SEND_ALREADY_CONNECTED, player, sender);
+                return;
             }
 
             ServerInfo targetServer = ProxyServer.getInstance().getServerInfo(server);
             if (targetServer != null) {
                 targetServer.ping(((result, error) -> {
                     if (error != null) {
-                        communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
+                        instance.getCommunicationModule().sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
                                 new Replacement("{server}", server)
                         );
                     } else {
-                        communicationModule.sendMessage(StorageKey.SEND_PROCESSING, player,  messageModule, sender,
+                        instance.getCommunicationModule().sendMessage(StorageKey.SEND_PROCESSING, player, sender,
                                 new Replacement("{server}", server)
                         );
                         player.connect(targetServer);
                     }
                 }));
             } else {
-
-                communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, messageModule, sender,
+                ProxyServer.getInstance().broadcast("3");
+                instance.getCommunicationModule().sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
                         new Replacement("{server}", server)
                 );
             }
@@ -66,10 +64,4 @@ public class SendPlayerHandler implements BungeeCommunicationImplementation {
             ServerSelectorLogger.console("IOException thrown in SendPlayerHandler.", exception);
         }
     }
-
-    public void sendMessage(StorageKey key, ProxiedPlayer player, MessageModule messageModule, String sender, Replacement... replacements) {
-        String[] messagePlayerRequest = {messageModule.convert(key, true, replacements), player.getName()};
-        instance.getCommunicationModule().getHandler("MessagePlayer").process(messageModule.getDataInputStream(messagePlayerRequest), sender);
-    }
-
 }

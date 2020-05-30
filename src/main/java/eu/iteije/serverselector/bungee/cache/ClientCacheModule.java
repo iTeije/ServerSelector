@@ -22,11 +22,11 @@ public class ClientCacheModule {
             if (previous != null) {
                 if (!previous.getStatus().equalsIgnoreCase(data.getStatus())) {
                     // Start sending people
-
+                    System.out.println("Start sending people - 1");
                 }
             } else {
                 // Start sending people
-
+                System.out.println("Start sending people - 2");
             }
         }
 

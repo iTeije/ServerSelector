@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.queue;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import net.md_5.bungee.api.ProxyServer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,13 @@ public class BungeeQueueManager {
         this.instance = instance;
 
         queue = new HashMap<>();
+        initializeQueue();
+    }
+
+    public void initializeQueue() {
+        ProxyServer.getInstance().getServers().forEach((string, info) -> {
+            queue.put(info.getName().toLowerCase(), new ArrayList<>());
+        });
     }
 
     public void queuePlayer(String server, UUID uuid) {
@@ -33,8 +41,8 @@ public class BungeeQueueManager {
         }
     }
 
-    public boolean hasQueue(String serverName) {
-        return queue.get(serverName) != null;
+    public Boolean hasQueue(String serverName) {
+        return queue.containsKey(serverName);
     }
 
     public List<UUID> getQueue(String serverName) {
@@ -45,5 +53,11 @@ public class BungeeQueueManager {
         queue.put(serverName, uuids);
     }
 
+    public Boolean isInQueue(UUID uuid) {
+        if (queue.values().stream().anyMatch(queueList -> queueList.contains(uuid))) {
+            return true;
+        }
+        return false;
+    }
 
 }

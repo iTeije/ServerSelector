@@ -41,11 +41,11 @@ public class ServerSelectorBungee extends Plugin {
 
         this.clientCacheModule = new ClientCacheModule(this);
 
+        this.queueManager = new BungeeQueueManager(this);
         this.communicationModule = new BungeeCommunicationModule(this);
         this.getProxy().getPluginManager().registerListener(this, communicationModule);
 
         this.fileModule = new BungeeFileModule(this);
-        this.queueManager = new BungeeQueueManager(this);
 
         this.socketManager = new SocketManager(this);
         socketManager.initializeSockets();
