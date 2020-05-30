@@ -15,4 +15,7 @@ public class ServerData {
     public String maxPlayers;
     public long lastUpdate;
 
+    public int queue;
+    public int queueDelay;
+
 }

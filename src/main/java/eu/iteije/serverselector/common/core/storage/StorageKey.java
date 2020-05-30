@@ -67,6 +67,7 @@ public enum StorageKey {
     CONFIG_UPDATE_DELAY("update-delay", StorageLocation.CONFIG_FILE),
     CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
     CONFIG_OFFLINE_TIME("offline-time", StorageLocation.CONFIG_FILE),
+    CONFIG_QUEUE_DELAY("queue-delay", StorageLocation.CONFIG_FILE),
 
 
     ;

@@ -10,6 +10,7 @@ import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
 import org.apache.commons.io.FilenameUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -143,7 +144,7 @@ public class SelectorModule {
         line = line.replace("{status}", online ? serverData.getStatus() : "OFFLINE");
         line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "0");
         line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "0");
-        line = line.replace("{queue}", "soon");
+        line = line.replace("{queue}", online ? String.valueOf(serverData.getQueue()) : "0");
 
         return line;
     }

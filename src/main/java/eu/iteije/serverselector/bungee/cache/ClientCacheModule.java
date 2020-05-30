@@ -22,12 +22,16 @@ public class ClientCacheModule {
             if (previous != null) {
                 if (!previous.getStatus().equalsIgnoreCase(data.getStatus())) {
                     // Start sending people
-                    System.out.println("Start sending people - 1");
+                    instance.getQueueManager().processQueue(data.getServerName(), data.getQueueDelay());
                 }
             } else {
                 // Start sending people
-                System.out.println("Start sending people - 2");
+                instance.getQueueManager().processQueue(data.getServerName(), data.getQueueDelay());
             }
+        }
+
+        if (data.getStatus().equalsIgnoreCase("WHITELISTED")) {
+            instance.getQueueManager().pauseQueue(data.getServerName());
         }
 
         serverData.remove(data.getServerName());

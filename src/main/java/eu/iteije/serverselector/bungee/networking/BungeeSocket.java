@@ -45,9 +45,16 @@ public class BungeeSocket {
                         String currentPlayers = in.readUTF();
                         String maxPlayers = in.readUTF();
                         long lastUpdate = in.readLong();
+                        int queueDelay = in.readInt();
 
                         ServerData data = new ServerData(
-                                name, status, currentPlayers, maxPlayers, lastUpdate
+                                name,
+                                status,
+                                currentPlayers,
+                                maxPlayers,
+                                lastUpdate,
+                                instance.getQueueManager().getQueueSize(name),
+                                queueDelay
                         );
 
                         instance.getClientCacheModule().updateServerData(data);

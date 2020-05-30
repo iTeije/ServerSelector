@@ -40,6 +40,8 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
                 output.writeUTF(serverData.getCurrentPlayers());
                 output.writeUTF(serverData.getMaxPlayers());
                 output.writeLong(serverData.getLastUpdate());
+                output.writeInt(serverData.getQueue());
+                output.writeInt(serverData.getQueueDelay());
 
                 ServerInfo senderInfo = ProxyServer.getInstance().getServerInfo(sender);
 

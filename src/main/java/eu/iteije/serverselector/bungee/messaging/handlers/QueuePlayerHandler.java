@@ -34,6 +34,8 @@ public class QueuePlayerHandler implements BungeeCommunicationImplementation {
             try {
                 Boolean isInQueue = queueManager.isInQueue(uuid);
 
+                ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
+
                 if (isInQueue) {
                     instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_ALREADY_QUEUED, player, sender,
                             new Replacement("{server}", server)
@@ -46,12 +48,12 @@ public class QueuePlayerHandler implements BungeeCommunicationImplementation {
                 }
 
             } catch (NullPointerException nullPointerException) {
+                ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
                 instance.getQueueManager().queuePlayer(server, uuid);
                 instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_PROCESSING, player, sender,
                         new Replacement("{server}", server)
                 );
                 nullPointerException.printStackTrace();
-                nullPointerException = null;
             }
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in QueuePlayerHandler.", exception);

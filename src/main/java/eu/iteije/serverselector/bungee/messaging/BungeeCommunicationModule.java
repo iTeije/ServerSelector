@@ -18,6 +18,7 @@ import java.io.ByteArrayInputStream;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.UUID;
 
 public class BungeeCommunicationModule implements Listener {
 
@@ -56,6 +57,12 @@ public class BungeeCommunicationModule implements Listener {
         getHandler("MessagePlayer").process(messageModule.getDataInputStream(messagePlayerRequest), sender);
     }
 
+    public void sendPlayer(UUID uuid, String server) {
+        ProxiedPlayer player = serverSelectorBungee.getProxy().getPlayer(uuid);
+        String[] sendPlayerRequest = {server, player.getName()};
+        getHandler("SendPlayer").process(messageModule.getDataInputStream(sendPlayerRequest), player.getServer().getInfo().getName());
+    }
+
     @EventHandler
     public void onPluginMessage(PluginMessageEvent event) {
         if (!event.getTag().equals(MessageChannel.BUNGEE_GLOBAL.getChannel())) return;
@@ -67,6 +74,7 @@ public class BungeeCommunicationModule implements Listener {
             String type = inputStream.readUTF();
 
             BungeeCommunicationImplementation implementation = getHandler(type);
+
             if (implementation != null)
                 implementation.process(inputStream, ((Server) event.getSender()).getInfo().getName());
         } catch (IOException exception) {

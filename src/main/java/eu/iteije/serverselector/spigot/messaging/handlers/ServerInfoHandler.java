@@ -27,12 +27,15 @@ public class ServerInfoHandler implements SpigotCommunicationImplementation {
                     input.readUTF(),
                     input.readUTF(),
                     input.readUTF(),
-                    input.readLong()
+                    input.readLong(),
+                    input.readInt(),
+                    input.readInt()
             );
 
             selectorModule.getStatusUpdater().updateServerInfo(data);
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
+            exception.printStackTrace();
         }
 
     }

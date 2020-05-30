@@ -76,6 +76,10 @@ public class StatusUpdater {
             long unix = System.currentTimeMillis() / 1000L;
             dataOutputStream.writeLong(unix);
 
+            // Queue delay
+            int queueDelay = SpigotFileModule.getFile(StorageKey.CONFIG_QUEUE_DELAY).getInt(StorageKey.CONFIG_QUEUE_DELAY);
+            dataOutputStream.writeInt(queueDelay);
+
             dataOutputStream.flush();
 
             dataOutputStream.close();
