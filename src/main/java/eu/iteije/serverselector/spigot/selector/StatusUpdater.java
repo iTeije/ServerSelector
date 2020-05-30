@@ -14,8 +14,9 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MenuUpdater {
+public class StatusUpdater {
 
     private ServerSelectorSpigot instance;
 
@@ -32,7 +33,7 @@ public class MenuUpdater {
 
     private Socket socket;
 
-    public MenuUpdater(ServerSelectorSpigot serverSelectorSpigot) {
+    public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
         this.updateDelay = SpigotFileModule.getFile(StorageKey.CONFIG_UPDATE_DELAY).getInt(StorageKey.CONFIG_UPDATE_DELAY);
@@ -48,9 +49,9 @@ public class MenuUpdater {
     }
 
     @SuppressWarnings("deprecation")
-    public void updateServerInfo() {
+    public void updateServerInfo(Map<String, String> force) {
         try {
-            if (socket == null) initializeSocket();
+            if (this.socket == null) initializeSocket();
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -58,11 +59,14 @@ public class MenuUpdater {
             dataOutputStream.writeUTF(String.valueOf(instance.getServer().getPort()));
 
             // Status
-            if (instance.getServer().hasWhitelist()) {
+            if (instance.getServer().hasWhitelist() ||
+                    force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
                 dataOutputStream.writeUTF("WHITELISTED");
-            } else {
+            } else if (!instance.getServer().hasWhitelist() ||
+                    force.getOrDefault("status", "").equalsIgnoreCase("online")){
                 dataOutputStream.writeUTF("ONLINE");
             }
+
             // Current players
             dataOutputStream.writeUTF(String.valueOf(instance.getServer().getOnlinePlayers().size()));
             // Max players
@@ -75,8 +79,11 @@ public class MenuUpdater {
             dataOutputStream.flush();
 
             dataOutputStream.close();
-            socket.close();
-            socket = null;
+            this.socket.close();
+            // Its garbage collector time
+            this.socket = null;
+
+            force = null;
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
@@ -91,7 +98,7 @@ public class MenuUpdater {
     public void initializeUpdateScheduler() {
         tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
             try {
-                updateServerInfo();
+                updateServerInfo(new HashMap<>());
             } catch (Exception exception) {
 
             }

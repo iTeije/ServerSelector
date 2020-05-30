@@ -21,20 +21,18 @@ public class UrlAction extends Action {
 
     @Override
     public void execute(String context, Player player) {
-        String[] settings = context.split("!");
+        String[] arguments = context.split("\\|");
 
-        if (settings.length >= 2) {
-            settings[1] = messageModule.convertColorCodes(settings[1]);
+        if (arguments.length >= 2) {
+            arguments[1] = messageModule.convertColorCodes(arguments[1]);
 
-            TextComponent textComponent = new TextComponent(settings[1]);
-            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, settings[0]));
-            if (settings.length == 3) {
-                textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(messageModule.convertColorCodes(settings[2])).create()));
+            TextComponent textComponent = new TextComponent(arguments[1]);
+            textComponent.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, arguments[0]));
+            if (arguments.length == 3) {
+                textComponent.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(messageModule.convertColorCodes(arguments[2])).create()));
             }
 
             player.spigot().sendMessage(textComponent);
         }
-
-        player.closeInventory();
     }
 }

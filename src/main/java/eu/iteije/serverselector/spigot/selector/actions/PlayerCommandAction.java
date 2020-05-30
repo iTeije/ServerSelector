@@ -15,7 +15,5 @@ public class PlayerCommandAction extends Action {
         context = context.replace("{player}", player.getName());
 
         player.performCommand(context);
-
-        player.closeInventory();
     }
 }

@@ -20,6 +20,7 @@ public enum StorageKey {
 
     // Action queue messages
     ACTIONQUEUE_PROPOSE_CHAT("actionqueue_propose_chat", StorageLocation.MESSAGE_FILE),
+    ACTIONQUEUE_CANCELLED("actionqueue_cancelled", StorageLocation.MESSAGE_FILE),
 
     // Menu messages
     MENU_OPENING("menu_opening", StorageLocation.MESSAGE_FILE),
@@ -49,7 +50,8 @@ public enum StorageKey {
     SEND_SERVER_NOT_FOUND("send_server_not_found", StorageLocation.MESSAGE_FILE),
     SEND_SERVER_WHITELISTED("send_server_whitelisted", StorageLocation.MESSAGE_FILE),
 
-
+    QUEUE_PROCESSING("queue_processing", StorageLocation.MESSAGE_FILE),
+    QUEUE_ALREADY_QUEUED("queue_already_queued", StorageLocation.MESSAGE_FILE),
 
 
 

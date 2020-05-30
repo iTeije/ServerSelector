@@ -20,7 +20,6 @@ public class MessagePlayerHandler implements SpigotCommunicationImplementation {
             // Read message
             String message = input.readUTF();
 
-
             // Cancel message whenever the length is 0
             if (message.length() == 0) return;
 
@@ -28,7 +27,7 @@ public class MessagePlayerHandler implements SpigotCommunicationImplementation {
             if (command) message = message.substring(1);
 
             // Read player name
-            if (input.available() == 1) {
+            if (input.available() >= 1) {
                 String playerName = input.readUTF();
                 Player player = Bukkit.getPlayer(playerName);
 

@@ -34,7 +34,5 @@ public class TogglePlayersAction extends Action {
                 }
             });
         }
-
-        player.closeInventory();
     }
 }
