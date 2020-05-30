@@ -91,6 +91,20 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         }
     }
 
+    public void queuePlayer(String server, Player player) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        DataOutputStream outputStream = new DataOutputStream(stream);
+
+        try {
+            outputStream.writeUTF("QueuePlayer");
+            outputStream.writeUTF(player.getUniqueId().toString());
+            outputStream.writeUTF(server);
+            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+    }
+
     @Override
     public void onPluginMessageReceived(String channel, Player providedPlayer, byte[] data) {
 

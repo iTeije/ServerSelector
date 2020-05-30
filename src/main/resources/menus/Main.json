@@ -11,11 +11,12 @@
         "",
         "&b&lStatus: {status}",
         "&b&lPlayers: &3{current_players}/{max_players}",
-        "&b&lQueue: &3{queue}"
       ],
       "slot": 10,
-      "action_type": "SEND",
-      "action": "lobby"
+      "actions": [
+        "SEND!lobby"
+      ],
+      "server": "lobby"
     },
 
     {
@@ -26,11 +27,12 @@
         "",
         "&b&lStatus: {status}",
         "&b&lPlayers: &3{current_players}/{max_players}",
-        "&b&lQueue: &3{queue}"
       ],
       "slot": 12,
-      "action_type": "SEND",
-      "action": "game_1"
+      "actions": [
+        "SEND!game_1"
+      ],
+      "server": "game_1"
     },
 
     {
@@ -44,8 +46,10 @@
         "&b&lQueue: &3{queue}"
       ],
       "slot": 14,
-      "action_type": "QUEUE",
-      "action": "lobby"
+      "actions": [
+        "QUEUE!lobby"
+      ],
+      "server": "lobby"
     },
 
     {
@@ -59,31 +63,28 @@
         "&b&lQueue: &3{queue}"
       ],
       "slot": 16,
-      "action_type": "QUEUE",
-      "action": "game_1"
+      "actions": [
+        "QUEUE!lobby"
+      ],
+      "server": "game_1"
     },
 
     {
       "material": "BOOK",
       "display_name": "&eAction examples",
       "slot": 31,
-      "action_type": "MENU",
-      "action": "Examples"
+      "actions": [
+        "MENU!Examples"
+      ]
     },
 
     {
       "material": "REDSTONE_BLOCK",
       "display_name": "&cClose menu",
       "slot": 49,
-      "action_type": "CLOSE"
-    },
-
-    {
-      "material": "OBSIDIAN",
-      "display_name": "&3&lAnother server &f(send)",
-      "slot": 53,
-      "action_type": "SEND",
-      "action": "nonexisting_server"
+      "actions": [
+        "CLOSE! "
+      ]
     }
   ]
 }

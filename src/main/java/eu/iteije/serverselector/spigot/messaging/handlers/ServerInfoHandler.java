@@ -30,7 +30,7 @@ public class ServerInfoHandler implements SpigotCommunicationImplementation {
                     input.readLong()
             );
 
-            selectorModule.getMenuUpdater().updateServerInfo(data);
+            selectorModule.getStatusUpdater().updateServerInfo(data);
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
         }

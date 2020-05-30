@@ -1,5 +1,7 @@
 package eu.iteije.serverselector.spigot.services.actionqueue;
 
+import eu.iteije.serverselector.common.core.storage.StorageKey;
+import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.players.ServerSelectorPlayer;
 import lombok.Getter;
@@ -31,5 +33,10 @@ public class Action {
     public void execute(String content) {
         this.getOnExecute().accept(this, content);
         instance.getPlayerModule().getPlayer(player.getUniqueId()).removeAction(this.actionType);
+    }
+
+    public void cancel() {
+        instance.getPlayerModule().getPlayer(player.getUniqueId()).removeAction(this.actionType);
+        instance.getMessageModule().sendToPlayer(StorageKey.ACTIONQUEUE_CANCELLED, new Player[]{player}, MessageType.MESSAGE);
     }
 }

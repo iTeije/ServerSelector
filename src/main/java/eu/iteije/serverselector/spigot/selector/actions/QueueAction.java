@@ -17,7 +17,6 @@ public class QueueAction extends Action {
     @Override
     public void execute(String context, Player player) {
         // Queue for a given server
-        // TODO: queue
-        player.sendMessage("Queueing is not available yet.");
+        instance.getCommunicationModule().queuePlayer(context, player);
     }
 }

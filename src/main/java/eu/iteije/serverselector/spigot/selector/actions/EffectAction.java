@@ -24,13 +24,13 @@ public class EffectAction extends Action {
 
     @Override
     public void execute(String context, Player player) {
-        String[] settings = context.split("!");
+        String[] arguments = context.split("\\|");
         try {
-            if (settings.length >= 1) {
-                settings[0] = settings[0].toUpperCase();
+            if (arguments.length >= 1) {
+                arguments[0] = arguments[0].toUpperCase();
 
-                PotionEffectType effectType = PotionEffectType.getByName(settings[0]);
-                if (effectType == null) throw new Exception("PotionEffectType " + settings[0] + " does not exist");
+                PotionEffectType effectType = PotionEffectType.getByName(arguments[0]);
+                if (effectType == null) throw new Exception("PotionEffectType " + arguments[0] + " does not exist");
 
                 AtomicBoolean has = new AtomicBoolean(false);
 
@@ -43,8 +43,8 @@ public class EffectAction extends Action {
                 if (has.get()) {
                     player.removePotionEffect(effectType);
                 } else {
-                    int amplifier = settings[1] != null ? Integer.parseInt(settings[1]) : 1;
-                    int duration = settings[2] != null ? Integer.parseInt(settings[2]) : 300;
+                    int amplifier = arguments[1] != null ? Integer.parseInt(arguments[1]) : 1;
+                    int duration = arguments[2] != null ? Integer.parseInt(arguments[2]) : 300;
 
                     player.addPotionEffect(effectType.createEffect(duration * 20, amplifier - 1));
                 }
@@ -52,10 +52,8 @@ public class EffectAction extends Action {
         } catch (Exception exception) {
             // Send effect failed
             messageModule.sendToPlayer(StorageKey.ACTION_EFFECT_FAILED, new Player[]{player}, MessageType.MESSAGE,
-                    new Replacement("{effect}", settings[0]));
+                    new Replacement("{effect}", arguments[0]));
             ServerSelectorLogger.console("Error occurred while adding effect. ", exception);
         }
-
-        player.closeInventory();
     }
 }

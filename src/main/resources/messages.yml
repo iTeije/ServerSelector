@@ -8,7 +8,8 @@ command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
 
 # Action queue messages
-actionqueue_propose_chat: "&3Type something regarding your chat action:"
+actionqueue_propose_chat: "&3Type something regarding your chat action (type \"cancel\" to cancel):"
+actionqueue_cancelled: "&cCancelled action."
 
 # Help command
 help_command_title: "&3Showing all available commands:"
@@ -43,3 +44,6 @@ send_processing: "&3Summoning you to &b{server}&3..."
 send_already_connected: "&cYou are already connected to this server!"
 send_server_not_found: "&cServer &4{server} &cnot found!"
 send_server_whitelisted: "&cYou can't be summoned to &4{server} &cbecause it is whitelisted!"
+
+queue_processing: "&3Entering the queue of &b{server}&3..."
+queue_already_queued: "&cYou are already in the queue of &4{server}&c!"

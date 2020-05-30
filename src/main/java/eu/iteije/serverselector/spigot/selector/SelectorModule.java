@@ -6,7 +6,6 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
@@ -19,6 +18,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,17 +26,17 @@ public class SelectorModule {
 
     private ServerSelectorSpigot instance;
     private ActionManager actionManager;
-    @Getter private MenuUpdater menuUpdater;
+    @Getter private StatusUpdater statusUpdater;
 
     public SelectorModule(ServerSelectorSpigot instance) {
         this.instance = instance;
         this.actionManager = new ActionManager(instance);
 
-        this.menuUpdater = new MenuUpdater(instance);
-        this.menuUpdater.initializeUpdateScheduler();
-        this.menuUpdater.initializeFetchScheduler();
+        this.statusUpdater = new StatusUpdater(instance);
+        this.statusUpdater.initializeUpdateScheduler();
+        this.statusUpdater.initializeFetchScheduler();
 
-        this.menuUpdater.updateServerInfo();
+        this.statusUpdater.updateServerInfo(new HashMap<>());
     }
 
     public void cacheMenus() {
@@ -84,11 +84,10 @@ public class SelectorModule {
                 item.setName((String) itemData.get("display_name"));
             }
 
-            String actionType = (String) itemData.get("action_type");
-            Action action = actionManager.getActionByName(actionType);
-            if (action != null) {
+            JSONArray actions = (JSONArray) itemData.get("actions");
+            if (actions != null) {
                 item.onClick(((player, item1) -> {
-                    action.execute((String) itemData.get("action"), player);
+                    actionManager.processActions((JSONArray) itemData.get("actions"), player);
                 }));
             }
 
@@ -96,10 +95,13 @@ public class SelectorModule {
                 JSONArray jsonLore = (JSONArray) itemData.get("lore");
                 if (jsonLore != null && jsonLore.size() != 0) {
                     List<String> lore = new ArrayList<>();
+
+                    String server = (String) itemData.get("server");
+
                     for (int i = 0; i < jsonLore.size(); i++) {
                         String line = (String) jsonLore.get(i);
-                        if (actionType.equalsIgnoreCase("SEND") || actionType.equalsIgnoreCase("QUEUE")) {
-                            String server = (String) itemData.get("action");
+
+                        if (server != null) {
                             instance.getCommunicationModule().requestServerInfo(server);
                             line = convertLore(line, server);
                         }
@@ -123,7 +125,7 @@ public class SelectorModule {
     }
 
     public String convertLore(String line, String serverName) {
-        ServerData serverData = this.menuUpdater.getServerInfo(serverName);
+        ServerData serverData = this.statusUpdater.getServerInfo(serverName);
 
         boolean online;
         if (serverData != null) {
@@ -133,7 +135,7 @@ public class SelectorModule {
 
             online = currentTime <= (currentOfflineTime + allowedOfflineTime);
 
-            if (!online) menuUpdater.removeServerInfo(serverData.serverName);
+            if (!online) statusUpdater.removeServerInfo(serverData.serverName);
         } else {
             online = false;
         }

@@ -36,7 +36,7 @@ public class SpigotMessageModule {
         if (sender instanceof Player) {
             sendString(message, new Player[]{(Player) sender}, messageType, replacements);
         } else if (sender instanceof ConsoleCommandSender) {
-            Bukkit.getServer().getConsoleSender().sendMessage(messageModule.convert(message, true, replacements));
+            Bukkit.getLogger().info(messageModule.convert(message, true, replacements));
         }
     }
 
@@ -45,7 +45,7 @@ public class SpigotMessageModule {
             Player player = (Player) sender;
             sendToPlayer(storageKey, new Player[]{player}, messageType, replacements);
         } else if (sender instanceof ConsoleCommandSender) {
-            Bukkit.getServer().getConsoleSender().sendMessage(messageModule.convert(storageKey, true, replacements));
+            Bukkit.getLogger().info(messageModule.convert(storageKey, true, replacements));
         }
     }
 
