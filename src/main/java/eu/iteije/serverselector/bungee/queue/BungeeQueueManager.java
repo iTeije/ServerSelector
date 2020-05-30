@@ -4,7 +4,10 @@ import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
 public class BungeeQueueManager {
@@ -60,6 +63,13 @@ public class BungeeQueueManager {
             return true;
         }
         return false;
+    }
+
+    public String getCurrentQueue(UUID uuid) {
+        for (Map.Entry<String, LinkedList<UUID>> list : queue.entrySet()) {
+            if (list.getValue().contains(uuid)) return list.getKey();
+        }
+        return "not found";
     }
 
     public int getQueueSize(String server) {

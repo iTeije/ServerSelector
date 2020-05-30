@@ -36,6 +36,9 @@ public class BroadcastHandler implements BungeeCommunicationImplementation {
             HashMap<String, ServerData> serverData = instance.getClientCacheModule().getServerData();
 
             ProxyServer.getInstance().getServers().values().forEach(server -> {
+                if (message.charAt(0) == '/') {
+                    server.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                }
                 ServerData data = serverData.get(server.getName());
                 if (data != null) {
                     if (Integer.parseInt(data.getCurrentPlayers()) > 0) {

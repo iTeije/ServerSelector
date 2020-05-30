@@ -40,18 +40,22 @@ public class StatusUpdater {
         this.fetchDelay = SpigotFileModule.getFile(StorageKey.CONFIG_FETCH_DELAY).getInt(StorageKey.CONFIG_FETCH_DELAY);
     }
 
-    public void initializeSocket() {
+    public boolean initializeSocket() {
         try {
             this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
+            return true;
         } catch (IOException exception) {
             ServerSelectorLogger.console("Failed to initialize socket.", exception);
+            return false;
         }
     }
 
     @SuppressWarnings("deprecation")
     public void updateServerInfo(Map<String, String> force) {
         try {
-            if (this.socket == null) initializeSocket();
+            if (this.socket == null) {
+                if (!initializeSocket()) throw new IOException();
+            }
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 

@@ -43,7 +43,7 @@ status_online: "&a&lONLINE"
 send_processing: "&3Summoning you to &b{server}&3..."
 send_already_connected: "&cYou are already connected to this server!"
 send_server_not_found: "&cServer &4{server} &cnot found!"
-send_server_whitelisted: "&cYou can't be summoned to &4{server} &cbecause it is whitelisted!"
+send_server_unavailable: "&cYou can't access &4{server} &cbecause it is whitelisted or offline!"
 
 queue_processing: "&3Entering the queue of &b{server}&3..."
 queue_already_queued: "&cYou are already in the queue of &4{server}&c!"

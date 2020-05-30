@@ -18,4 +18,9 @@ public class ServerData {
     public int queue;
     public int queueDelay;
 
+
+    public boolean isAccessible() {
+        return status.equalsIgnoreCase("ONLINE");
+    }
+
 }

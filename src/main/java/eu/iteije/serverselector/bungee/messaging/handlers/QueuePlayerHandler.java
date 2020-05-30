@@ -37,8 +37,9 @@ public class QueuePlayerHandler implements BungeeCommunicationImplementation {
                 ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
 
                 if (isInQueue) {
+                    String currentQueue = instance.getQueueManager().getCurrentQueue(uuid);
                     instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_ALREADY_QUEUED, player, sender,
-                            new Replacement("{server}", server)
+                            new Replacement("{server}", currentQueue)
                     );
                 } else {
                     instance.getQueueManager().queuePlayer(server, uuid);
