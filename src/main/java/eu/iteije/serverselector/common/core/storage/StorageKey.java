@@ -52,7 +52,8 @@ public enum StorageKey {
 
     QUEUE_PROCESSING("queue_processing", StorageLocation.MESSAGE_FILE),
     QUEUE_ALREADY_QUEUED("queue_already_queued", StorageLocation.MESSAGE_FILE),
-
+    QUEUE_NOT_QUEUED("queue_not_queued", StorageLocation.MESSAGE_FILE),
+    QUEUE_LEFT("queue_left", StorageLocation.MESSAGE_FILE),
 
 
     // Selector item

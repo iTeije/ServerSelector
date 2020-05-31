@@ -2,7 +2,7 @@ package eu.iteije.serverselector.spigot.messaging.interfaces;
 
 import java.io.DataInputStream;
 
-public interface SpigotCommunicationImplementation {
+public interface SpigotHandlerImplementation {
 
     void process(DataInputStream input);
 

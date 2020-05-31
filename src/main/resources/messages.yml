@@ -46,4 +46,6 @@ send_server_not_found: "&cServer &4{server} &cnot found!"
 send_server_unavailable: "&cYou can't access &4{server} &cbecause it is whitelisted or offline!"
 
 queue_processing: "&3Entering the queue of &b{server}&3..."
-queue_already_queued: "&cYou are already in the queue of &4{server}&c!"
+queue_already_queued: "&cYou are already in the queue of &4{server}&c! Use \"/ss leavequeue\" to leave this queue."
+queue_not_queued: "&cYou are not in a queue!"
+queue_left: "&cYou successfully left the queue."

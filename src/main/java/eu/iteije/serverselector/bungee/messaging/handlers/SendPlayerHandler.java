@@ -2,7 +2,7 @@ package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeHandlerImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
@@ -14,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class SendPlayerHandler implements BungeeCommunicationImplementation {
+public class SendPlayerHandler implements BungeeHandlerImplementation {
 
     private ServerSelectorBungee instance;
 

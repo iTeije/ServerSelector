@@ -69,11 +69,21 @@ public class BungeeQueueManager {
         for (Map.Entry<String, LinkedList<UUID>> list : queue.entrySet()) {
             if (list.getValue().contains(uuid)) return list.getKey();
         }
-        return "not found";
+        return null;
     }
 
     public int getQueueSize(String server) {
         return getQueue(server).size();
+    }
+
+    public void quitQueue(UUID uuid) {
+        String currentQueue = getCurrentQueue(uuid);
+        if (currentQueue != null) {
+            LinkedList<UUID> list = queue.get(currentQueue);
+            list.remove(uuid);
+
+            updateQueue(currentQueue, list);
+        }
     }
 
     private Map<String, ScheduledTask> queueTasks = new HashMap<>();
