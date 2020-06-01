@@ -8,8 +8,10 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
+import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +34,13 @@ public class StatusUpdater {
     private HashMap<String, ServerData> serverData = new HashMap<>();
 
     private Socket socket;
+    private BufferedReader input;
+    private PrintStream output;
 
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
+
+        initializeSocket();
 
         this.updateDelay = SpigotFileModule.getFile(StorageKey.CONFIG_UPDATE_DELAY).getInt(StorageKey.CONFIG_UPDATE_DELAY);
         this.fetchDelay = SpigotFileModule.getFile(StorageKey.CONFIG_FETCH_DELAY).getInt(StorageKey.CONFIG_FETCH_DELAY);
@@ -51,63 +57,62 @@ public class StatusUpdater {
     @SuppressWarnings("deprecation")
     public void updateServerInfo(Map<String, String> force) {
         try {
-            if (this.socket == null) initializeSocket();
-
-            DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
-
-            dataOutputStream.writeUTF("serverinfo");
-            dataOutputStream.writeUTF(String.valueOf(instance.getServer().getPort()));
-
-            // Status
-            if (instance.getServer().hasWhitelist() ||
-                    force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
-                dataOutputStream.writeUTF("WHITELISTED");
-            } else if (!instance.getServer().hasWhitelist() ||
-                    force.getOrDefault("status", "").equalsIgnoreCase("online")){
-                dataOutputStream.writeUTF("ONLINE");
+            if (socket == null) {
+                initializeSocket();
+                return;
             }
 
-            // Current players
-            dataOutputStream.writeUTF(String.valueOf(instance.getServer().getOnlinePlayers().size()));
-            // Max players
-            dataOutputStream.writeUTF(String.valueOf(instance.getServer().getMaxPlayers()));
+            if (this.socket.isConnected()) {
+                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
-            // Current unix timestamp
-            long unix = System.currentTimeMillis() / 1000L;
-            dataOutputStream.writeLong(unix);
+                dataOutputStream.writeUTF("serverinfo");
+                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getPort()));
 
-            dataOutputStream.flush();
+                // Status
+                if (instance.getServer().hasWhitelist() ||
+                        force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
+                    dataOutputStream.writeUTF("WHITELISTED");
+                } else if (!instance.getServer().hasWhitelist() ||
+                        force.getOrDefault("status", "").equalsIgnoreCase("online")){
+                    dataOutputStream.writeUTF("ONLINE");
+                }
 
-            dataOutputStream.close();
-            this.socket.close();
-            // Its garbage collector time
-            this.socket = null;
+                // Current players
+                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getOnlinePlayers().size()));
+                // Max players
+                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getMaxPlayers()));
 
-            force = null;
+                // Current unix timestamp
+                long unix = System.currentTimeMillis() / 1000L;
+                dataOutputStream.writeLong(unix);
 
-            instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
+
+                // Queue delay
+                int queueDelay = SpigotFileModule.getFile(StorageKey.CONFIG_QUEUE_DELAY).getInt(StorageKey.CONFIG_QUEUE_DELAY);
+                dataOutputStream.writeInt(queueDelay);
+
+                dataOutputStream.flush();
+
+                socket.close();
+                socket = null;
+            } else {
+                initializeSocket();
+            }
         } catch (IOException exception) {
-            ServerSelectorLogger.console("Proxy server not responding.");
-
-            ServerSelectorLogger.console("Reinitializing socket...", exception);
-            instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
+            ServerSelectorLogger.console("Proxy server not responding.", exception);
         }
 
     }
 
     public void initializeUpdateScheduler() {
         tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
-            try {
-                updateServerInfo(new HashMap<>());
-            } catch (Exception exception) {
-
-            }
+            updateServerInfo(new HashMap<>());
         }, 0L, this.updateDelay * 20L));
     }
 
     public void initializeFetchScheduler() {
         tasks.add(instance.getServer().getScheduler().scheduleSyncRepeatingTask(this.instance, () -> {
-            // Only fetch if there is at least 1 player online or if force is true
+            // Only fetch if there is at least 1 player online
             if (Bukkit.getOnlinePlayers().size() != 0) {
                 instance.getMenuModule().deleteCachedMenus();
                 instance.getSelectorModule().cacheMenus();

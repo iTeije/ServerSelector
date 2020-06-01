@@ -4,7 +4,9 @@ import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.messaging.handlers.MessagePlayerHandler;
 import eu.iteije.serverselector.spigot.messaging.handlers.ServerInfoHandler;
-import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotCommunicationImplementation;
+import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotHandlerImplementation;
+import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotRequestImplementation;
+import eu.iteije.serverselector.spigot.messaging.requests.LeaveQueueRequest;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -15,7 +17,8 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
     private ServerSelectorSpigot serverSelectorSpigot;
 
-    private HashMap<String, SpigotCommunicationImplementation> spigotHandlers = new HashMap<>();
+    private HashMap<String, SpigotHandlerImplementation> spigotHandlers = new HashMap<>();
+    private HashMap<String, SpigotRequestImplementation> spigotRequests = new HashMap<>();
 
     public SpigotCommunicationModule(ServerSelectorSpigot serverSelectorSpigot) {
         serverSelectorSpigot.getServer().getMessenger().registerOutgoingPluginChannel(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel());
@@ -23,13 +26,14 @@ public class SpigotCommunicationModule implements PluginMessageListener {
 
         this.serverSelectorSpigot = serverSelectorSpigot;
         saveHandlers();
+        saveRequests();
     }
 
-    public SpigotCommunicationImplementation getHandler(String name) {
+    public SpigotHandlerImplementation getHandler(String name) {
         return spigotHandlers.get(name);
     }
 
-    public void addHandler(String name, SpigotCommunicationImplementation implementation) {
+    public void addHandler(String name, SpigotHandlerImplementation implementation) {
         spigotHandlers.put(name, implementation);
     }
 
@@ -37,6 +41,19 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         addHandler("ServerInfo", new ServerInfoHandler(serverSelectorSpigot));
         addHandler("MessagePlayer", new MessagePlayerHandler());
     }
+
+    public SpigotRequestImplementation getRequest(String name) {
+        return spigotRequests.get(name);
+    }
+
+    public void addRequest(String name, SpigotRequestImplementation implementation) {
+        spigotRequests.put(name, implementation);
+    }
+
+    public void saveRequests() {
+        addRequest("LeaveQueue", new LeaveQueueRequest(serverSelectorSpigot));
+    }
+
 
     public void sendMessage(String context, String optional, String... playerNames) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -116,7 +133,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         try {
             String type = inputStream.readUTF();
 
-            SpigotCommunicationImplementation implementation = getHandler(type);
+            SpigotHandlerImplementation implementation = getHandler(type);
             if (implementation != null) implementation.process(inputStream);
         } catch (Exception exception) {
             exception.printStackTrace();

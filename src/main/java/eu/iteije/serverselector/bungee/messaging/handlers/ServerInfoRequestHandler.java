@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeHandlerImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
@@ -13,7 +13,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class ServerInfoRequestHandler implements BungeeCommunicationImplementation {
+public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
 
     private ServerSelectorBungee instance;
 
@@ -25,7 +25,7 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
     public void process(DataInputStream input, String sender) {
         try {
             // Read server name
-            String server = input.readUTF();
+            String server = input.readUTF().toLowerCase();
 
             // If there is no ServerData element, the server won't return anything (which is handled by the spigot plugin)
             ServerData serverData = instance.getClientCacheModule().getServerData(server);
@@ -40,6 +40,8 @@ public class ServerInfoRequestHandler implements BungeeCommunicationImplementati
                 output.writeUTF(serverData.getCurrentPlayers());
                 output.writeUTF(serverData.getMaxPlayers());
                 output.writeLong(serverData.getLastUpdate());
+                output.writeInt(serverData.getQueue());
+                output.writeInt(serverData.getQueueDelay());
 
                 ServerInfo senderInfo = ProxyServer.getInstance().getServerInfo(sender);
 

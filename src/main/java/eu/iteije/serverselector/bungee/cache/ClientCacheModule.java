@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.cache;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import lombok.Getter;
 
@@ -22,12 +23,16 @@ public class ClientCacheModule {
             if (previous != null) {
                 if (!previous.getStatus().equalsIgnoreCase(data.getStatus())) {
                     // Start sending people
-                    System.out.println("Start sending people - 1");
+                    instance.getQueueManager().processQueue(data.getServerName(), data.getQueueDelay());
                 }
             } else {
                 // Start sending people
-                System.out.println("Start sending people - 2");
+                instance.getQueueManager().processQueue(data.getServerName(), data.getQueueDelay());
             }
+        }
+
+        if (data.getStatus().equalsIgnoreCase("WHITELISTED")) {
+            instance.getQueueManager().pauseQueue(data.getServerName());
         }
 
         serverData.remove(data.getServerName());

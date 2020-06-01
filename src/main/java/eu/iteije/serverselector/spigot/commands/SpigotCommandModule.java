@@ -7,6 +7,7 @@ import eu.iteije.serverselector.spigot.commands.labelcommands.SpigotMainCommand;
 import eu.iteije.serverselector.spigot.commands.subcommands.AdminSubCommand;
 import eu.iteije.serverselector.spigot.commands.subcommands.ConsoleSubCommand;
 import eu.iteije.serverselector.spigot.commands.subcommands.HelpSubCommand;
+import eu.iteije.serverselector.spigot.commands.subcommands.LeaveQueueSubCommand;
 
 public class SpigotCommandModule {
 
@@ -20,7 +21,8 @@ public class SpigotCommandModule {
         commandModule.registerSubCommands(
                 new HelpSubCommand(serverSelectorSpigot),
                 new AdminSubCommand(serverSelectorSpigot),
-                new ConsoleSubCommand(serverSelectorSpigot)
+                new ConsoleSubCommand(serverSelectorSpigot),
+                new LeaveQueueSubCommand(serverSelectorSpigot)
         );
     }
 }

@@ -1,6 +1,6 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeHandlerImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import net.md_5.bungee.api.ProxyServer;
@@ -11,7 +11,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-public class MessagePlayerHandler implements BungeeCommunicationImplementation {
+public class MessagePlayerHandler implements BungeeHandlerImplementation {
 
     public MessagePlayerHandler() {
 

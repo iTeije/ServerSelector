@@ -15,4 +15,12 @@ public class ServerData {
     public String maxPlayers;
     public long lastUpdate;
 
+    public int queue;
+    public int queueDelay;
+
+
+    public boolean isAccessible() {
+        return status.equalsIgnoreCase("ONLINE");
+    }
+
 }

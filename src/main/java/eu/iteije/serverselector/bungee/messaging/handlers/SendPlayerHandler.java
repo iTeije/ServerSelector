@@ -2,10 +2,11 @@ package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeHandlerImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
@@ -13,7 +14,7 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class SendPlayerHandler implements BungeeCommunicationImplementation {
+public class SendPlayerHandler implements BungeeHandlerImplementation {
 
     private ServerSelectorBungee instance;
 
@@ -44,19 +45,25 @@ public class SendPlayerHandler implements BungeeCommunicationImplementation {
             if (targetServer != null) {
                 targetServer.ping(((result, error) -> {
                     if (error != null) {
-                        instance.getCommunicationModule().sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
+                        communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
                                 new Replacement("{server}", server)
                         );
                     } else {
-                        instance.getCommunicationModule().sendMessage(StorageKey.SEND_PROCESSING, player, sender,
-                                new Replacement("{server}", server)
-                        );
-                        player.connect(targetServer);
+                        ServerData data = instance.getClientCacheModule().getServerData(server);
+                        if (data.isAccessible()) {
+                            communicationModule.sendMessage(StorageKey.SEND_PROCESSING, player, sender,
+                                    new Replacement("{server}", server)
+                            );
+                            player.connect(targetServer);
+                        } else {
+                            communicationModule.sendMessage(StorageKey.SEND_SERVER_UNAVAILABLE, player, sender,
+                                    new Replacement("{server}", server)
+                            );
+                        }
                     }
                 }));
             } else {
-                ProxyServer.getInstance().broadcast("3");
-                instance.getCommunicationModule().sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
+                communicationModule.sendMessage(StorageKey.SEND_SERVER_NOT_FOUND, player, sender,
                         new Replacement("{server}", server)
                 );
             }

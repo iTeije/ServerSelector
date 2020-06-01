@@ -10,7 +10,7 @@
         "&7Example lobby server item (you will be send to the server)",
         "",
         "&b&lStatus: {status}",
-        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lPlayers: &3{current_players}/{max_players}"
       ],
       "slot": 10,
       "actions": [
@@ -26,7 +26,7 @@
         "&7Example game 1 server item (you will be send to the server)",
         "",
         "&b&lStatus: {status}",
-        "&b&lPlayers: &3{current_players}/{max_players}",
+        "&b&lPlayers: &3{current_players}/{max_players}"
       ],
       "slot": 12,
       "actions": [
@@ -43,7 +43,7 @@
         "",
         "&b&lStatus: {status}",
         "&b&lPlayers: &3{current_players}/{max_players}",
-        "&b&lQueue: &3{queue}"
+        "&b&lQueued: &3{queue}"
       ],
       "slot": 14,
       "actions": [
@@ -60,11 +60,11 @@
         "",
         "&b&lStatus: {status}",
         "&b&lPlayers: &3{current_players}/{max_players}",
-        "&b&lQueue: &3{queue}"
+        "&b&lQueued: &3{queue}"
       ],
       "slot": 16,
       "actions": [
-        "QUEUE!lobby"
+        "QUEUE!game_1"
       ],
       "server": "game_1"
     },

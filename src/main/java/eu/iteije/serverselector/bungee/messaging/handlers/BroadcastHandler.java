@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.bungee.messaging.handlers;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeCommunicationImplementation;
+import eu.iteije.serverselector.bungee.messaging.interfaces.BungeeHandlerImplementation;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
@@ -13,7 +13,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
 
-public class BroadcastHandler implements BungeeCommunicationImplementation {
+public class BroadcastHandler implements BungeeHandlerImplementation {
 
     private ServerSelectorBungee instance;
 
@@ -36,6 +36,9 @@ public class BroadcastHandler implements BungeeCommunicationImplementation {
             HashMap<String, ServerData> serverData = instance.getClientCacheModule().getServerData();
 
             ProxyServer.getInstance().getServers().values().forEach(server -> {
+                if (message.charAt(0) == '/') {
+                    server.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+                }
                 ServerData data = serverData.get(server.getName());
                 if (data != null) {
                     if (Integer.parseInt(data.getCurrentPlayers()) > 0) {

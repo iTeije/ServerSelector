@@ -27,7 +27,7 @@ selector-drop: false
 #            Server Pinging            #
 # ------------------------------------ #
 
-# All values listed below are treated as seconds
+# All values listed below are treated as seconds unless specified else
 # Important to note is that the queue will be processed by the bungeecord server
 
 # How long the server waits before updating their information (at least 5 seconds)
@@ -36,6 +36,10 @@ update-delay: 5
 
 # How long the server waits before fetching any new information the bungee got from other servers (at least 5 seconds)
 fetch-delay: 5
+
+# The delay between sending people if a queue is opened
+# Important: this value is processed as milliseconds (1000 ms = 1 s)
+queue-delay: 2000
 
 # How long the server may be offline before appearing as offline in the menus
 # This value must be at least twice as high as the update delay
