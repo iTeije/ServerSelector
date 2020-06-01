@@ -23,15 +23,27 @@ public class BungeeSocket {
 
         int portNumber = Integer.parseInt(args[0]);
 
+        ServerSelectorLogger.console("New socket instance, listening on " + portNumber);
+
         try (ServerSocket serverSocket = new ServerSocket(portNumber, 0)) {
+            ServerSelectorLogger.console("Connection accepted");
             Socket client = serverSocket.accept();
+            ServerSelectorLogger.console("Accepted request");
             DataInputStream in = new DataInputStream(client.getInputStream());
 
             // This is some dangerous shit
             String type = in.readUTF();
             String clientPort = in.readUTF();
+
+            serverSocket.close();
+
+            new Thread(() -> {
+                new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});
+            }).start();
+
             switch (type) {
                 case "serverinfo":
+                    ServerSelectorLogger.console("ServerInfo updater");
                     Map<String, ServerInfo> serverInfos = ProxyServer.getInstance().getServers();
                     ServerInfo clientInfo = null;
                     for (ServerInfo serverInfo : serverInfos.values()) {
@@ -58,12 +70,6 @@ public class BungeeSocket {
                         );
 
                         instance.getClientCacheModule().updateServerData(data);
-
-                        serverSocket.close();
-
-                        new Thread(() -> {
-                            new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});
-                        }).start();
                     } catch (NullPointerException exception) {
                         exception.printStackTrace();
                     }
@@ -78,6 +84,8 @@ public class BungeeSocket {
                 ServerSelectorLogger.console("Exception caught when trying to listen to port " + portNumber + ", opening new socket on port " + portNumber);
                 exception.printStackTrace();
             }
+
+            exception.printStackTrace();
 
             new Thread(() -> {
                 new BungeeSocket(instance, new String[]{String.valueOf(portNumber)});

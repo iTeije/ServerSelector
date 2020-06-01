@@ -3,14 +3,19 @@ package eu.iteije.serverselector.bungee.networking;
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import net.md_5.bungee.api.config.ServerInfo;
 
+import java.util.HashMap;
 import java.util.Map;
 
-public class SocketManager {
+public class BungeeSocketManager {
 
     private ServerSelectorBungee instance;
 
-    public SocketManager(ServerSelectorBungee instance) {
+    private HashMap<Integer, BungeeSocketReworked> sockets;
+
+    public BungeeSocketManager(ServerSelectorBungee instance) {
         this.instance = instance;
+
+        this.sockets = new HashMap<>();
     }
 
     public void initializeSockets() {
@@ -20,9 +25,13 @@ public class SocketManager {
             int port = server.getAddress().getPort() + 10000;
             new Thread(() -> {
                 instance.getLogger().info("Server started. Listening on port " + port);
-                new BungeeSocket(instance, new String[]{String.valueOf(port)});
+                sockets.put(port, new BungeeSocketReworked(instance, new String[]{String.valueOf(port)}));
             }).start();
         }
+    }
+
+    public void cancelSocket(int port) {
+        sockets.get(port).cancel();
     }
 
 

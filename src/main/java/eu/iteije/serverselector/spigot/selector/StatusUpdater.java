@@ -43,6 +43,7 @@ public class StatusUpdater {
     public boolean initializeSocket() {
         try {
             this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
+            Bukkit.broadcastMessage("Initialized socket.");
             return true;
         } catch (IOException exception) {
             ServerSelectorLogger.console("Failed to initialize socket.", exception);
@@ -53,9 +54,9 @@ public class StatusUpdater {
     @SuppressWarnings("deprecation")
     public void updateServerInfo(Map<String, String> force) {
         try {
-            if (this.socket == null) {
-                if (!initializeSocket()) throw new IOException();
-            }
+            this.socket = null;
+            if (!initializeSocket()) throw new IOException();
+            if (this.socket == null) throw new IOException("Socket is null");
 
             DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
 
@@ -84,17 +85,15 @@ public class StatusUpdater {
             int queueDelay = SpigotFileModule.getFile(StorageKey.CONFIG_QUEUE_DELAY).getInt(StorageKey.CONFIG_QUEUE_DELAY);
             dataOutputStream.writeInt(queueDelay);
 
+            Bukkit.broadcastMessage("Flushing data.");
             dataOutputStream.flush();
 
             dataOutputStream.close();
             this.socket.close();
-            // Its garbage collector time
-            this.socket = null;
-
-            force = null;
 
             instance.getServer().getScheduler().scheduleAsyncDelayedTask(instance, this::initializeSocket, 10L);
         } catch (IOException exception) {
+            this.socket = null;
             ServerSelectorLogger.console("Proxy server not responding.");
 
             ServerSelectorLogger.console("Reinitializing socket...", exception);
@@ -108,7 +107,9 @@ public class StatusUpdater {
             try {
                 updateServerInfo(new HashMap<>());
             } catch (Exception exception) {
-
+                destroyTasks();
+                ServerSelectorLogger.console("Destroying previous and initializing new update scheduler.");
+                initializeUpdateScheduler();
             }
         }, 0L, this.updateDelay * 20L));
     }

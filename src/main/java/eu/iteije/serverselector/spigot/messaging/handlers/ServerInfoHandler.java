@@ -22,6 +22,8 @@ public class ServerInfoHandler implements SpigotHandlerImplementation {
         try {
             SelectorModule selectorModule = instance.getSelectorModule();
 
+            ServerSelectorLogger.console("Received server info");
+
             ServerData data = new ServerData(
                     input.readUTF(),
                     input.readUTF(),

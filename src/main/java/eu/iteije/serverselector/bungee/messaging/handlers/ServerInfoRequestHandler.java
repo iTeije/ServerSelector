@@ -25,7 +25,7 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
     public void process(DataInputStream input, String sender) {
         try {
             // Read server name
-            String server = input.readUTF();
+            String server = input.readUTF().toLowerCase();
 
             // If there is no ServerData element, the server won't return anything (which is handled by the spigot plugin)
             ServerData serverData = instance.getClientCacheModule().getServerData(server);
