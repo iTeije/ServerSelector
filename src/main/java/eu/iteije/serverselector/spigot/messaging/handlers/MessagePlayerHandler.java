@@ -1,14 +1,14 @@
 package eu.iteije.serverselector.spigot.messaging.handlers;
 
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
-import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotCommunicationImplementation;
+import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotHandlerImplementation;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class MessagePlayerHandler implements SpigotCommunicationImplementation {
+public class MessagePlayerHandler implements SpigotHandlerImplementation {
 
     public MessagePlayerHandler() {
 

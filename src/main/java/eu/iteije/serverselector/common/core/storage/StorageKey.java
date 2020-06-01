@@ -48,11 +48,12 @@ public enum StorageKey {
     SEND_PROCESSING("send_processing", StorageLocation.MESSAGE_FILE),
     SEND_ALREADY_CONNECTED("send_already_connected", StorageLocation.MESSAGE_FILE),
     SEND_SERVER_NOT_FOUND("send_server_not_found", StorageLocation.MESSAGE_FILE),
-    SEND_SERVER_WHITELISTED("send_server_whitelisted", StorageLocation.MESSAGE_FILE),
+    SEND_SERVER_UNAVAILABLE("send_server_unavailable", StorageLocation.MESSAGE_FILE),
 
     QUEUE_PROCESSING("queue_processing", StorageLocation.MESSAGE_FILE),
     QUEUE_ALREADY_QUEUED("queue_already_queued", StorageLocation.MESSAGE_FILE),
-
+    QUEUE_NOT_QUEUED("queue_not_queued", StorageLocation.MESSAGE_FILE),
+    QUEUE_LEFT("queue_left", StorageLocation.MESSAGE_FILE),
 
 
     // Selector item
@@ -67,6 +68,7 @@ public enum StorageKey {
     CONFIG_UPDATE_DELAY("update-delay", StorageLocation.CONFIG_FILE),
     CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
     CONFIG_OFFLINE_TIME("offline-time", StorageLocation.CONFIG_FILE),
+    CONFIG_QUEUE_DELAY("queue-delay", StorageLocation.CONFIG_FILE),
 
 
     ;

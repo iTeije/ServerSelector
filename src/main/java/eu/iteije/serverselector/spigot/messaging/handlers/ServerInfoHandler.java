@@ -3,13 +3,13 @@ package eu.iteije.serverselector.spigot.messaging.handlers;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotCommunicationImplementation;
+import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotHandlerImplementation;
 import eu.iteije.serverselector.spigot.selector.SelectorModule;
 
 import java.io.DataInputStream;
 import java.io.IOException;
 
-public class ServerInfoHandler implements SpigotCommunicationImplementation {
+public class ServerInfoHandler implements SpigotHandlerImplementation {
 
     private ServerSelectorSpigot instance;
 
@@ -22,17 +22,22 @@ public class ServerInfoHandler implements SpigotCommunicationImplementation {
         try {
             SelectorModule selectorModule = instance.getSelectorModule();
 
+            ServerSelectorLogger.console("Received server info");
+
             ServerData data = new ServerData(
                     input.readUTF(),
                     input.readUTF(),
                     input.readUTF(),
                     input.readUTF(),
-                    input.readLong()
+                    input.readLong(),
+                    input.readInt(),
+                    input.readInt()
             );
 
             selectorModule.getStatusUpdater().updateServerInfo(data);
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
+            exception.printStackTrace();
         }
 
     }
