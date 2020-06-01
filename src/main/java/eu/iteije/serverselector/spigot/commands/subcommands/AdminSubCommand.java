@@ -22,7 +22,7 @@ public class AdminSubCommand extends SubCommand {
 
     @Override
     public void onExecute(CommonExecutor executor, String[] args, String label) {
-        CommandSender sender = (CommandSender) executor.getSender();
+        CommandSender sender = executor.getSender();
         if (args.length == 0) {
             Bukkit.getServer().dispatchCommand(sender, "ss help admin");
             return;

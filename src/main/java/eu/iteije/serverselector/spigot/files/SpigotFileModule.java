@@ -1,7 +1,7 @@
 package eu.iteije.serverselector.spigot.files;
 
-import eu.iteije.serverselector.common.storage.StorageKey;
-import eu.iteije.serverselector.common.storage.StorageLocation;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageLocation;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 
 import java.util.HashMap;
@@ -19,7 +19,9 @@ public class SpigotFileModule {
         SpigotFolder menuFolder = new SpigotFolder(serverSelectorSpigot, StorageLocation.MENU_FOLDER);
         menuFolder.load();
 
-        SpigotFile mainMenuFile = new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
+        // Initialize default plugin files
+        new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
+        new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Examples.json");
     }
 
     /**

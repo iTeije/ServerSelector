@@ -2,18 +2,20 @@ package eu.iteije.serverselector.spigot.selector.actions;
 
 import eu.iteije.serverselector.common.messaging.enums.MessageType;
 import eu.iteije.serverselector.common.messaging.objects.Replacement;
-import eu.iteije.serverselector.common.storage.StorageKey;
+import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
+import eu.iteije.serverselector.spigot.selector.actions.enums.ActionTag;
+import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-public class MenuAction implements Action {
+public class MenuAction extends Action {
 
     private ServerSelectorSpigot instance;
 
     public MenuAction(ServerSelectorSpigot instance) {
+        super(ActionTag.PLAYER);
         this.instance = instance;
     }
 
@@ -26,10 +28,10 @@ public class MenuAction implements Action {
         try {
             menuModule.getCachedMenu(context).open(player);
         } catch (Exception exception) {
-            instance.getMessageModule().send(StorageKey.MENU_ACTION_MENU_FAILED, Bukkit.getConsoleSender(), MessageType.MESSAGE,
+            instance.getMessageModule().send(StorageKey.ACTION_MENU_FAILED, Bukkit.getConsoleSender(), MessageType.MESSAGE,
                     new Replacement("{menu}", context)
                     );
-            instance.getMessageModule().sendToPlayer(StorageKey.MENU_ACTION_MENU_FAILED, new Player[]{player}, MessageType.MESSAGE,
+            instance.getMessageModule().sendToPlayer(StorageKey.ACTION_MENU_FAILED, new Player[]{player}, MessageType.MESSAGE,
                     new Replacement("{menu}", context)
                     );
         }

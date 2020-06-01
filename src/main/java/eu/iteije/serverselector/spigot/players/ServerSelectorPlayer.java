@@ -3,6 +3,8 @@ package eu.iteije.serverselector.spigot.players;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.services.actionqueue.Action;
 import eu.iteije.serverselector.spigot.services.actionqueue.ActionType;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -18,9 +20,12 @@ public class ServerSelectorPlayer {
 
     private List<Action> queue = new ArrayList<>();
 
+    @Getter @Setter private boolean toggledPlayers;
+
     public ServerSelectorPlayer(ServerSelectorSpigot serverSelectorSpigot, UUID uuid) {
         this.serverSelectorSpigot = serverSelectorSpigot;
         this.uuid = uuid;
+        this.toggledPlayers = false;
     }
 
     // Queue a action

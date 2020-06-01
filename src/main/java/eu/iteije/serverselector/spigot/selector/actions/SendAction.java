@@ -1,14 +1,16 @@
 package eu.iteije.serverselector.spigot.selector.actions;
 
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.selector.actions.interfaces.Action;
+import eu.iteije.serverselector.spigot.selector.actions.enums.ActionTag;
+import eu.iteije.serverselector.spigot.selector.actions.objects.Action;
 import org.bukkit.entity.Player;
 
-public class SendAction implements Action {
+public class SendAction extends Action {
 
     private ServerSelectorSpigot instance;
 
     public SendAction(ServerSelectorSpigot instance) {
+        super(ActionTag.BUNGEE);
         this.instance = instance;
     }
 

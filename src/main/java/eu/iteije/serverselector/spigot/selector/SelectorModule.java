@@ -1,10 +1,11 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.core.storage.StorageKey;
+import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
-import eu.iteije.serverselector.spigot.selector.objects.ServerInfo;
 import eu.iteije.serverselector.spigot.services.menus.Item;
 import eu.iteije.serverselector.spigot.services.menus.menu.Menu;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import org.json.simple.parser.JSONParser;
 import java.io.File;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -25,14 +27,17 @@ public class SelectorModule {
 
     private ServerSelectorSpigot instance;
     private ActionManager actionManager;
-    @Getter private MenuUpdater menuUpdater;
+    @Getter private StatusUpdater statusUpdater;
 
     public SelectorModule(ServerSelectorSpigot instance) {
         this.instance = instance;
         this.actionManager = new ActionManager(instance);
 
-        this.menuUpdater = new MenuUpdater(instance);
-        this.menuUpdater.initializeUpdateScheduler();
+        this.statusUpdater = new StatusUpdater(instance);
+        this.statusUpdater.initializeUpdateScheduler();
+        this.statusUpdater.initializeFetchScheduler();
+
+        this.statusUpdater.updateServerInfo(new HashMap<>());
     }
 
     public void cacheMenus() {
@@ -74,27 +79,30 @@ public class SelectorModule {
 
             Material material = Material.getMaterial((String) itemData.get("material"));
             Item item = new Item(material);
-            item.setName((String) itemData.get("display_name"));
 
-            String actionType = (String) itemData.get("action_type");
-            if (!actionType.equals("NONE")) {
-                if (actionType.equals("CLOSE")) {
-                    item.onClick(((player, item1) -> player.closeInventory()));
-                } else {
-                    item.onClick(((player, item1) -> {
-                        actionManager.getActionByName(actionType).execute((String) itemData.get("action"), player);
-                    }));
-                }
+            String displayName = (String) itemData.get("display_name");
+            if (displayName != null) {
+                item.setName((String) itemData.get("display_name"));
+            }
+
+            JSONArray actions = (JSONArray) itemData.get("actions");
+            if (actions != null) {
+                item.onClick(((player, item1) -> {
+                    actionManager.processActions((JSONArray) itemData.get("actions"), player);
+                }));
             }
 
             try {
                 JSONArray jsonLore = (JSONArray) itemData.get("lore");
                 if (jsonLore != null && jsonLore.size() != 0) {
                     List<String> lore = new ArrayList<>();
+
+                    String server = (String) itemData.get("server");
+
                     for (int i = 0; i < jsonLore.size(); i++) {
                         String line = (String) jsonLore.get(i);
-                        if (actionType.equalsIgnoreCase("SEND") || actionType.equalsIgnoreCase("QUEUE")) {
-                            String server = (String) itemData.get("action");
+
+                        if (server != null) {
                             instance.getCommunicationModule().requestServerInfo(server);
                             line = convertLore(line, server);
                         }
@@ -118,18 +126,25 @@ public class SelectorModule {
     }
 
     public String convertLore(String line, String serverName) {
-        Bukkit.broadcastMessage("SelectorModule: getting server info for server " + serverName);
-        ServerInfo serverInfo = this.menuUpdater.getServerInfo(serverName);
-        if (serverInfo == null) {
-            Bukkit.broadcastMessage("SelectorModule: serverinfo is null");
+        ServerData serverData = this.statusUpdater.getServerInfo(serverName);
+
+        boolean online;
+        if (serverData != null) {
+            Long allowedOfflineTime = Long.parseLong(String.valueOf(SpigotFileModule.getFile(StorageKey.CONFIG_OFFLINE_TIME).getInt(StorageKey.CONFIG_OFFLINE_TIME)));
+            Long currentOfflineTime = serverData.getLastUpdate();
+            long currentTime = System.currentTimeMillis() / 1000L;
+
+            online = currentTime <= (currentOfflineTime + allowedOfflineTime);
+
+            if (!online) statusUpdater.removeServerInfo(serverData.serverName);
         } else {
-            Bukkit.broadcastMessage(serverInfo.currentPlayers + serverInfo.maxPlayers);
+            online = false;
         }
 
-        line = line.replace("{status}", serverInfo != null ? serverInfo.getStatus() : "OFFLINE");
-        line = line.replace("{current_players}", serverInfo != null ? serverInfo.getCurrentPlayers() : "0");
-        line = line.replace("{max_players}", serverInfo != null ? serverInfo.getMaxPlayers() : "0");
-        line = line.replace("{queue}", "soon");
+        line = line.replace("{status}", online ? serverData.getStatus() : "OFFLINE");
+        line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "0");
+        line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "0");
+        line = line.replace("{queue}", online ? String.valueOf(serverData.getQueue()) : "0");
 
         return line;
     }

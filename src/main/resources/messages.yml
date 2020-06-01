@@ -8,7 +8,8 @@ command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
 
 # Action queue messages
-action_propose_chat: "&3Type something regarding your chat action:"
+actionqueue_propose_chat: "&3Type something regarding your chat action (type \"cancel\" to cancel):"
+actionqueue_cancelled: "&cCancelled action."
 
 # Help command
 help_command_title: "&3Showing all available commands:"
@@ -28,7 +29,10 @@ message_menu_title: "&9&lMessages"
 message_menu_success: "&3Message &b{message_name} &3has been updated to \"{message}&3\" across all active servers."
 
 # Menu actions
-menu_action_menu_failed: "&cFailed opening menu &4{menu}&c!"
+action_menu_failed: "&cUnable to open menu &4{menu}&c!"
+action_sound_failed: "&cUnable to play sound &4{sound}&c!"
+action_teleport_invalid: "&cThe given coordinates are invalid!"
+action_effect_failed: "&cFailed to toggle effect &4{effect}&c!"
 
 # Main menu
 status_offline: "&c&lOFFLINE"
@@ -39,4 +43,9 @@ status_online: "&a&lONLINE"
 send_processing: "&3Summoning you to &b{server}&3..."
 send_already_connected: "&cYou are already connected to this server!"
 send_server_not_found: "&cServer &4{server} &cnot found!"
-send_server_whitelisted: "&cYou can't be summoned to &4{server} &cbecause it is whitelisted!"
+send_server_unavailable: "&cYou can't access &4{server} &cbecause it is whitelisted or offline!"
+
+queue_processing: "&3Entering the queue of &b{server}&3..."
+queue_already_queued: "&cYou are already in the queue of &4{server}&c! Use \"/ss leavequeue\" to leave this queue."
+queue_not_queued: "&cYou are not in a queue!"
+queue_left: "&cYou successfully left the queue."

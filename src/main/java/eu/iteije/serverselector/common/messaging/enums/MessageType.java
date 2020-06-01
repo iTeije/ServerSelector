@@ -17,12 +17,12 @@ public enum MessageType {
         public void sendBungee(String message, String server, ServerSelectorSpigot serverSelectorSpigot, String[] playerNames) {
             if (playerNames != null) {
                 for (String playerName : playerNames) {
-                    serverSelectorSpigot.getCommunicationModule().sendMessage(message, "", playerName);
+                    serverSelectorSpigot.getCommunicationModule().sendMessage(message, "MessagePlayer", playerName);
                 }
                 return;
             }
 
-            serverSelectorSpigot.getCommunicationModule().sendMessage(message, "broadcast");
+            serverSelectorSpigot.getCommunicationModule().sendMessage(message, "Broadcast");
         }
     },
     TITLE {

@@ -1,4 +1,4 @@
-package eu.iteije.serverselector.common.storage;
+package eu.iteije.serverselector.common.core.storage;
 
 import java.util.Set;
 
