@@ -36,7 +36,6 @@ public class ClientCacheModule {
         }
 
         serverData.remove(data.getServerName());
-        ServerSelectorLogger.console("Saving server data");
         serverData.put(data.getServerName(), data);
     }
 

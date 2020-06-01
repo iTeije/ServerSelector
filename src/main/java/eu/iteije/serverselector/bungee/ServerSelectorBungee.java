@@ -53,6 +53,8 @@ public class ServerSelectorBungee extends Plugin {
 
     @Override
     public void onDisable() {
+        bungeeSocketManager.closeSockets();
+
         ServerSelector.getInstance().disable();
     }
 }
