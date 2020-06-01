@@ -30,11 +30,14 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
             // If there is no ServerData element, the server won't return anything (which is handled by the spigot plugin)
             ServerData serverData = instance.getClientCacheModule().getServerData(server);
 
-            if (serverData != null) {
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                DataOutputStream output = new DataOutputStream(bytes);
+            ServerInfo senderInfo = ProxyServer.getInstance().getServerInfo(sender);
 
-                output.writeUTF("ServerInfo");
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            DataOutputStream output = new DataOutputStream(bytes);
+
+            output.writeUTF("ServerInfo");
+
+            if (serverData != null) {
                 output.writeUTF(serverData.getServerName());
                 output.writeUTF(serverData.getStatus());
                 output.writeUTF(serverData.getCurrentPlayers());
@@ -43,7 +46,15 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeInt(serverData.getQueue());
                 output.writeInt(serverData.getQueueDelay());
 
-                ServerInfo senderInfo = ProxyServer.getInstance().getServerInfo(sender);
+                senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
+            } else {
+                output.writeUTF(server);
+                output.writeUTF("OFFLINE");
+                output.writeUTF("0");
+                output.writeUTF("0");
+                output.writeLong(159103700L);
+                output.writeInt(instance.getQueueManager().getQueueSize(server));
+                output.writeInt(2);
 
                 senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }
