@@ -24,6 +24,8 @@ public class PlayerModule {
         pluginManager.registerEvents(new PlayerQuitListener(instance), instance);
         pluginManager.registerEvents(new PlayerInteractListener(instance), instance);
         pluginManager.registerEvents(new PlayerCommandPreprocessListener(instance), instance);
+        pluginManager.registerEvents(new PlayerInventoryClickListener(instance), instance);
+        pluginManager.registerEvents(new PlayerDropItemListener(instance), instance);
     }
 
     public void registerPlayers() {

@@ -48,8 +48,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.fileModule = new SpigotFileModule(this);
         this.messageModule = new SpigotMessageModule();
         this.communicationModule = new SpigotCommunicationModule(this);
-        this.playerModule = new PlayerModule(this);
         this.menuModule = new MenuModule(this);
+        this.playerModule = new PlayerModule(this);
         this.selectorModule = new SelectorModule(this);
 
         // Register online players
