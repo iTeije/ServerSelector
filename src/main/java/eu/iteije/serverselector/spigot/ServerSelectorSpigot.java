@@ -63,6 +63,10 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     public void onDisable() {
         // Clear player cache
         playerModule.clearCache();
+
+        // Destroy status runnables
+        selectorModule.getStatusUpdater().destroyTasks();
+
         // Plugin shutdown logic
         ServerSelector.getInstance().disable();
     }
