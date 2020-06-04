@@ -11,7 +11,7 @@
 
     <name>ServerSelector</name>
 
-    <description>A advanced BungeeCord servser selector</description>
+    <description>A advanced BungeeCord server selector</description>
     <properties>
         <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
