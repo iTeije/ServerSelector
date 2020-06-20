@@ -134,12 +134,12 @@ public class BungeeFile implements ServerSelectorFile {
 
 
     /**
-     * @param string the new value
-     * @param path path
+     * @param path path to write the message to
+     * @param message the actual message
      */
     @Override
-    public void setStringToPath(String string, String path) {
-        configuration.set(path, string);
+    public void setStringToPath(String path, String message) {
+        configuration.set(path, message);
     }
 
 
@@ -164,7 +164,7 @@ public class BungeeFile implements ServerSelectorFile {
 
     public void save() {
         try {
-            ConfigurationProvider.getProvider(YamlConfiguration.class).save(configuration, this.file);
+            ConfigurationProvider.getProvider(YamlConfiguration.class).save(this.configuration, new File(serverSelectorBungee.getDataFolder(), fileName));
         } catch (IOException exception) {
             exception.printStackTrace();
         }

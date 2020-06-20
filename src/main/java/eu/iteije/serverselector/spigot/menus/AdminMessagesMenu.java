@@ -51,7 +51,8 @@ public class AdminMessagesMenu extends Menu {
                     words = Arrays.copyOfRange(words, 0, words.length);
 
                     String message = String.join(" ", words);
-                    messageModule.globalBroadcast("/ss console message " + messages[start + finalI] + " " + message, MessageType.MESSAGE, instance);
+
+                    instance.getCommunicationModule().getRequest("UpdateMessage").process(messages[start + finalI], message);
 
                     messageModule.sendToPlayer(StorageKey.MESSAGE_MENU_SUCCESS, new Player[]{player}, MessageType.MESSAGE,
                             new Replacement("{message_name}", messages[start + finalI]),

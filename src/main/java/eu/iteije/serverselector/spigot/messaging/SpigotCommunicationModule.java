@@ -4,9 +4,11 @@ import eu.iteije.serverselector.common.messaging.enums.MessageChannel;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.messaging.handlers.MessagePlayerHandler;
 import eu.iteije.serverselector.spigot.messaging.handlers.ServerInfoHandler;
+import eu.iteije.serverselector.spigot.messaging.handlers.UpdateMessageHandler;
 import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotHandlerImplementation;
 import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotRequestImplementation;
 import eu.iteije.serverselector.spigot.messaging.requests.LeaveQueueRequest;
+import eu.iteije.serverselector.spigot.messaging.requests.UpdateMessageRequest;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -15,7 +17,7 @@ import java.util.HashMap;
 
 public class SpigotCommunicationModule implements PluginMessageListener {
 
-    private ServerSelectorSpigot serverSelectorSpigot;
+    private ServerSelectorSpigot instance;
 
     private HashMap<String, SpigotHandlerImplementation> spigotHandlers = new HashMap<>();
     private HashMap<String, SpigotRequestImplementation> spigotRequests = new HashMap<>();
@@ -24,7 +26,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         serverSelectorSpigot.getServer().getMessenger().registerOutgoingPluginChannel(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel());
         serverSelectorSpigot.getServer().getMessenger().registerIncomingPluginChannel(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), this);
 
-        this.serverSelectorSpigot = serverSelectorSpigot;
+        this.instance = serverSelectorSpigot;
         saveHandlers();
         saveRequests();
     }
@@ -38,8 +40,9 @@ public class SpigotCommunicationModule implements PluginMessageListener {
     }
 
     public void saveHandlers() {
-        addHandler("ServerInfo", new ServerInfoHandler(serverSelectorSpigot));
+        addHandler("ServerInfo", new ServerInfoHandler(instance));
         addHandler("MessagePlayer", new MessagePlayerHandler());
+        addHandler("UpdateMessage", new UpdateMessageHandler());
     }
 
     public SpigotRequestImplementation getRequest(String name) {
@@ -51,7 +54,8 @@ public class SpigotCommunicationModule implements PluginMessageListener {
     }
 
     public void saveRequests() {
-        addRequest("LeaveQueue", new LeaveQueueRequest(serverSelectorSpigot));
+        addRequest("LeaveQueue", new LeaveQueueRequest(instance));
+        addRequest("UpdateMessage", new UpdateMessageRequest(instance));
     }
 
 
@@ -65,7 +69,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
                 outputStream.writeUTF(context);
                 for (String player : playerNames) {
                     outputStream.writeUTF(player);
-                    serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                    instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
                 }
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -74,7 +78,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             try {
                 outputStream.writeUTF(optional);
                 outputStream.writeUTF(context);
-                serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -89,7 +93,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             outputStream.writeUTF("SendPlayer");
             outputStream.writeUTF(server);
             outputStream.writeUTF(playerName);
-            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -102,7 +106,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         try {
             outputStream.writeUTF("ServerInfoRequest");
             outputStream.writeUTF(server);
-            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -116,7 +120,7 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             outputStream.writeUTF("QueuePlayer");
             outputStream.writeUTF(player.getUniqueId().toString());
             outputStream.writeUTF(server);
-            serverSelectorSpigot.getServer().sendPluginMessage(serverSelectorSpigot, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
         } catch (IOException exception) {
             exception.printStackTrace();
         }

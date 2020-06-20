@@ -8,21 +8,25 @@ import java.util.HashMap;
 
 public class BungeeFileModule {
 
+    // Saved files
     private static HashMap<String, BungeeFile> files = new HashMap<>();
 
-
     public BungeeFileModule(ServerSelectorBungee serverSelectorBungee) {
-        BungeeFile messagesFile = new BungeeFile(serverSelectorBungee, StorageLocation.MESSAGE_FILE);
+        new BungeeFile(serverSelectorBungee, StorageLocation.MESSAGE_FILE);
     }
 
     /**
      * @param name name of the requested file (including .yml)
-     * @return file (could be null)
+     * @return saved file
      */
     public static BungeeFile getFileByName(String name) {
-        return files.get(name);
+        return files.getOrDefault(name, null);
     }
 
+    /**
+     * @param key entry key
+     * @return the BungeeFile the key is in
+     */
     public static BungeeFile getFile(StorageKey key) {
         return files.get(key.getStorageLocation().getFileName());
     }
