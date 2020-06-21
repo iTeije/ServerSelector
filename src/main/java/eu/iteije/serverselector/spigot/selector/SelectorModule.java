@@ -1,5 +1,6 @@
 package eu.iteije.serverselector.spigot.selector;
 
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
@@ -77,6 +78,10 @@ public class SelectorModule {
             JSONObject itemData = (JSONObject) items.get(index);
 
             Material material = Material.getMaterial((String) itemData.get("material"));
+            if (material == null) {
+                ServerSelectorLogger.console("Material " + itemData.get("material") + " could not be found (Menu: " + menu.getChatName() + ")");
+                break;
+            }
             Item item = new Item(material);
 
             String displayName = (String) itemData.get("display_name");

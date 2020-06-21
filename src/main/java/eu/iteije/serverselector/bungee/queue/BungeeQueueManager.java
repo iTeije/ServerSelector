@@ -1,6 +1,7 @@
 package eu.iteije.serverselector.bungee.queue;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 
@@ -56,10 +57,7 @@ public class BungeeQueueManager {
     }
 
     public Boolean isInQueue(UUID uuid) {
-        if (queue.values().stream().anyMatch(queueList -> queueList.contains(uuid))) {
-            return true;
-        }
-        return false;
+        return queue.values().stream().anyMatch(queueList -> queueList.contains(uuid));
     }
 
     public List<String> getCurrentQueue(UUID uuid) {
@@ -76,8 +74,11 @@ public class BungeeQueueManager {
 
     public void quitQueue(UUID uuid) {
         List<String> currentQueue = getCurrentQueue(uuid);
+        ServerSelectorLogger.console("Quitting");
         if (currentQueue != null) {
+            ServerSelectorLogger.console("Not null");
             for (String queue : currentQueue) {
+                ServerSelectorLogger.console("Removing from " + queue);
                 LinkedList<UUID> list = this.queue.get(queue);
                 list.remove(uuid);
 

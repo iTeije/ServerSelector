@@ -45,7 +45,7 @@ public class SpigotMessageModule {
             Player player = (Player) sender;
             sendToPlayer(storageKey, new Player[]{player}, messageType, replacements);
         } else if (sender instanceof ConsoleCommandSender) {
-            Bukkit.getLogger().info(messageModule.convert(storageKey, true, replacements));
+            Bukkit.getConsoleSender().sendMessage(messageModule.convert(storageKey, true, replacements));
         }
     }
 

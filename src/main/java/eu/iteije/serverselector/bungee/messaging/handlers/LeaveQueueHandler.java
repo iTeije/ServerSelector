@@ -26,17 +26,17 @@ public class LeaveQueueHandler implements BungeeHandlerImplementation {
     public void process(DataInputStream input, String sender) {
         try {
             UUID uuid = UUID.fromString(input.readUTF());
-
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+            ServerSelectorLogger.console("UUID: " + uuid);
 
             try {
                 Boolean isInQueue = queueManager.isInQueue(uuid);
+                ServerSelectorLogger.console("in queue: " + isInQueue);
 
                 if (isInQueue) {
                     queueManager.quitQueue(uuid);
-                    instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_LEFT, player, sender);
+                    sendMessage(StorageKey.QUEUE_LEFT, uuid, sender);
                 } else {
-                    instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_NOT_QUEUED, player, sender);
+                    sendMessage(StorageKey.QUEUE_NOT_QUEUED, uuid, sender);
                 }
 
             } catch (NullPointerException nullPointerException) {
@@ -44,6 +44,13 @@ public class LeaveQueueHandler implements BungeeHandlerImplementation {
             }
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in QueuePlayerHandler.", exception);
+        }
+    }
+
+    public void sendMessage(StorageKey key, UUID uuid, String sender) {
+        ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+        if (uuid != null || sender == null) {
+            instance.getCommunicationModule().sendMessage(key, player, sender);
         }
     }
 }

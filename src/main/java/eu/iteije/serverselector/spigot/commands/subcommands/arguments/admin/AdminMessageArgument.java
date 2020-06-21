@@ -14,30 +14,29 @@ import org.bukkit.entity.Player;
 
 public class AdminMessageArgument extends ArgumentHandler {
 
-    private ServerSelectorSpigot serverSelectorSpigot;
+    private ServerSelectorSpigot instance;
 
-    public AdminMessageArgument(SubCommand subCommand, String argument, ServerSelectorSpigot serverSelectorSpigot) {
+    public AdminMessageArgument(SubCommand subCommand, String argument, ServerSelectorSpigot instance) {
         super(subCommand, argument);
-        this.serverSelectorSpigot = serverSelectorSpigot;
+        this.instance = instance;
     }
 
     @Override
     public void onExecute(CommonExecutor executor, String[] args) {
-
-        SpigotMessageModule spigotMessageModule = serverSelectorSpigot.getMessageModule();
+        SpigotMessageModule messageModule = instance.getMessageModule();
 
         CommandSender sender = executor.getSender();
 
         if (sender instanceof Player) {
             Player player = (Player) executor.getSender();
-            spigotMessageModule.sendToPlayer(StorageKey.MENU_OPENING, new Player[]{player}, MessageType.MESSAGE,
-                    new Replacement("{menu}", spigotMessageModule.getMessage(StorageKey.MESSAGE_MENU_NAME))
+            messageModule.sendToPlayer(StorageKey.MENU_OPENING, new Player[]{player}, MessageType.MESSAGE,
+                    new Replacement("{menu}", messageModule.getMessage(StorageKey.MESSAGE_MENU_NAME))
             );
 
-            AdminMessagesMenu messagesMenu = new AdminMessagesMenu(serverSelectorSpigot, 1);
+            AdminMessagesMenu messagesMenu = new AdminMessagesMenu(instance, 1);
             messagesMenu.open(player);
         } else {
-            spigotMessageModule.send(StorageKey.COMMAND_PLAYER_ONLY, sender, MessageType.MESSAGE);
+            messageModule.send(StorageKey.COMMAND_PLAYER_ONLY, sender, MessageType.MESSAGE);
         }
     }
 

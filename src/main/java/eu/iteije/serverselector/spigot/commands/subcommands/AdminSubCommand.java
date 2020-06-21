@@ -5,19 +5,19 @@ import eu.iteije.serverselector.common.commands.objects.Argument;
 import eu.iteije.serverselector.common.commands.objects.SubCommand;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.commands.subcommands.arguments.admin.AdminMessageArgument;
+import eu.iteije.serverselector.spigot.commands.subcommands.arguments.admin.AdminReloadArgument;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 
 public class AdminSubCommand extends SubCommand {
 
-    private ServerSelectorSpigot serverSelectorSpigot;
 
-    public AdminSubCommand(ServerSelectorSpigot serverSelectorSpigot) {
+    public AdminSubCommand(ServerSelectorSpigot instance) {
         super("admin", "Shows a page with all admin commands");
         registerArguments(
-                new Argument("messages", "Modify messages across network", new AdminMessageArgument(this, "messages", serverSelectorSpigot))
+                new Argument("messages", "Modify messages across network", new AdminMessageArgument(this, "messages", instance)),
+                new Argument("reload", "Load manual changes, cancel pending actions and syncronize", new AdminReloadArgument(this, "reload", instance))
         );
-        this.serverSelectorSpigot = serverSelectorSpigot;
     }
 
     @Override
