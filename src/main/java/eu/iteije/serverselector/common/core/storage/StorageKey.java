@@ -69,6 +69,7 @@ public enum StorageKey {
     CONFIG_FETCH_DELAY("fetch-delay", StorageLocation.CONFIG_FILE),
     CONFIG_OFFLINE_TIME("offline-time", StorageLocation.CONFIG_FILE),
     CONFIG_QUEUE_DELAY("queue-delay", StorageLocation.CONFIG_FILE),
+    CONFIG_BUNGEE_IP("bungee-ip", StorageLocation.CONFIG_FILE),
 
 
     ;

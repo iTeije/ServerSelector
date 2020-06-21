@@ -8,10 +8,8 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 
-import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +32,6 @@ public class StatusUpdater {
     private HashMap<String, ServerData> serverData = new HashMap<>();
 
     private Socket socket;
-    private BufferedReader input;
-    private PrintStream output;
 
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
@@ -48,13 +44,13 @@ public class StatusUpdater {
 
     public void initializeSocket() {
         try {
-            this.socket = new Socket("127.0.0.1", instance.getServer().getPort() + 10000);
+            this.socket = new Socket(SpigotFileModule.getFile(StorageKey.CONFIG_BUNGEE_IP).getString(StorageKey.CONFIG_BUNGEE_IP),
+                    instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
             ServerSelectorLogger.console("Failed to initialize socket.", exception);
         }
     }
 
-    @SuppressWarnings("deprecation")
     public void updateServerInfo(Map<String, String> force) {
         try {
             if (socket == null) {
@@ -101,7 +97,6 @@ public class StatusUpdater {
         } catch (IOException exception) {
             ServerSelectorLogger.console("Proxy server not responding.", exception);
         }
-
     }
 
     public void initializeUpdateScheduler() {

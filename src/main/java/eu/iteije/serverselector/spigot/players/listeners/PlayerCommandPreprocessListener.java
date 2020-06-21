@@ -21,17 +21,18 @@ public class PlayerCommandPreprocessListener implements Listener {
         // If whitelist is being turned on or off, the server should send a updater ServerData regardless of the current
         // update scheduler delay and current whitelist status
         String command = event.getMessage();
-        if (command.contains("whitelist")) {
-            Map<String, String> force = new HashMap<>();
-            if (command.equalsIgnoreCase("/whitelist on")) {
-                force.put("status", "whitelisted");
-                instance.getSelectorModule().getStatusUpdater().updateServerInfo(force);
-            } else if (command.equalsIgnoreCase("/whitelist off")) {
-                force.put("status", "online");
-                instance.getSelectorModule().getStatusUpdater().updateServerInfo(force);
+        if (event.getPlayer().hasPermission("minecraft.command.whitelist")) {
+            if (command.contains("whitelist")) {
+                Map<String, String> force = new HashMap<>();
+                if (command.equalsIgnoreCase("/whitelist on")) {
+                    force.put("status", "whitelisted");
+                    instance.getSelectorModule().getStatusUpdater().updateServerInfo(force);
+                } else if (command.equalsIgnoreCase("/whitelist off")) {
+                    force.put("status", "online");
+                    instance.getSelectorModule().getStatusUpdater().updateServerInfo(force);
+                }
+                force = null;
             }
-            force = null;
         }
-
     }
 }

@@ -30,6 +30,10 @@ selector-drop: false
 # All values listed below are treated as seconds unless specified else
 # Important to note is that the queue will be processed by the bungeecord server
 
+# The IP of your bungeecord server (numbers)
+# If your bungee is running on the same machine as your spigot server, you don't have to change the value below
+bungee-ip: "127.0.0.1"
+
 # How long the server waits before updating their information (at least 5 seconds)
 # This information includes; status (whitelist/online), player capacity, max players
 update-delay: 5

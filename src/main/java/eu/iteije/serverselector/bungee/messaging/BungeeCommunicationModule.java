@@ -22,15 +22,15 @@ import java.util.UUID;
 
 public class BungeeCommunicationModule implements Listener {
 
-    private ServerSelectorBungee serverSelectorBungee;
+    private ServerSelectorBungee instance;
     private MessageModule messageModule;
 
     private HashMap<String, BungeeHandlerImplementation> bungeeHandlers = new HashMap<>();
 
-    public BungeeCommunicationModule(ServerSelectorBungee serverSelectorBungee) {
-        this.serverSelectorBungee = serverSelectorBungee;
+    public BungeeCommunicationModule(ServerSelectorBungee instance) {
+        this.instance = instance;
 
-        serverSelectorBungee.getProxy().registerChannel(MessageChannel.BUNGEE_GLOBAL.getChannel());
+        instance.getProxy().registerChannel(MessageChannel.BUNGEE_GLOBAL.getChannel());
         saveHandlers();
 
         this.messageModule = ServerSelector.getInstance().getMessageModule();
@@ -45,12 +45,13 @@ public class BungeeCommunicationModule implements Listener {
     }
 
     public void saveHandlers() {
-        addHandler("Broadcast", new BroadcastHandler(serverSelectorBungee));
-        addHandler("SendPlayer", new SendPlayerHandler(serverSelectorBungee));
-        addHandler("ServerInfoRequest", new ServerInfoRequestHandler(serverSelectorBungee));
-        addHandler("QueuePlayer", new QueuePlayerHandler(serverSelectorBungee));
+        addHandler("Broadcast", new BroadcastHandler(instance));
+        addHandler("SendPlayer", new SendPlayerHandler(instance));
+        addHandler("ServerInfoRequest", new ServerInfoRequestHandler(instance));
+        addHandler("QueuePlayer", new QueuePlayerHandler(instance));
         addHandler("MessagePlayer", new MessagePlayerHandler());
-        addHandler("LeaveQueue", new LeaveQueueHandler(serverSelectorBungee));
+        addHandler("LeaveQueue", new LeaveQueueHandler(instance));
+        addHandler("UpdateMessage", new UpdateMessageHandler(instance));
     }
 
     public void sendMessage(StorageKey key, ProxiedPlayer player, String sender, Replacement... replacements) {
@@ -59,7 +60,7 @@ public class BungeeCommunicationModule implements Listener {
     }
 
     public void sendPlayer(UUID uuid, String server) {
-        ProxiedPlayer player = serverSelectorBungee.getProxy().getPlayer(uuid);
+        ProxiedPlayer player = instance.getProxy().getPlayer(uuid);
         String[] sendPlayerRequest = {server, player.getName()};
         getHandler("SendPlayer").process(messageModule.getDataInputStream(sendPlayerRequest), player.getServer().getInfo().getName());
     }

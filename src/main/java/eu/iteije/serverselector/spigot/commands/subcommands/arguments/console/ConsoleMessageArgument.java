@@ -16,16 +16,16 @@ import java.util.Arrays;
 
 public class ConsoleMessageArgument extends ArgumentHandler {
 
-    private ServerSelectorSpigot serverSelectorSpigot;
+    private ServerSelectorSpigot instance;
 
-    public ConsoleMessageArgument(SubCommand subCommand, String argument, ServerSelectorSpigot serverSelectorSpigot) {
+    public ConsoleMessageArgument(SubCommand subCommand, String argument, ServerSelectorSpigot instance) {
         super(subCommand, argument);
-        this.serverSelectorSpigot = serverSelectorSpigot;
+        this.instance = instance;
     }
 
     @Override
     public void onExecute(CommonExecutor executor, String[] args) {
-        SpigotMessageModule spigotMessageModule = serverSelectorSpigot.getMessageModule();
+        SpigotMessageModule spigotMessageModule = instance.getMessageModule();
 
         CommandSender sender = executor.getSender();
 
