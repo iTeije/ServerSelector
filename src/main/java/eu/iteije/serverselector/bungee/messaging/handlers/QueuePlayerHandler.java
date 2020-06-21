@@ -11,6 +11,8 @@ import net.md_5.bungee.api.connection.ProxiedPlayer;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 public class QueuePlayerHandler implements BungeeHandlerImplementation {
@@ -27,7 +29,10 @@ public class QueuePlayerHandler implements BungeeHandlerImplementation {
     public void process(DataInputStream input, String sender) {
         try {
             UUID uuid = UUID.fromString(input.readUTF());
-            String server = input.readUTF().toLowerCase();
+            String serverInput = input.readUTF().toLowerCase();
+
+            // Split up the server input to all given servers
+            List<String> servers = Arrays.asList(serverInput.split("\\|"));
 
             ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
 
@@ -35,34 +40,45 @@ public class QueuePlayerHandler implements BungeeHandlerImplementation {
                 Boolean isInQueue = queueManager.isInQueue(uuid);
 
                 if (isInQueue) {
-                    String currentQueue = instance.getQueueManager().getCurrentQueue(uuid);
+                    // Get the first server in the list of the queues the player is currently in
+                    String currentQueue = instance.getQueueManager().getCurrentQueue(uuid).get(0);
                     instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_ALREADY_QUEUED, player, sender,
                             new Replacement("{server}", currentQueue)
                     );
                 } else {
-                    if (server.equalsIgnoreCase(player.getServer().getInfo().getName().toLowerCase())) {
+                    if (servers.contains(player.getServer().getInfo().getName().toLowerCase())) {
                         instance.getCommunicationModule().sendMessage(StorageKey.SEND_ALREADY_CONNECTED, player, sender,
-                                new Replacement("{server}", server)
+                                new Replacement("{server}", player.getServer().getInfo().getName().toLowerCase())
                         );
                         return;
                     }
-                    instance.getQueueManager().queuePlayer(server, uuid);
-                    ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
-                    instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_PROCESSING, player, sender,
-                            new Replacement("{server}", server)
-                    );
+
+                    queuePlayer(servers, player, sender);
+
                 }
 
             } catch (NullPointerException nullPointerException) {
-                instance.getQueueManager().queuePlayer(server, uuid);
-                ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
-                instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_PROCESSING, player, sender,
-                        new Replacement("{server}", server)
-                );
+                // For as far as I've tested it, this NullPointerException is randomly thrown,
+                //  queueing the player anyways has no impact on the server or plugin whatsoever
+                queuePlayer(servers, player, sender);
             }
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in QueuePlayerHandler.", exception);
         }
 
+    }
+
+    public void queuePlayer(List<String> servers, ProxiedPlayer player, String sender) {
+        UUID uuid = player.getUniqueId();
+
+        for (String server : servers) {
+            instance.getQueueManager().queuePlayer(server, uuid);
+
+            ServerSelectorLogger.console("Queueing " + player.getName() + " for server " + server);
+
+            instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_PROCESSING, player, sender,
+                    new Replacement("{server}", server)
+            );
+        }
     }
 }

@@ -88,6 +88,9 @@ public class BungeeSocket {
 
         } catch (IOException exception) {
             if (exception instanceof SocketException) {
+                exception.printStackTrace();
+                cancel();
+
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
                 instance.getBungeeSocketManager().renewSocket(this);
             } else {

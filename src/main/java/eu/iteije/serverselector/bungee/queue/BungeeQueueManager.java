@@ -4,10 +4,7 @@ import eu.iteije.serverselector.bungee.ServerSelectorBungee;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 public class BungeeQueueManager {
@@ -65,11 +62,12 @@ public class BungeeQueueManager {
         return false;
     }
 
-    public String getCurrentQueue(UUID uuid) {
+    public List<String> getCurrentQueue(UUID uuid) {
+        List<String> queues = new ArrayList<>();
         for (Map.Entry<String, LinkedList<UUID>> list : queue.entrySet()) {
-            if (list.getValue().contains(uuid)) return list.getKey();
+            if (list.getValue().contains(uuid)) queues.add(list.getKey());
         }
-        return null;
+        return queues;
     }
 
     public int getQueueSize(String server) {
@@ -77,12 +75,14 @@ public class BungeeQueueManager {
     }
 
     public void quitQueue(UUID uuid) {
-        String currentQueue = getCurrentQueue(uuid);
+        List<String> currentQueue = getCurrentQueue(uuid);
         if (currentQueue != null) {
-            LinkedList<UUID> list = queue.get(currentQueue);
-            list.remove(uuid);
+            for (String queue : currentQueue) {
+                LinkedList<UUID> list = this.queue.get(queue);
+                list.remove(uuid);
 
-            updateQueue(currentQueue, list);
+                updateQueue(queue, list);
+            }
         }
     }
 
@@ -93,6 +93,7 @@ public class BungeeQueueManager {
         queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
             if (currentQueue.size() > 0) {
                 instance.getCommunicationModule().sendPlayer(currentQueue.get(0), server);
+                quitQueue(currentQueue.get(0));
                 currentQueue.remove(0);
             }
         }, delay, delay, TimeUnit.MILLISECONDS));
@@ -110,6 +111,10 @@ public class BungeeQueueManager {
 
     public ScheduledTask getScheduledTask(String server) {
         return queueTasks.get(server);
+    }
+
+    public void removePlayerFromQueues(String uuid) {
+
     }
 
 
