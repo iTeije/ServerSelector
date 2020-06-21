@@ -16,7 +16,9 @@ public class QueueAction extends Action {
 
     @Override
     public void execute(String context, Player player) {
-        // Queue for a given server
+        // We won't split the context into a array since it's easier to do that on bungee level
+
+        // Queue for the given server(s)
         instance.getCommunicationModule().queuePlayer(context, player);
     }
 }
