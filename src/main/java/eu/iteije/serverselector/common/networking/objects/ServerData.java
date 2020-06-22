@@ -4,6 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Arrays;
+import java.util.UUID;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,8 +21,11 @@ public class ServerData {
     public int queue;
     public int queueDelay;
 
+    public String[] whitelist;
 
-    public boolean isAccessible() {
+
+    public boolean isAccessible(UUID uuid) {
+        if (status.equalsIgnoreCase("WHITELISTED") || Arrays.toString(whitelist).contains(uuid.toString())) return true;
         return status.equalsIgnoreCase("ONLINE");
     }
 

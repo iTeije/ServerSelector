@@ -74,11 +74,8 @@ public class BungeeQueueManager {
 
     public void quitQueue(UUID uuid) {
         List<String> currentQueue = getCurrentQueue(uuid);
-        ServerSelectorLogger.console("Quitting");
         if (currentQueue != null) {
-            ServerSelectorLogger.console("Not null");
             for (String queue : currentQueue) {
-                ServerSelectorLogger.console("Removing from " + queue);
                 LinkedList<UUID> list = this.queue.get(queue);
                 list.remove(uuid);
 
@@ -90,6 +87,8 @@ public class BungeeQueueManager {
     private Map<String, ScheduledTask> queueTasks = new HashMap<>();
 
     public void processQueue(String server, int delay) {
+        if (hasQueueTask(server)) getScheduledTask(server).cancel();
+
         LinkedList<UUID> currentQueue = getQueue(server);
         queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
             if (currentQueue.size() > 0) {
@@ -100,10 +99,37 @@ public class BungeeQueueManager {
         }, delay, delay, TimeUnit.MILLISECONDS));
     }
 
-    public void pauseQueue(String server) {
+    public void pauseQueue(String server, int delay) {
         if (hasQueueTask(server)) {
             getScheduledTask(server).cancel();
         }
+
+
+        if (instance.getClientCacheModule().getServerData(server) != null) {
+            String[] whitelist = instance.getClientCacheModule().getServerData(server).getWhitelist();
+
+            if (whitelist.length > 0) {
+                LinkedList<UUID> currentQueue = getQueue(server);
+
+                queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
+                    if (currentQueue.size() > 0) {
+                        for (String uuid : whitelist) {
+                            if (uuid == null || uuid.equals("")) break;
+                            UUID validUUID = UUID.fromString(uuid);
+                            if (currentQueue.contains(validUUID)) {
+                                instance.getCommunicationModule().sendPlayer(validUUID, server);
+                                quitQueue(validUUID);
+                                currentQueue.remove(validUUID);
+                                break;
+                            }
+                        }
+                    }
+                }, delay, delay, TimeUnit.MILLISECONDS));
+            }
+        }
+
+
+
     }
 
     public boolean hasQueueTask(String server) {

@@ -67,6 +67,7 @@ public class BungeeSocket {
                             String maxPlayers = in.readUTF();
                             long lastUpdate = in.readLong();
                             int queueDelay = in.readInt();
+                            String[] whitelistedPlayers = in.readUTF().split(",");
 
                             ServerData data = new ServerData(
                                     name,
@@ -75,7 +76,8 @@ public class BungeeSocket {
                                     maxPlayers,
                                     lastUpdate,
                                     instance.getQueueManager().getQueueSize(name),
-                                    queueDelay
+                                    queueDelay,
+                                    whitelistedPlayers
                             );
 
                             instance.getClientCacheModule().updateServerData(data);
@@ -88,6 +90,8 @@ public class BungeeSocket {
 
         } catch (IOException exception) {
             if (exception instanceof SocketException) {
+                instance.getBungeeSocketManager().closeSocket(this.port);
+
                 exception.printStackTrace();
                 cancel();
 
