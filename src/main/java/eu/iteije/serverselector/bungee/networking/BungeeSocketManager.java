@@ -34,7 +34,7 @@ public class BungeeSocketManager {
 
     public void initializeSocket(int port) {
         new Thread(() -> {
-            instance.getLogger().info("Server started. Listening on port " + port);
+            instance.getLogger().info("Listening on port " + port);
             sockets.put(port, new BungeeSocket(instance, new String[]{String.valueOf(port)}));
         }).start();
     }
@@ -46,8 +46,10 @@ public class BungeeSocketManager {
     public void closeSocket(int port) {
         try {
             if (sockets.get(port) != null) {
-                sockets.get(port).getClient().close();
-                ServerSelectorLogger.console("Closed socket on port " + port);
+                if (sockets.get(port).getClient() != null) {
+                    sockets.get(port).getClient().close();
+                    ServerSelectorLogger.console("Closed socket on port " + port);
+                }
             }
         } catch (IOException exception) {
             ServerSelectorLogger.console("Unable to close socket on port " + port);

@@ -53,11 +53,6 @@ action_sound_failed: "&cUnable to play sound &4{sound}&c!"
 action_teleport_invalid: "&cThe given coordinates are invalid!"
 action_effect_failed: "&cFailed to toggle effect &4{effect}&c!"
 
-# Main menu
-status_offline: "&c&lOFFLINE"
-status_whitelisted: "&e&lWHITELISTED"
-status_online: "&a&lONLINE"
-
 
 # ----
 # BUNGEE

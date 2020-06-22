@@ -92,7 +92,6 @@ public class BungeeSocket {
             if (exception instanceof SocketException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
 
-                exception.printStackTrace();
                 cancel();
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
