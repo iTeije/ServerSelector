@@ -23,7 +23,6 @@ message_menu_success: "&3Message &b{message_name} &3has been updated to \"{messa
 reload_started: "&3Started reloading ServerSelector..."
 reload_finished_local: "&3Local files have been reloaded."
 reload_finished_players: "&3Player data has been reloaded."
-reload_finished_sync: "&3Files have been sent to connected servers."
 reload_finished: "&3Reload completed."
 
 

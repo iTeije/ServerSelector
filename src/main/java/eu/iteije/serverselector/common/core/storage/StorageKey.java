@@ -28,7 +28,6 @@ public enum StorageKey {
     RELOAD_STARTED("reload_started", StorageLocation.MESSAGE_FILE),
     RELOAD_FINISHED_LOCAL("reload_finished_local", StorageLocation.MESSAGE_FILE),
     RELOAD_FINISHED_PLAYERS("reload_finished_players", StorageLocation.MESSAGE_FILE),
-    RELOAD_FINISHED_SYNC("reload_finished_sync", StorageLocation.MESSAGE_FILE),
     RELOAD_FINISHED("reload_finished", StorageLocation.MESSAGE_FILE),
 
 
