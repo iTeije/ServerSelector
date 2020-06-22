@@ -39,6 +39,11 @@ public class PlayerModule {
         players.put(player.getUniqueId(), serverSelectorPlayer);
     }
 
+    public void registerPlayer(UUID uuid) {
+        ServerSelectorPlayer serverSelectorPlayer = new ServerSelectorPlayer(instance, uuid);
+        players.putIfAbsent(uuid, serverSelectorPlayer);
+    }
+
     public void clearCache() {
         // loop through player hashmap and send a message to every player which is in some sort of queue (action / game)
         players.clear();
@@ -47,6 +52,10 @@ public class PlayerModule {
 
     public ServerSelectorPlayer getPlayer(UUID uuid) {
         return players.get(uuid);
+    }
+
+    public ServerSelectorPlayer[] getPlayers() {
+        return players.values().toArray(new ServerSelectorPlayer[0]);
     }
 
     public void removePlayer(UUID uuid) {

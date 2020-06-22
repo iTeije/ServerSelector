@@ -38,11 +38,11 @@ public class AdminMessagesMenu extends Menu {
         Set<String> messagesSet = messagesFile.getKeys(false);
         String[] messages = messagesSet.toArray(new String[messagesSet.size()]);
 
-        if (messages.length <= availableSlots * page) availableSlots = messages.length -(availableSlots * (page - 1));
+        if (messages.length <= availableSlots * page) availableSlots = messages.length - (availableSlots * (page - 1));
 
         for (int i = 0; i < availableSlots; i++) {
             int finalI = i;
-            setItem(start + i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{Objects.requireNonNull(messagesFile.getString(messages[start + i]))}).onClick((player, item) -> {
+            setItem(i, new Item(Material.PAPER).setName("&7" + messages[start + i]).setLore(new String[]{Objects.requireNonNull(messagesFile.getString(messages[start + i]))}).onClick((player, item) -> {
                 messageModule.sendToPlayer(StorageKey.ACTIONQUEUE_PROPOSE_CHAT, new Player[]{player}, MessageType.MESSAGE);
                 ServerSelectorPlayer selectorPlayer = instance.getPlayerModule().getPlayer(player.getUniqueId());
                 selectorPlayer.queueAction(new Action(instance, player, ActionType.CHAT).onExecute((action, s) -> {

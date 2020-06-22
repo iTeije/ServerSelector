@@ -12,6 +12,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
 
@@ -45,6 +46,7 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(serverData.getLastUpdate());
                 output.writeInt(serverData.getQueue());
                 output.writeInt(serverData.getQueueDelay());
+                output.writeUTF(Arrays.toString(serverData.getWhitelist()).replaceAll("[\\[\\](){}\\s]", ""));
 
                 senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             } else {
@@ -55,6 +57,7 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(159103700L);
                 output.writeInt(instance.getQueueManager().getQueueSize(server));
                 output.writeInt(2);
+                output.writeUTF("");
 
                 senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }

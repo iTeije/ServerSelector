@@ -9,7 +9,6 @@
       "lore": [
         "&7This action will send you a given message.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3MESSAGE!the message you want to be send to the player"
       ],
       "slot": 10,
@@ -23,7 +22,6 @@
       "lore": [
         "&7This action will execute a command on behalf of the console.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3CONSOLE_COMMAND!the command you want to execute without slash"
       ],
       "slot": 12,
@@ -37,7 +35,6 @@
       "lore": [
         "&7This action will execute a command on behalf of the player.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3PLAYER_COMMAND!the command you want the player to execute without slash"
       ],
       "slot": 14,
@@ -51,7 +48,6 @@
       "lore": [
         "&7This action will play a Minecraft sound to you.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3SOUND!the minecraft sound you want to play"
       ],
       "slot": 16,
@@ -66,7 +62,6 @@
         "&7This will delay any action you want.",
         "&7In this case it'll be a message delayed for 60 ticks (3s)",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3DELAY!60!ACTION:context"
       ],
       "slot": 18,
@@ -80,7 +75,6 @@
       "lore": [
         "&7This action will send you to another server.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3SEND!the server you want to get send to",
         "&3-> Must include the server name as \"server\" json element"
       ],
@@ -95,7 +89,6 @@
       "lore": [
         "&7This action will display a title.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3TITLE!title|subtitle|fadein|stay|fadeout in sec",
         "&3-> Or TITLE!title|subtitle and apply default fade times"
       ],
@@ -105,12 +98,11 @@
       ]
     },
     {
-      "material": "GREEEN_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lQueue",
       "lore": [
         "&7This action will queue you for a server.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3QUEUE!server_1",
         "&3-> Must include the server name as \"server\" json element in order",
         "&3-> to show server data."
@@ -121,14 +113,13 @@
       ]
     },
     {
-      "material": "GREEEN_STAINED_GLASS",
+      "material": "GREEN_STAINED_GLASS",
       "display_name": "&3&lList queue",
       "lore": [
         "&7This action will queue you for a list of servers.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3QUEUE!server_1|server_2|server_3",
-        "&3-> You can only show data of one server, using the \"server\" json element",
+        "&3-> You can only show data of one server, using the \"server\" json element"
       ],
       "slot": 26,
       "actions": [
@@ -141,7 +132,6 @@
       "lore": [
         "&7This action will teleport you to a specific location.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3TELEPORT!world|x|y|z"
       ],
       "slot": 28,
@@ -155,7 +145,6 @@
       "lore": [
         "&7This action will enable a Minecraft effect.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3EFFECT!name|amplifier|duration in sec"
       ],
       "slot": 30,
@@ -169,7 +158,6 @@
       "lore": [
         "&7This action will toggle player visibility.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3TOGGLE_PLAYERS! "
       ],
       "slot": 32,
@@ -183,7 +171,6 @@
       "lore": [
         "&7This action will send a text component with a clickable URL.",
         "",
-        "&b&lStatus: &3available",
         "&b&lFormat: &3URL!url|message|hover"
       ],
       "slot": 34,

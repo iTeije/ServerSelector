@@ -14,16 +14,16 @@ import java.util.UUID;
 
 public class ServerSelectorPlayer {
 
-    private ServerSelectorSpigot serverSelectorSpigot;
+    private ServerSelectorSpigot instance;
 
-    private final UUID uuid;
+    public final UUID uuid;
 
     private List<Action> queue = new ArrayList<>();
 
     @Getter @Setter private boolean toggledPlayers;
 
-    public ServerSelectorPlayer(ServerSelectorSpigot serverSelectorSpigot, UUID uuid) {
-        this.serverSelectorSpigot = serverSelectorSpigot;
+    public ServerSelectorPlayer(ServerSelectorSpigot instance, UUID uuid) {
+        this.instance = instance;
         this.uuid = uuid;
         this.toggledPlayers = false;
     }

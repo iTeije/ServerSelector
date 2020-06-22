@@ -39,7 +39,7 @@ public class ClientCacheModule {
 
         // Pause the queue if the server is whitelisted
         if (data.getStatus().equalsIgnoreCase("WHITELISTED")) {
-            instance.getQueueManager().pauseQueue(data.getServerName());
+            instance.getQueueManager().pauseQueue(data.getServerName(), data.getQueueDelay());
         }
 
         // Replace the existing ServerData entry with the new one

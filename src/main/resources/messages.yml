@@ -1,11 +1,34 @@
-# Global messages
+# ----
+# COMMON
+# -----
+
 permission_error: "&cYou are not allowed to do this!"
 
-# Global command related messages
 command_not_found: "&cCommand &4{command} &cnot found! Use &4{command_suggestion} &cfor help."
 command_error: "&cAn unexpected error occurred while executing this command, please contact the developers."
 command_player_only: "&cThis command is only available to players."
 command_console_only: "&cThis command is only available to the console."
+
+
+# ----
+# ADMIN
+# ----
+
+# Message menu
+message_menu_name: "Message"
+message_menu_title: "&9&lMessages"
+message_menu_success: "&3Message &b{message_name} &3has been updated to \"{message}&3\" across all active servers."
+
+# Reload
+reload_started: "&3Started reloading ServerSelector..."
+reload_finished_local: "&3Local files have been reloaded."
+reload_finished_players: "&3Player data has been reloaded."
+reload_finished: "&3Reload completed."
+
+
+# ----
+# GLOBAL
+# ----
 
 # Action queue messages
 actionqueue_propose_chat: "&3Type something regarding your chat action (type \"cancel\" to cancel):"
@@ -23,23 +46,17 @@ menu_close: "&cClose menu"
 menu_next_page: "&aNext page"
 menu_previous_page: "&aPrevious page"
 
-# Message menu
-message_menu_name: "Message"
-message_menu_title: "&9&lMessages"
-message_menu_success: "&3Message &b{message_name} &3has been updated to \"{message}&3\" across all active servers."
-
 # Menu actions
 action_menu_failed: "&cUnable to open menu &4{menu}&c!"
 action_sound_failed: "&cUnable to play sound &4{sound}&c!"
 action_teleport_invalid: "&cThe given coordinates are invalid!"
 action_effect_failed: "&cFailed to toggle effect &4{effect}&c!"
 
-# Main menu
-status_offline: "&c&lOFFLINE"
-status_whitelisted: "&e&lWHITELISTED"
-status_online: "&a&lONLINE"
 
-# Bungee messages (only the messages below are used by the bungee server)
+# ----
+# BUNGEE
+# ----
+
 send_processing: "&3Summoning you to &b{server}&3..."
 send_already_connected: "&cYou are already connected to this server!"
 send_server_not_found: "&cServer &4{server} &cnot found!"

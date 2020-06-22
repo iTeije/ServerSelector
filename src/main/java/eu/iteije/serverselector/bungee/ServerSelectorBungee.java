@@ -3,6 +3,7 @@ package eu.iteije.serverselector.bungee;
 import eu.iteije.serverselector.ServerSelector;
 import eu.iteije.serverselector.bungee.cache.ClientCacheModule;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
+import eu.iteije.serverselector.bungee.listeners.BungeeListenerModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
 import eu.iteije.serverselector.bungee.networking.BungeeSocketManager;
 import eu.iteije.serverselector.bungee.queue.BungeeQueueManager;
@@ -19,6 +20,7 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeFileModule fileModule;
     private ClientCacheModule clientCacheModule;
     private BungeeQueueManager queueManager;
+    private BungeeListenerModule listenerModule;
 
     private BungeeSocketManager bungeeSocketManager;
 
@@ -44,6 +46,8 @@ public class ServerSelectorBungee extends Plugin {
         this.queueManager = new BungeeQueueManager(this);
         this.communicationModule = new BungeeCommunicationModule(this);
         this.getProxy().getPluginManager().registerListener(this, communicationModule);
+
+        this.listenerModule = new BungeeListenerModule(this);
 
         this.fileModule = new BungeeFileModule(this);
 
