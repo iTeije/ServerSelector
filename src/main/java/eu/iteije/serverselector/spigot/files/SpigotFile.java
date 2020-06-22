@@ -1,6 +1,5 @@
 package eu.iteije.serverselector.spigot.files;
 
-import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.ServerSelectorFile;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.core.storage.StorageLocation;
@@ -29,22 +28,16 @@ public class SpigotFile implements ServerSelectorFile {
     }
 
     public SpigotFile(ServerSelectorSpigot instance, String fileName) {
-        ServerSelectorLogger.console("1");
         boolean hasFile = hasFile(fileName);
-        ServerSelectorLogger.console("2");
 
         // Save default
         if (!hasFile) {
-            ServerSelectorLogger.console("3");
             instance.saveResource(fileName, false);
         }
 
         this.fileName = fileName;
-        ServerSelectorLogger.console("4");
         this.file = new File(instance.getDataFolder(), fileName);
-        ServerSelectorLogger.console("5");
         this.fileConfiguration = YamlConfiguration.loadConfiguration(this.file);
-        ServerSelectorLogger.console("6");
 
         SpigotFileModule.saveFile(this);
     }
@@ -182,9 +175,8 @@ public class SpigotFile implements ServerSelectorFile {
 
     @Override
     public boolean hasFile(String fileName) {
-        ServerSelectorLogger.console("Checking for file " + instance.getDataFolder().getName() + "/" + fileName);
         try {
-            return new File(instance.getDataFolder(), fileName).exists();
+            return new File("plugins/ServerSelector/", fileName).exists();
         } catch (NullPointerException exception) {
             exception.printStackTrace();
             return false;
