@@ -50,7 +50,7 @@ public class SendPlayerHandler implements BungeeHandlerImplementation {
                         );
                     } else {
                         ServerData data = instance.getClientCacheModule().getServerData(server);
-                        if (data.isAccessible()) {
+                        if (data.isAccessible(player.getUniqueId())) {
                             communicationModule.sendMessage(StorageKey.SEND_PROCESSING, player, sender,
                                     new Replacement("{server}", server)
                             );

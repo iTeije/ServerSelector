@@ -4,15 +4,37 @@ import lombok.Getter;
 
 public enum StorageKey {
 
+    /**
+     * COMMON
+     */
+
     PERMISSION_ERROR("permission_error", StorageLocation.MESSAGE_FILE),
 
-    // Global command related stuff
     COMMAND_NOT_FOUND("command_not_found", StorageLocation.MESSAGE_FILE),
     COMMAND_ERROR("command_error", StorageLocation.MESSAGE_FILE),
     COMMAND_PLAYER_ONLY("command_player_only", StorageLocation.MESSAGE_FILE),
     COMMAND_CONSOLE_ONLY("command_console_only", StorageLocation.MESSAGE_FILE),
 
-    // Help command
+
+    /**
+     * ADMIN
+     */
+
+    // Message menu
+    MESSAGE_MENU_NAME("message_menu_name", StorageLocation.MESSAGE_FILE),
+    MESSAGE_MENU_TITLE("message_menu_title", StorageLocation.MESSAGE_FILE),
+    MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
+
+    RELOAD_STARTED("reload_started", StorageLocation.MESSAGE_FILE),
+    RELOAD_FINISHED_LOCAL("reload_finished_local", StorageLocation.MESSAGE_FILE),
+    RELOAD_FINISHED_PLAYERS("reload_finished_players", StorageLocation.MESSAGE_FILE),
+    RELOAD_FINISHED("reload_finished", StorageLocation.MESSAGE_FILE),
+
+
+    /**
+     * GLOBAL
+     */
+
     HELP_COMMAND_TITLE("help_command_title", StorageLocation.MESSAGE_FILE),
     HELP_COMMAND_DEDICATED("help_command_dedicated", StorageLocation.MESSAGE_FILE),
     HELP_COMMAND_ITEM("help_command_item", StorageLocation.MESSAGE_FILE),
@@ -28,11 +50,6 @@ public enum StorageKey {
     MENU_NEXT_PAGE("menu_next_page", StorageLocation.MESSAGE_FILE),
     MENU_PREVIOUS_PAGE("menu_previous_page", StorageLocation.MESSAGE_FILE),
 
-    // Message menu
-    MESSAGE_MENU_NAME("message_menu_name", StorageLocation.MESSAGE_FILE),
-    MESSAGE_MENU_TITLE("message_menu_title", StorageLocation.MESSAGE_FILE),
-    MESSAGE_MENU_SUCCESS("message_menu_success", StorageLocation.MESSAGE_FILE),
-
     // Menu action messages
     ACTION_MENU_FAILED("action_menu_failed", StorageLocation.MESSAGE_FILE),
     ACTION_SOUND_FAILED("action_sound_failed", StorageLocation.MESSAGE_FILE),
@@ -43,6 +60,11 @@ public enum StorageKey {
     STATUS_OFFLINE("status_offline", StorageLocation.MESSAGE_FILE),
     STATUS_WHITELISTED("status_whitelisted", StorageLocation.MESSAGE_FILE),
     STATUS_ONLINE("status_online", StorageLocation.MESSAGE_FILE),
+
+
+    /**
+     * BUNGEE
+     */
 
     // Queue and send messages
     SEND_PROCESSING("send_processing", StorageLocation.MESSAGE_FILE),
@@ -55,6 +77,10 @@ public enum StorageKey {
     QUEUE_NOT_QUEUED("queue_not_queued", StorageLocation.MESSAGE_FILE),
     QUEUE_LEFT("queue_left", StorageLocation.MESSAGE_FILE),
 
+
+    /**
+     * CONFIG ITEMS
+     */
 
     // Selector item
     CONFIG_SELECTOR_ENABLED("selector-enabled", StorageLocation.CONFIG_FILE),

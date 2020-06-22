@@ -7,6 +7,7 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -78,6 +79,7 @@ public class StatusUpdater {
                 // Max players
                 dataOutputStream.writeUTF(String.valueOf(instance.getServer().getMaxPlayers()));
 
+
                 // Current unix timestamp
                 long unix = System.currentTimeMillis() / 1000L;
                 dataOutputStream.writeLong(unix);
@@ -87,6 +89,22 @@ public class StatusUpdater {
                 int queueDelay = SpigotFileModule.getFile(StorageKey.CONFIG_QUEUE_DELAY).getInt(StorageKey.CONFIG_QUEUE_DELAY);
                 dataOutputStream.writeInt(queueDelay);
 
+                // Whitelisted players
+                List<String> whitelistedPlayers = new ArrayList<>();
+
+                for (OfflinePlayer offlinePlayer : instance.getServer().getWhitelistedPlayers()) {
+                    whitelistedPlayers.add(offlinePlayer.getUniqueId().toString());
+                }
+
+
+                // Convert list to string and replace brackets and spaces
+                String whitelist = whitelistedPlayers.toString();
+                whitelist = whitelist.replaceAll("\\s", "");
+                whitelist = whitelist.replaceAll("[\\[\\](){}]", "");
+
+                // Write whitelisted players
+                dataOutputStream.writeUTF(whitelist);
+
                 dataOutputStream.flush();
 
                 socket.close();
@@ -95,7 +113,15 @@ public class StatusUpdater {
                 initializeSocket();
             }
         } catch (IOException exception) {
-            ServerSelectorLogger.console("Proxy server not responding.", exception);
+            ServerSelectorLogger.console("Couldn't update server data.", exception);
+            if (this.socket != null) {
+                try {
+                    this.socket.close();
+                    this.socket = null;
+                } catch (IOException ioException) {
+                    exception.printStackTrace();
+                }
+            }
         }
     }
 

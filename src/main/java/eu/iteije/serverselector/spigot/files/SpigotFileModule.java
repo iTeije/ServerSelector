@@ -8,18 +8,18 @@ import java.util.HashMap;
 
 public class SpigotFileModule {
 
-    private static HashMap<String, SpigotFile> files = new HashMap<>();
-    private static HashMap<String, SpigotFolder> folders = new HashMap<>();
+    public static HashMap<String, SpigotFile> files = new HashMap<>();
+    public static HashMap<String, SpigotFolder> folders = new HashMap<>();
 
 
     public SpigotFileModule(ServerSelectorSpigot serverSelectorSpigot) {
-        SpigotFile configFile = new SpigotFile(serverSelectorSpigot, StorageLocation.CONFIG_FILE);
-        SpigotFile messagesFile = new SpigotFile(serverSelectorSpigot, StorageLocation.MESSAGE_FILE);
+        new SpigotFile(serverSelectorSpigot, StorageLocation.CONFIG_FILE);
+        new SpigotFile(serverSelectorSpigot, StorageLocation.MESSAGE_FILE);
 
         SpigotFolder menuFolder = new SpigotFolder(serverSelectorSpigot, StorageLocation.MENU_FOLDER);
         menuFolder.load();
 
-        // Initialize default plugin files
+        // Initialize default plugin menus
         new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Main.json");
         new SpigotFile(serverSelectorSpigot, StorageLocation.MENU_FOLDER.getFileName() + "/Examples.json");
     }
