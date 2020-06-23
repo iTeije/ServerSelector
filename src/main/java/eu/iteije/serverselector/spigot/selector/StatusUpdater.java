@@ -8,6 +8,7 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.World;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -104,6 +105,30 @@ public class StatusUpdater {
 
                 // Write whitelisted players
                 dataOutputStream.writeUTF(whitelist);
+
+                // Motd (string)
+                dataOutputStream.writeUTF(instance.getServer().getMotd());
+
+                // Version (string)
+                dataOutputStream.writeUTF(instance.getServer().getVersion());
+
+                // Tps (string)
+
+
+                // Uptime in minutes (long)
+                dataOutputStream.writeLong(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60);
+
+                // Chunks (int)
+                int loadedChunks = 0;
+                for (World world : instance.getServer().getWorlds()) {
+                    loadedChunks += world.getLoadedChunks().length;
+                }
+                dataOutputStream.writeInt(loadedChunks);
+
+                // Current memory usage (long)
+                dataOutputStream.writeLong(Runtime.getRuntime().totalMemory());
+                // Max memory usage (long)
+                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory());
 
                 dataOutputStream.flush();
 

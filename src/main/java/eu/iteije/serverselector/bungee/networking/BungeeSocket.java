@@ -68,16 +68,27 @@ public class BungeeSocket {
                             long lastUpdate = in.readLong();
                             int queueDelay = in.readInt();
                             String[] whitelistedPlayers = in.readUTF().split(",");
+                            String motd = in.readUTF();
+                            String version = in.readUTF();
+                            String tps = in.readUTF();
+                            long uptime = in.readLong();
+                            int chunks = in.readInt();
+                            long currentMemory = in.readLong();
+                            long maxMemory = in.readLong();
 
                             ServerData data = new ServerData(
                                     name,
                                     status,
-                                    currentPlayers,
-                                    maxPlayers,
+                                    currentPlayers, maxPlayers,
                                     lastUpdate,
-                                    instance.getQueueManager().getQueueSize(name),
-                                    queueDelay,
-                                    whitelistedPlayers
+                                    instance.getQueueManager().getQueueSize(name), queueDelay,
+                                    whitelistedPlayers,
+                                    motd,
+                                    version,
+                                    tps,
+                                    uptime,
+                                    chunks,
+                                    currentMemory, maxMemory
                             );
 
                             instance.getClientCacheModule().updateServerData(data);

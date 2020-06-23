@@ -16,6 +16,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 @Getter
 public final class ServerSelectorSpigot extends JavaPlugin {
 
+    private long start;
+
     // Spigot module instances
     private SpigotCommandModule commandModule;
     private SpigotFileModule fileModule;
@@ -33,6 +35,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+
+        start = System.currentTimeMillis() / 1000L;
 
         // If the plugin fails to make a new instance of ServerSelector it won't work -> shut down
         try {

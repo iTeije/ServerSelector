@@ -23,6 +23,16 @@ public class ServerData {
 
     public String[] whitelist;
 
+    // Item lores update
+    public  String motd;
+    public String version;
+    public String tps;
+    public long uptime;
+    public int chunks;
+    public long currentMemoryUsage;
+    public long maxMemoryUsage;
+
+
 
     public boolean isAccessible(UUID uuid) {
         if (status.equalsIgnoreCase("WHITELISTED") || Arrays.toString(whitelist).contains(uuid.toString())) return true;
