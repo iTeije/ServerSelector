@@ -49,7 +49,7 @@ public class StatusUpdater {
             this.socket = new Socket(SpigotFileModule.getFile(StorageKey.CONFIG_BUNGEE_IP).getString(StorageKey.CONFIG_BUNGEE_IP),
                     instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
-            ServerSelectorLogger.console("Failed to initialize socket.", exception);
+            ServerSelectorLogger.console("Failed to initialize socket on " + (instance.getServer().getPort() + 10000) + ".", exception);
         }
     }
 

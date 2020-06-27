@@ -46,8 +46,8 @@ public class BungeeSocketManager {
     public void closeSocket(int port) {
         try {
             if (sockets.get(port) != null) {
-                if (sockets.get(port).getClient() != null) {
-                    sockets.get(port).getClient().close();
+                if (sockets.get(port).getServerSocket() != null) {
+                    sockets.get(port).getServerSocket().close();
                     ServerSelectorLogger.console("Closed socket on port " + port);
                 }
             }
@@ -59,7 +59,7 @@ public class BungeeSocketManager {
     public void closeSockets() {
         for (BungeeSocket socket : sockets.values()) {
             try {
-                socket.getClient().close();
+                socket.getServerSocket().close();
                 ServerSelectorLogger.console("Closed socket on port " + socket.getPort());
             } catch (IOException exception) {
                 ServerSelectorLogger.console("Unable to close socket on port " + socket.getPort());

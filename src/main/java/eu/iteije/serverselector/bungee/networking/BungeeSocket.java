@@ -9,17 +9,17 @@ import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 import java.util.Map;
 
 public class BungeeSocket {
 
     private boolean active;
 
-    private ServerSocket serverSocket;
     @Getter
+    private ServerSocket serverSocket;
     private Socket client;
     private DataInputStream in;
     @Getter
@@ -100,17 +100,14 @@ public class BungeeSocket {
             }
 
         } catch (IOException exception) {
-            if (exception instanceof SocketException) {
+            if (exception instanceof BindException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
-
-                cancel();
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
                 instance.getBungeeSocketManager().renewSocket(this);
             } else {
                 exception.printStackTrace();
             }
-
         }
 
     }
