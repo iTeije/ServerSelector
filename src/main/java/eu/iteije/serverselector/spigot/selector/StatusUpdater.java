@@ -8,11 +8,11 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.World;
 
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -110,25 +110,20 @@ public class StatusUpdater {
                 dataOutputStream.writeUTF(instance.getServer().getMotd());
 
                 // Version (string)
-                dataOutputStream.writeUTF(instance.getServer().getVersion());
+                dataOutputStream.writeUTF(instance.getServer().getBukkitVersion());
 
                 // Tps (string)
-
+                DecimalFormat format = new DecimalFormat("#.##");
+                Double average = instance.getRunnableManager().getSelectorTimer().getAverageTPS();
+                dataOutputStream.writeUTF(format.format(average));
 
                 // Uptime in minutes (long)
                 dataOutputStream.writeLong(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60);
 
-                // Chunks (int)
-                int loadedChunks = 0;
-                for (World world : instance.getServer().getWorlds()) {
-                    loadedChunks += world.getLoadedChunks().length;
-                }
-                dataOutputStream.writeInt(loadedChunks);
-
                 // Current memory usage (long)
-                dataOutputStream.writeLong(Runtime.getRuntime().totalMemory());
+                dataOutputStream.writeLong((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576L);
                 // Max memory usage (long)
-                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory());
+                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory() / 1048576L);
 
                 dataOutputStream.flush();
 

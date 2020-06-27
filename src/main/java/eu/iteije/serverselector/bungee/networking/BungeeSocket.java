@@ -9,9 +9,9 @@ import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.DataInputStream;
 import java.io.IOException;
-import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
 
 public class BungeeSocket {
@@ -72,7 +72,6 @@ public class BungeeSocket {
                             String version = in.readUTF();
                             String tps = in.readUTF();
                             long uptime = in.readLong();
-                            int chunks = in.readInt();
                             long currentMemory = in.readLong();
                             long maxMemory = in.readLong();
 
@@ -87,7 +86,6 @@ public class BungeeSocket {
                                     version,
                                     tps,
                                     uptime,
-                                    chunks,
                                     currentMemory, maxMemory
                             );
 
@@ -100,7 +98,7 @@ public class BungeeSocket {
             }
 
         } catch (IOException exception) {
-            if (exception instanceof BindException) {
+            if (exception instanceof SocketException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");

@@ -8,10 +8,12 @@ import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.commands.subcommands.arguments.ArgumentHandler;
 import eu.iteije.serverselector.spigot.files.SpigotFile;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.files.SpigotFolder;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import eu.iteije.serverselector.spigot.players.ServerSelectorPlayer;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
 import java.util.UUID;
 
 public class AdminReloadArgument extends ArgumentHandler {
@@ -32,7 +34,17 @@ public class AdminReloadArgument extends ArgumentHandler {
         messageModule.send(StorageKey.RELOAD_STARTED, sender, MessageType.MESSAGE);
 
         // Reload local files and cache menus
-        SpigotFileModule.files.values().forEach(SpigotFile::reload);
+        Collection<SpigotFolder> folders = SpigotFileModule.folders.values();
+        SpigotFileModule.folders = null;
+        folders.forEach(folder -> {
+            SpigotFileModule.saveFolder(new SpigotFolder(instance, folder.getStorageLocation()));
+        });
+
+        Collection<SpigotFile> files = SpigotFileModule.files.values();
+        SpigotFileModule.files = null;
+        files.forEach(file -> {
+            SpigotFileModule.saveFile(new SpigotFile(instance, file.getFileName()));
+        });
 
         instance.getSelectorModule().cacheMenus();
 

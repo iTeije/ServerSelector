@@ -8,6 +8,7 @@ import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotCommunicationModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
 import eu.iteije.serverselector.spigot.players.PlayerModule;
+import eu.iteije.serverselector.spigot.runnables.SpigotRunnableManager;
 import eu.iteije.serverselector.spigot.selector.SelectorModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -27,6 +28,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     private PlayerModule playerModule;
     private MenuModule menuModule;
     private SelectorModule selectorModule;
+
+    private SpigotRunnableManager runnableManager;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -50,6 +53,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         // Load modules
         this.commandModule = new SpigotCommandModule(this);
         this.fileModule = new SpigotFileModule(this);
+        this.runnableManager = new SpigotRunnableManager(this);
         this.messageModule = new SpigotMessageModule();
         this.communicationModule = new SpigotCommunicationModule(this);
         this.menuModule = new MenuModule(this);

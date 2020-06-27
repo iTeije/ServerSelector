@@ -2,13 +2,11 @@ package eu.iteije.serverselector.common.networking.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class ServerData {
 
@@ -28,7 +26,6 @@ public class ServerData {
     public String version;
     public String tps;
     public long uptime;
-    public int chunks;
     public long currentMemoryUsage;
     public long maxMemoryUsage;
 

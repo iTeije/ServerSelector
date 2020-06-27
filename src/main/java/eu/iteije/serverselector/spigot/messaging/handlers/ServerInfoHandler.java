@@ -35,7 +35,6 @@ public class ServerInfoHandler implements SpigotHandlerImplementation {
                     input.readUTF(),
                     input.readUTF(),
                     input.readLong(),
-                    input.readInt(),
                     input.readLong(),
                     input.readLong()
             );
