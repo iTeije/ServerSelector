@@ -39,6 +39,8 @@ public class MessagePlayerHandler implements BungeeHandlerImplementation {
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in MessagePlayerHandler.", exception);
             exception.printStackTrace();
+        } catch (NullPointerException exception) {
+            // Ignore
         }
     }
 }

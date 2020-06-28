@@ -18,8 +18,8 @@ public class BungeeSocket {
 
     private boolean active;
 
-    private ServerSocket serverSocket;
     @Getter
+    private ServerSocket serverSocket;
     private Socket client;
     private DataInputStream in;
     @Getter
@@ -68,16 +68,25 @@ public class BungeeSocket {
                             long lastUpdate = in.readLong();
                             int queueDelay = in.readInt();
                             String[] whitelistedPlayers = in.readUTF().split(",");
+                            String motd = in.readUTF();
+                            String version = in.readUTF();
+                            String tps = in.readUTF();
+                            long uptime = in.readLong();
+                            long currentMemory = in.readLong();
+                            long maxMemory = in.readLong();
 
                             ServerData data = new ServerData(
                                     name,
                                     status,
-                                    currentPlayers,
-                                    maxPlayers,
+                                    currentPlayers, maxPlayers,
                                     lastUpdate,
-                                    instance.getQueueManager().getQueueSize(name),
-                                    queueDelay,
-                                    whitelistedPlayers
+                                    instance.getQueueManager().getQueueSize(name), queueDelay,
+                                    whitelistedPlayers,
+                                    motd,
+                                    version,
+                                    tps,
+                                    uptime,
+                                    currentMemory, maxMemory
                             );
 
                             instance.getClientCacheModule().updateServerData(data);
@@ -92,14 +101,11 @@ public class BungeeSocket {
             if (exception instanceof SocketException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
 
-                cancel();
-
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
                 instance.getBungeeSocketManager().renewSocket(this);
             } else {
                 exception.printStackTrace();
             }
-
         }
 
     }

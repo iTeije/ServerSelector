@@ -48,6 +48,13 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeInt(serverData.getQueueDelay());
                 output.writeUTF(Arrays.toString(serverData.getWhitelist()).replaceAll("[\\[\\](){}\\s]", ""));
 
+                output.writeUTF(serverData.getMotd());
+                output.writeUTF(serverData.getVersion());
+                output.writeUTF(serverData.getTps());
+                output.writeLong(serverData.getUptime());
+                output.writeLong(serverData.getCurrentMemoryUsage());
+                output.writeLong(serverData.getMaxMemoryUsage());
+
                 senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             } else {
                 output.writeUTF(server);
@@ -57,7 +64,14 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(159103700L);
                 output.writeInt(instance.getQueueManager().getQueueSize(server));
                 output.writeInt(2);
-                output.writeUTF("");
+                output.writeUTF("-");
+
+                output.writeUTF("-");
+                output.writeUTF("-");
+                output.writeUTF("-");
+                output.writeLong(0L);
+                output.writeLong(0L);
+                output.writeLong(0L);
 
                 senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }

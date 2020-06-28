@@ -10,7 +10,13 @@
         "&7Example lobby server item (you will be send to the server)",
         "",
         "&b&lStatus: {status}",
-        "&b&lPlayers: &3{current_players}/{max_players}"
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "",
+        "&b&lMotd: &3{motd}",
+        "&b&lVersion: &3{version}",
+        "&b&lTPS: &3{tps}",
+        "&b&lUptime: &3{uptime}",
+        "&b&lMemory usage: &3{current_ram}/{max_ram}"
       ],
       "slot": 10,
       "actions": [
@@ -26,7 +32,13 @@
         "&7Example game 1 server item (you will be send to the server)",
         "",
         "&b&lStatus: {status}",
-        "&b&lPlayers: &3{current_players}/{max_players}"
+        "&b&lPlayers: &3{current_players}/{max_players}",
+        "",
+        "&b&lMotd: &3{motd}",
+        "&b&lVersion: &3{version}",
+        "&b&lTPS: &3{tps}",
+        "&b&lUptime: &3{uptime}",
+        "&b&lMemory usage: &3{current_ram}/{max_ram}"
       ],
       "slot": 12,
       "actions": [

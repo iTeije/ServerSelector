@@ -12,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -48,7 +49,7 @@ public class StatusUpdater {
             this.socket = new Socket(SpigotFileModule.getFile(StorageKey.CONFIG_BUNGEE_IP).getString(StorageKey.CONFIG_BUNGEE_IP),
                     instance.getServer().getPort() + 10000);
         } catch (IOException exception) {
-            ServerSelectorLogger.console("Failed to initialize socket.", exception);
+            ServerSelectorLogger.console("Failed to initialize socket on " + (instance.getServer().getPort() + 10000) + ".", exception);
         }
     }
 
@@ -104,6 +105,25 @@ public class StatusUpdater {
 
                 // Write whitelisted players
                 dataOutputStream.writeUTF(whitelist);
+
+                // Motd (string)
+                dataOutputStream.writeUTF(instance.getServer().getMotd());
+
+                // Version (string)
+                dataOutputStream.writeUTF(instance.getServer().getBukkitVersion());
+
+                // Tps (string)
+                DecimalFormat format = new DecimalFormat("#.##");
+                Double average = instance.getRunnableManager().getSelectorTimer().getAverageTPS();
+                dataOutputStream.writeUTF(format.format(average));
+
+                // Uptime in minutes (long)
+                dataOutputStream.writeLong(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60);
+
+                // Current memory usage (long)
+                dataOutputStream.writeLong((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576L);
+                // Max memory usage (long)
+                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory() / 1048576L);
 
                 dataOutputStream.flush();
 

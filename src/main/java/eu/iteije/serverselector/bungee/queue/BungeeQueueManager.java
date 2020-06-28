@@ -1,7 +1,6 @@
 package eu.iteije.serverselector.bungee.queue;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
-import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.scheduler.ScheduledTask;
 
@@ -91,10 +90,12 @@ public class BungeeQueueManager {
 
         LinkedList<UUID> currentQueue = getQueue(server);
         queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
-            if (currentQueue.size() > 0) {
-                instance.getCommunicationModule().sendPlayer(currentQueue.get(0), server);
-                quitQueue(currentQueue.get(0));
-                currentQueue.remove(0);
+            if (currentQueue != null && currentQueue.size() > 0) {
+                UUID uuid = currentQueue.get(0);
+
+                instance.getCommunicationModule().sendPlayer(uuid, server);
+                quitQueue(uuid);
+                currentQueue.remove(uuid);
             }
         }, delay, delay, TimeUnit.MILLISECONDS));
     }
