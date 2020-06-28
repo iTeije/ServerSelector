@@ -37,13 +37,13 @@ public class AdminReloadArgument extends ArgumentHandler {
         Collection<SpigotFolder> folders = SpigotFileModule.folders.values();
         SpigotFileModule.folders = null;
         folders.forEach(folder -> {
-            SpigotFileModule.saveFolder(new SpigotFolder(instance, folder.getStorageLocation()));
+            new SpigotFolder(instance, folder.getStorageLocation());
         });
 
         Collection<SpigotFile> files = SpigotFileModule.files.values();
         SpigotFileModule.files = null;
         files.forEach(file -> {
-            SpigotFileModule.saveFile(new SpigotFile(instance, file.getFileName()));
+            new SpigotFile(instance, file.getFileName());
         });
 
         instance.getSelectorModule().cacheMenus();
