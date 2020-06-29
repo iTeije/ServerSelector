@@ -59,8 +59,11 @@ public class BungeeSocketManager {
     public void closeSockets() {
         for (BungeeSocket socket : sockets.values()) {
             try {
-                socket.getServerSocket().close();
-                ServerSelectorLogger.console("Closed socket on port " + socket.getPort());
+                if (socket.getServerSocket() != null) {
+                    socket.getServerSocket().close();
+                    ServerSelectorLogger.console("Closed socket on port " + socket.getPort());
+                }
+
             } catch (IOException | NullPointerException exception) {
                 ServerSelectorLogger.console("Unable to close socket on port " + socket.getPort());
             }

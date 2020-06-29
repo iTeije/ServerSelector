@@ -26,11 +26,9 @@ public class LeaveQueueHandler implements BungeeHandlerImplementation {
     public void process(DataInputStream input, String sender) {
         try {
             UUID uuid = UUID.fromString(input.readUTF());
-            ServerSelectorLogger.console("UUID: " + uuid);
 
             try {
                 Boolean isInQueue = queueManager.isInQueue(uuid);
-                ServerSelectorLogger.console("in queue: " + isInQueue);
 
                 if (isInQueue) {
                     queueManager.quitQueue(uuid);
