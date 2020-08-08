@@ -2,13 +2,11 @@ package eu.iteije.serverselector.common.networking.objects;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import java.util.Arrays;
 import java.util.UUID;
 
 @Getter
-@Setter
 @AllArgsConstructor
 public class ServerData {
 
@@ -22,6 +20,15 @@ public class ServerData {
     public int queueDelay;
 
     public String[] whitelist;
+
+    // Item lores update
+    public  String motd;
+    public String version;
+    public String tps;
+    public long uptime;
+    public long currentMemoryUsage;
+    public long maxMemoryUsage;
+
 
 
     public boolean isAccessible(UUID uuid) {

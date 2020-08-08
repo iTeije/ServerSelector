@@ -28,20 +28,20 @@ public class QueuePlayerHandler implements BungeeHandlerImplementation {
     @Override
     public void process(DataInputStream input, String sender) {
         try {
-            UUID uuid = UUID.fromString(input.readUTF());
+            String name = input.readUTF();
             String serverInput = input.readUTF().toLowerCase();
 
             // Split up the server input to all given servers
             List<String> servers = Arrays.asList(serverInput.split("\\|"));
 
-            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(uuid);
+            ProxiedPlayer player = ProxyServer.getInstance().getPlayer(name);
 
             try {
-                Boolean isInQueue = queueManager.isInQueue(uuid);
+                Boolean isInQueue = queueManager.isInQueue(player.getUniqueId());
 
                 if (isInQueue) {
                     // Get the first server in the list of the queues the player is currently in
-                    String currentQueue = instance.getQueueManager().getCurrentQueue(uuid).get(0);
+                    String currentQueue = instance.getQueueManager().getCurrentQueue(player.getUniqueId()).get(0);
                     instance.getCommunicationModule().sendMessage(StorageKey.QUEUE_ALREADY_QUEUED, player, sender,
                             new Replacement("{server}", currentQueue)
                     );
@@ -58,9 +58,7 @@ public class QueuePlayerHandler implements BungeeHandlerImplementation {
                 }
 
             } catch (NullPointerException nullPointerException) {
-                // For as far as I've tested it, this NullPointerException is randomly thrown,
-                //  queueing the player anyways has no impact on the server or plugin whatsoever
-                queuePlayer(servers, player, sender);
+                nullPointerException.printStackTrace();
             }
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in QueuePlayerHandler.", exception);

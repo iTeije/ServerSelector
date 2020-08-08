@@ -12,6 +12,7 @@ import org.bukkit.OfflinePlayer;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,20 +20,20 @@ import java.util.Map;
 
 public class StatusUpdater {
 
-    private ServerSelectorSpigot instance;
+    private final ServerSelectorSpigot instance;
 
     // Update delay in seconds
     @Getter
-    private int updateDelay;
+    private final int updateDelay;
     // Fetch delay in seconds
     @Getter
-    private int fetchDelay;
+    private final int fetchDelay;
 
-    private List<Integer> tasks = new ArrayList<>();
+    private final List<Integer> tasks = new ArrayList<>();
 
-    private HashMap<String, ServerData> serverData = new HashMap<>();
+    private final HashMap<String, ServerData> serverData = new HashMap<>();
 
-    private Socket socket;
+    @Getter private Socket socket;
 
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
@@ -104,6 +105,25 @@ public class StatusUpdater {
 
                 // Write whitelisted players
                 dataOutputStream.writeUTF(whitelist);
+
+                // Motd (string)
+                dataOutputStream.writeUTF(instance.getServer().getMotd());
+
+                // Version (string)
+                dataOutputStream.writeUTF(instance.getServer().getBukkitVersion());
+
+                // Tps (string)
+                DecimalFormat format = new DecimalFormat("#.##");
+                Double average = instance.getRunnableManager().getSelectorTimer().getAverageTPS();
+                dataOutputStream.writeUTF(format.format(average));
+
+                // Uptime in minutes (long)
+                dataOutputStream.writeLong(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60);
+
+                // Current memory usage (long)
+                dataOutputStream.writeLong((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576L);
+                // Max memory usage (long)
+                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory() / 1048576L);
 
                 dataOutputStream.flush();
 

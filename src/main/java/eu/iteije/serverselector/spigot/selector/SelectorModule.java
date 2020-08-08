@@ -149,6 +149,12 @@ public class SelectorModule {
         line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "0");
         line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "0");
         line = line.replace("{queue}", serverData != null ? String.valueOf(serverData.getQueue()) : "0");
+        line = line.replace("{motd}", serverData != null ? serverData.getMotd() : "-");
+        line = line.replace("{version}", serverData != null ? serverData.getVersion() : "-");
+        line = line.replace("{tps}", online ? serverData.getTps() : "-");
+        line = line.replace("{uptime}", online ? serverData.getUptime() + " minutes" : "-");
+        line = line.replace("{current_ram}", online ? serverData.getCurrentMemoryUsage() + " MB" : "-");
+        line = line.replace("{max_ram}", online ? serverData.getMaxMemoryUsage() + " MB" : "-");
 
         return line;
     }

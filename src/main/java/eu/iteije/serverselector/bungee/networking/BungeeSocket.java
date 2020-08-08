@@ -8,10 +8,11 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
-import java.net.BindException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Map;
 
 public class BungeeSocket {
@@ -68,16 +69,25 @@ public class BungeeSocket {
                             long lastUpdate = in.readLong();
                             int queueDelay = in.readInt();
                             String[] whitelistedPlayers = in.readUTF().split(",");
+                            String motd = in.readUTF();
+                            String version = in.readUTF();
+                            String tps = in.readUTF();
+                            long uptime = in.readLong();
+                            long currentMemory = in.readLong();
+                            long maxMemory = in.readLong();
 
                             ServerData data = new ServerData(
                                     name,
                                     status,
-                                    currentPlayers,
-                                    maxPlayers,
+                                    currentPlayers, maxPlayers,
                                     lastUpdate,
-                                    instance.getQueueManager().getQueueSize(name),
-                                    queueDelay,
-                                    whitelistedPlayers
+                                    instance.getQueueManager().getQueueSize(name), queueDelay,
+                                    whitelistedPlayers,
+                                    motd,
+                                    version,
+                                    tps,
+                                    uptime,
+                                    currentMemory, maxMemory
                             );
 
                             instance.getClientCacheModule().updateServerData(data);
@@ -89,7 +99,7 @@ public class BungeeSocket {
             }
 
         } catch (IOException exception) {
-            if (exception instanceof BindException) {
+            if (exception instanceof SocketException || exception instanceof EOFException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");

@@ -124,7 +124,6 @@ public class SpigotFile implements ServerSelectorFile {
         fileConfiguration.set(storageKey.getPath(), string);
     }
 
-
     /**
      * @param integer the new value
      * @param storageKey storage key (contains path)
