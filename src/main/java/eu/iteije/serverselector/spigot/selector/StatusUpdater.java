@@ -20,20 +20,20 @@ import java.util.Map;
 
 public class StatusUpdater {
 
-    private ServerSelectorSpigot instance;
+    private final ServerSelectorSpigot instance;
 
     // Update delay in seconds
     @Getter
-    private int updateDelay;
+    private final int updateDelay;
     // Fetch delay in seconds
     @Getter
-    private int fetchDelay;
+    private final int fetchDelay;
 
-    private List<Integer> tasks = new ArrayList<>();
+    private final List<Integer> tasks = new ArrayList<>();
 
-    private HashMap<String, ServerData> serverData = new HashMap<>();
+    private final HashMap<String, ServerData> serverData = new HashMap<>();
 
-    private Socket socket;
+    @Getter private Socket socket;
 
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;

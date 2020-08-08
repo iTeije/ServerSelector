@@ -14,6 +14,9 @@ import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
+import java.net.Socket;
+
 @Getter
 public final class ServerSelectorSpigot extends JavaPlugin {
 
@@ -74,6 +77,13 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
         // Destroy status runnables
         selectorModule.getStatusUpdater().destroyTasks();
+        Socket socket = selectorModule.getStatusUpdater().getSocket();
+        try {
+            if (socket != null && !socket.isClosed()) socket.close();
+        } catch (IOException exception) {
+            exception.printStackTrace();
+        }
+
 
         // Plugin shutdown logic
         ServerSelector.getInstance().disable();

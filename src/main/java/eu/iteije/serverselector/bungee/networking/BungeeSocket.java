@@ -8,6 +8,7 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ServerInfo;
 
 import java.io.DataInputStream;
+import java.io.EOFException;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -98,7 +99,7 @@ public class BungeeSocket {
             }
 
         } catch (IOException exception) {
-            if (exception instanceof SocketException) {
+            if (exception instanceof SocketException || exception instanceof EOFException) {
                 instance.getBungeeSocketManager().closeSocket(this.port);
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
