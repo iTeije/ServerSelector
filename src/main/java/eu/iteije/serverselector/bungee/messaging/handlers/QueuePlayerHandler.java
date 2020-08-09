@@ -17,8 +17,8 @@ import java.util.UUID;
 
 public class QueuePlayerHandler implements BungeeHandlerImplementation {
 
-    private ServerSelectorBungee instance;
-    private BungeeQueueManager queueManager;
+    private final ServerSelectorBungee instance;
+    private final BungeeQueueManager queueManager;
 
     public QueuePlayerHandler(ServerSelectorBungee instance) {
         this.instance = instance;

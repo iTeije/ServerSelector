@@ -103,8 +103,8 @@ public class SelectorModule {
 
                     String server = (String) itemData.get("server");
 
-                    for (int i = 0; i < jsonLore.size(); i++) {
-                        String line = (String) jsonLore.get(i);
+                    for (Object o : jsonLore) {
+                        String line = (String) o;
 
                         if (server != null) {
                             instance.getCommunicationModule().requestServerInfo(server);
@@ -139,8 +139,6 @@ public class SelectorModule {
             long currentTime = System.currentTimeMillis() / 1000L;
 
             online = currentTime <= (currentOfflineTime + allowedOfflineTime);
-
-            if (!online) statusUpdater.removeServerInfo(serverData.serverName);
         } else {
             online = false;
         }

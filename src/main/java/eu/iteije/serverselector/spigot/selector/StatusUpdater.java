@@ -168,7 +168,7 @@ public class StatusUpdater {
     }
 
     public void updateServerInfo(ServerData info) {
-        if (serverData.containsKey(info.getServerName())) serverData.remove(info.getServerName());
+        serverData.remove(info.getServerName());
         serverData.put(info.getServerName(), info);
     }
 

@@ -9,7 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class BungeeQueueManager {
 
-    private ServerSelectorBungee instance;
+    private final ServerSelectorBungee instance;
 
     private HashMap<String, LinkedList<UUID>> queue;
 

@@ -54,8 +54,6 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(serverData.getUptime());
                 output.writeLong(serverData.getCurrentMemoryUsage());
                 output.writeLong(serverData.getMaxMemoryUsage());
-
-                senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             } else {
                 output.writeUTF(server);
                 output.writeUTF("OFFLINE");
@@ -72,9 +70,9 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(0L);
                 output.writeLong(0L);
                 output.writeLong(0L);
-
-                senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
             }
+
+            senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());
 
         } catch (IOException exception) {
             ServerSelectorLogger.console("IOException thrown in ServerInfoHandler.", exception);
