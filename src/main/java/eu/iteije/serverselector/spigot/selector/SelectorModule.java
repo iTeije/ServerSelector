@@ -26,7 +26,7 @@ import java.util.List;
 public class SelectorModule {
 
     private ServerSelectorSpigot instance;
-    private ActionManager actionManager;
+    @Getter private ActionManager actionManager;
     @Getter private StatusUpdater statusUpdater;
 
     public SelectorModule(ServerSelectorSpigot instance) {

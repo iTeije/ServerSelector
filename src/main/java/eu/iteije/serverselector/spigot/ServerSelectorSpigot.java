@@ -54,7 +54,6 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         }
 
         // Load modules
-        this.commandModule = new SpigotCommandModule(this);
         this.fileModule = new SpigotFileModule(this);
         this.runnableManager = new SpigotRunnableManager(this);
         this.messageModule = new SpigotMessageModule();
@@ -62,6 +61,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.menuModule = new MenuModule(this);
         this.playerModule = new PlayerModule(this);
         this.selectorModule = new SelectorModule(this);
+        this.commandModule = new SpigotCommandModule(this);
 
         // Register online players
         this.playerModule.registerPlayers();

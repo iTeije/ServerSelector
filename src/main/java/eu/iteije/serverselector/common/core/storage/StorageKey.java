@@ -97,6 +97,8 @@ public enum StorageKey {
     CONFIG_QUEUE_DELAY("queue-delay", StorageLocation.CONFIG_FILE),
     CONFIG_BUNGEE_IP("bungee-ip", StorageLocation.CONFIG_FILE),
 
+    LOBBY_SERVER("lobby-server", StorageLocation.CONFIG_FILE),
+
 
     ;
 

@@ -12,7 +12,7 @@ public class ActionManager {
 
     public HashMap<String, Action> actions = new HashMap<>();
 
-    private ServerSelectorSpigot instance;
+    private final ServerSelectorSpigot instance;
 
     public ActionManager(ServerSelectorSpigot instance) {
         this.instance = instance;

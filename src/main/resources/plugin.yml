@@ -9,3 +9,6 @@ commands:
   serverselector:
     aliases:
       - ss
+  hub:
+    aliases:
+      - lobby

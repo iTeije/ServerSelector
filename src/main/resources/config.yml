@@ -48,3 +48,11 @@ queue-delay: 2000
 # How long the server may be offline before appearing as offline in the menus
 # This value must be at least twice as high as the update delay
 offline-time: 30
+
+
+# ------------------------------------ #
+#            Server Pinging            #
+# ------------------------------------ #
+
+# The server a player will be queued for when typing /hub or /lobby
+lobby-server: lobby
