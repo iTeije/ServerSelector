@@ -20,7 +20,7 @@ public class MenuModule {
 
     // Selector info
     @Getter private ItemStack selectorItem;
-    private Integer selectorSlot;
+    @Getter private Integer selectorSlot;
     @Getter @Setter private Boolean selectorItemEnabled;
 
     // Menu caching

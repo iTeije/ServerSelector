@@ -25,6 +25,7 @@ public class PlayerJoinListener implements Listener {
         // Give selector item whenever the item is enabled
         if (instance.getMenuModule().getSelectorItemEnabled()) {
             instance.getMenuModule().giveSelectorItem(player);
+            player.getInventory().setHeldItemSlot(instance.getMenuModule().getSelectorSlot());
         }
 
         // Check if the joining player has the permission to bypass the toggling of others
