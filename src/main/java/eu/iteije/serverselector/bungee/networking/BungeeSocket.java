@@ -19,14 +19,10 @@ public class BungeeSocket {
 
     private boolean active;
 
-    @Getter
-    private ServerSocket serverSocket;
-    private Socket client;
-    private DataInputStream in;
-    @Getter
-    private int port;
+    @Getter private ServerSocket serverSocket;
+    @Getter private final int port;
 
-    private ServerSelectorBungee instance;
+    private final ServerSelectorBungee instance;
 
     public void cancel() {
         this.active = false;
@@ -44,9 +40,9 @@ public class BungeeSocket {
             serverSocket = new ServerSocket(port, 1);
 
             while (active) {
-                client = serverSocket.accept();
+                Socket client = serverSocket.accept();
 
-                in = new DataInputStream(client.getInputStream());
+                DataInputStream in = new DataInputStream(client.getInputStream());
 
                 // This is some dangerous shit
                 String type = in.readUTF();
@@ -54,6 +50,8 @@ public class BungeeSocket {
 
                 switch (type) {
                     case "serverinfo":
+                        ServerSelectorLogger.console("Received serverinfo ping from port " + clientPort);
+
                         Map<String, ServerInfo> serverInfos = ProxyServer.getInstance().getServers();
                         ServerInfo clientInfo = null;
                         for (ServerInfo serverInfo : serverInfos.values()) {
