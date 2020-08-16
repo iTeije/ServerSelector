@@ -13,9 +13,7 @@ import eu.iteije.serverselector.spigot.selector.SelectorModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
-import java.net.Socket;
+import redis.clients.jedis.Jedis;
 
 @Getter
 public final class ServerSelectorSpigot extends JavaPlugin {
@@ -77,13 +75,9 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
         // Destroy status runnables
         selectorModule.getStatusUpdater().destroyTasks();
-        Socket socket = selectorModule.getStatusUpdater().getSocket();
-        try {
-            if (socket != null && !socket.isClosed()) socket.close();
-        } catch (IOException exception) {
-            exception.printStackTrace();
-        }
 
+        Jedis jedis = selectorModule.getStatusUpdater().getJedis();
+        if (jedis != null) jedis.close();
 
         // Plugin shutdown logic
         ServerSelector.getInstance().disable();

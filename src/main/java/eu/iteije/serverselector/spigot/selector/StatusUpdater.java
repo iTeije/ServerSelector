@@ -8,10 +8,9 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Pipeline;
 
-import java.io.DataOutputStream;
-import java.io.IOException;
-import java.net.Socket;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,115 +32,92 @@ public class StatusUpdater {
 
     private final HashMap<String, ServerData> serverData = new HashMap<>();
 
-    @Getter private Socket socket;
+    @Getter private final Jedis jedis;
+    @Getter private final Pipeline pipeline;
 
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
-        initializeSocket();
+        this.jedis = new Jedis("localhost", 6379, 5000);
+        this.pipeline = jedis.pipelined();
 
         this.updateDelay = SpigotFileModule.getFile(StorageKey.CONFIG_UPDATE_DELAY).getInt(StorageKey.CONFIG_UPDATE_DELAY);
         this.fetchDelay = SpigotFileModule.getFile(StorageKey.CONFIG_FETCH_DELAY).getInt(StorageKey.CONFIG_FETCH_DELAY);
     }
 
-    public void initializeSocket() {
-        try {
-            this.socket = new Socket(SpigotFileModule.getFile(StorageKey.CONFIG_BUNGEE_IP).getString(StorageKey.CONFIG_BUNGEE_IP),
-                    instance.getServer().getPort() + 10000);
-        } catch (IOException exception) {
-            ServerSelectorLogger.console("Failed to initialize socket on port " + (instance.getServer().getPort() + 10000) + ".", exception);
-        }
-    }
-
     public void updateServerInfo(Map<String, String> force) {
         try {
-            if (socket == null) {
-                initializeSocket();
+            if (this.jedis == null) {
+                ServerSelectorLogger.console("Jedis is null. Couldn't update server info.");
                 return;
             }
 
-            if (this.socket.isConnected()) {
-                DataOutputStream dataOutputStream = new DataOutputStream(socket.getOutputStream());
+            if (this.jedis.isConnected()) {
+                Map<String, String> serverData = new HashMap<>();
 
-                dataOutputStream.writeUTF("serverinfo");
-                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getPort()));
+                // Port
+                serverData.put("port", String.valueOf(instance.getServer().getPort()));
 
-                // Status
-                if (instance.getServer().hasWhitelist() ||
-                        force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
-                    dataOutputStream.writeUTF("WHITELISTED");
-                } else if (!instance.getServer().hasWhitelist() ||
+                // Status (whitelisted/online)
+                if (instance.getServer().hasWhitelist() || force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
+                    serverData.put("status", "WHITELISTED");
+                } if (!instance.getServer().hasWhitelist() ||
                         force.getOrDefault("status", "").equalsIgnoreCase("online")){
-                    dataOutputStream.writeUTF("ONLINE");
+                    serverData.put("status", "ONLINE");
                 }
 
                 // Current players
-                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getOnlinePlayers().size()));
-                // Max players
-                dataOutputStream.writeUTF(String.valueOf(instance.getServer().getMaxPlayers()));
+                serverData.put("players",  String.valueOf(instance.getServer().getOnlinePlayers().size()));
 
+                // Max players
+                serverData.put("max_players", String.valueOf(instance.getServer().getMaxPlayers()));
 
                 // Current unix timestamp
-                long unix = System.currentTimeMillis() / 1000L;
-                dataOutputStream.writeLong(unix);
-
+                serverData.put("unix", String.valueOf((System.currentTimeMillis() / 1000L)));
 
                 // Queue delay
                 int queueDelay = SpigotFileModule.getFile(StorageKey.CONFIG_QUEUE_DELAY).getInt(StorageKey.CONFIG_QUEUE_DELAY);
-                dataOutputStream.writeInt(queueDelay);
+                serverData.put("queue_delay", String.valueOf(queueDelay));
 
                 // Whitelisted players
                 List<String> whitelistedPlayers = new ArrayList<>();
-
                 for (OfflinePlayer offlinePlayer : instance.getServer().getWhitelistedPlayers()) {
                     whitelistedPlayers.add(offlinePlayer.getUniqueId().toString());
                 }
-
 
                 // Convert list to string and replace brackets and spaces
                 String whitelist = whitelistedPlayers.toString();
                 whitelist = whitelist.replaceAll("\\s", "");
                 whitelist = whitelist.replaceAll("[\\[\\](){}]", "");
-
                 // Write whitelisted players
-                dataOutputStream.writeUTF(whitelist);
+                serverData.put("whitelist", whitelist);
 
-                // Motd (string)
-                dataOutputStream.writeUTF(instance.getServer().getMotd());
+                // MOTD
+                serverData.put("motd", instance.getServer().getMotd());
 
                 // Version (string)
-                dataOutputStream.writeUTF(instance.getServer().getBukkitVersion());
+                serverData.put("version", instance.getServer().getBukkitVersion());
 
                 // Tps (string)
                 DecimalFormat format = new DecimalFormat("#.##");
                 Double average = instance.getRunnableManager().getSelectorTimer().getAverageTPS();
-                dataOutputStream.writeUTF(format.format(average));
+                serverData.put("tps", format.format(average));
 
                 // Uptime in minutes (long)
-                dataOutputStream.writeLong(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60);
+                serverData.put("uptime", String.valueOf(((System.currentTimeMillis() / 1000L) - instance.getStart()) / 60));
 
                 // Current memory usage (long)
-                dataOutputStream.writeLong((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576L);
+                serverData.put("current_memory", String.valueOf((Runtime.getRuntime().maxMemory() - Runtime.getRuntime().freeMemory()) / 1048576L));
+
                 // Max memory usage (long)
-                dataOutputStream.writeLong(Runtime.getRuntime().maxMemory() / 1048576L);
+                serverData.put("max_memory", String.valueOf(Runtime.getRuntime().maxMemory() / 1048576L));
 
-                dataOutputStream.flush();
-
-                socket.close();
-                socket = null;
-            } else {
-                initializeSocket();
+                pipeline.hmset("serverselector_" + instance.getServer().getPort(), serverData);
+                pipeline.sync();
             }
-        } catch (IOException exception) {
+        } catch (Exception exception) {
             ServerSelectorLogger.console("Couldn't update server data.", exception);
-            if (this.socket != null) {
-                try {
-                    this.socket.close();
-                    this.socket = null;
-                } catch (IOException ioException) {
-                    exception.printStackTrace();
-                }
-            }
+            exception.printStackTrace();
         }
     }
 

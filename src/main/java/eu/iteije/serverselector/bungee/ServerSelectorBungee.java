@@ -5,7 +5,7 @@ import eu.iteije.serverselector.bungee.cache.ClientCacheModule;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.bungee.listeners.BungeeListenerModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
-import eu.iteije.serverselector.bungee.networking.BungeeSocketManager;
+import eu.iteije.serverselector.bungee.networking.BungeeRedisManager;
 import eu.iteije.serverselector.bungee.queue.BungeeQueueManager;
 import eu.iteije.serverselector.common.platform.Platform;
 import lombok.Getter;
@@ -22,7 +22,8 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeQueueManager queueManager;
     private BungeeListenerModule listenerModule;
 
-    private BungeeSocketManager bungeeSocketManager;
+//    private BungeeSocketManager bungeeSocketManager;
+    private BungeeRedisManager bungeeRedisManager;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -51,13 +52,17 @@ public class ServerSelectorBungee extends Plugin {
 
         this.fileModule = new BungeeFileModule(this);
 
-        this.bungeeSocketManager = new BungeeSocketManager(this);
-        bungeeSocketManager.initializeSockets();
+        this.bungeeRedisManager = new BungeeRedisManager(this);
+        bungeeRedisManager.initializeSchedulers();
+
+//        this.bungeeSocketManager = new BungeeSocketManager(this);
+//        bungeeSocketManager.initializeSockets();
     }
 
     @Override
     public void onDisable() {
-        bungeeSocketManager.closeSockets();
+//        bungeeSocketManager.closeSockets();
+        bungeeRedisManager.getJedis().close();
 
         ServerSelector.getInstance().disable();
     }

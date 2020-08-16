@@ -10,9 +10,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 import java.io.DataInputStream;
 import java.io.EOFException;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.net.SocketException;
+import java.net.*;
 import java.util.Map;
 
 public class BungeeSocket {
@@ -37,10 +35,13 @@ public class BungeeSocket {
 
     public void run(int port) {
         try {
-            serverSocket = new ServerSocket(port, 1);
+            InetAddress address = InetAddress.getByName("127.0.0.1"); // local address todo config
+            serverSocket = new ServerSocket(port, 0, address);
+            ServerSelectorLogger.console("Server socket listening on port " + port + " / address " + address.getHostAddress());
 
             while (active) {
                 Socket client = serverSocket.accept();
+                ServerSelectorLogger.console("Socket (" + client.getPort() + ") ping received");
 
                 DataInputStream in = new DataInputStream(client.getInputStream());
 
@@ -50,8 +51,6 @@ public class BungeeSocket {
 
                 switch (type) {
                     case "serverinfo":
-                        ServerSelectorLogger.console("Received serverinfo ping from port " + clientPort);
-
                         Map<String, ServerInfo> serverInfos = ProxyServer.getInstance().getServers();
                         ServerInfo clientInfo = null;
                         for (ServerInfo serverInfo : serverInfos.values()) {
@@ -98,10 +97,12 @@ public class BungeeSocket {
 
         } catch (IOException exception) {
             if (exception instanceof SocketException || exception instanceof EOFException) {
-                instance.getBungeeSocketManager().closeSocket(this.port);
+                if (exception instanceof BindException) exception.printStackTrace();
+
+//                instance.getBungeeSocketManager().closeSocket(this.port);
 
                 ServerSelectorLogger.console("Client on port " + port + " disconnected. Opening new socket...");
-                instance.getBungeeSocketManager().renewSocket(this);
+//                instance.getBungeeSocketManager().renewSocket(this);
             } else {
                 exception.printStackTrace();
             }
