@@ -20,7 +20,7 @@ public class BungeeRedisManager {
     public BungeeRedisManager(ServerSelectorBungee instance) {
         this.instance = instance;
 
-        String host = "0.0.0.0";
+        String host = "127.0.0.1";
 
         // try auth
 
