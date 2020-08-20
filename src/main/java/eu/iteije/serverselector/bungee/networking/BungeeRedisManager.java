@@ -22,7 +22,7 @@ public class BungeeRedisManager {
 
         String host = "127.0.0.1";
 
-        // try auth todo
+        // set up redis and its password, yes
 
         this.jedis = new Jedis(host, 6379, 5000);
 
