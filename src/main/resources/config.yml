@@ -30,9 +30,13 @@ selector-drop: false
 # All values listed below are treated as seconds unless specified else
 # Important to note is that the queue will be processed by the bungeecord server
 
-# The IP of your bungeecord server (numbers)
+# The IP of your bungeecord server (numbers) in case you're using sockets instead of redis
 # If your bungee is running on the same machine as your spigot server, you don't have to change the value below
 bungee-ip: "0.0.0.0"
+
+# Redis credentials
+redis-host: localhost
+redis-password: 'yoursecurepasswordhere'
 
 # How period the server waits before updating their information (at least 5 seconds)
 # This information includes; status (whitelist/online), player capacity, max players

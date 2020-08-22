@@ -13,6 +13,7 @@ public class BungeeFileModule {
 
     public BungeeFileModule(ServerSelectorBungee serverSelectorBungee) {
         new BungeeFile(serverSelectorBungee, StorageLocation.MESSAGE_FILE);
+        new BungeeFile(serverSelectorBungee, StorageLocation.CONFIG_FILE);
     }
 
     /**

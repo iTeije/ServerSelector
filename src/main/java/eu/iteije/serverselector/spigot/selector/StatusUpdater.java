@@ -38,7 +38,11 @@ public class StatusUpdater {
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
 
-        this.jedis = new Jedis("localhost", 6379, 5000);
+        String redisHost = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
+        String redisPassword = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
+
+        this.jedis = new Jedis(redisHost, 6379, 5000);
+        this.jedis.auth(redisPassword);
         this.pipeline = jedis.pipelined();
 
         this.updateDelay = SpigotFileModule.getFile(StorageKey.CONFIG_UPDATE_DELAY).getInt(StorageKey.CONFIG_UPDATE_DELAY);
@@ -54,9 +58,6 @@ public class StatusUpdater {
 
             if (this.jedis.isConnected()) {
                 Map<String, String> serverData = new HashMap<>();
-
-                // Port
-                serverData.put("port", String.valueOf(instance.getServer().getPort()));
 
                 // Status (whitelisted/online)
                 if (instance.getServer().hasWhitelist() || force.getOrDefault("status", "").equalsIgnoreCase("whitelisted")) {
@@ -114,6 +115,8 @@ public class StatusUpdater {
 
                 pipeline.hmset("serverselector_" + instance.getServer().getPort(), serverData);
                 pipeline.sync();
+            } else {
+                ServerSelectorLogger.console("Couldn't update server data -> Not connected to Redis server.");
             }
         } catch (Exception exception) {
             ServerSelectorLogger.console("Couldn't update server data.", exception);
