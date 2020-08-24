@@ -91,9 +91,7 @@ public class SelectorModule {
 
             JSONArray actions = (JSONArray) itemData.get("actions");
             if (actions != null) {
-                item.onClick(((player, item1) -> {
-                    actionManager.processActions((JSONArray) itemData.get("actions"), player);
-                }));
+                item.onClick(((player, item1) -> actionManager.processActions((JSONArray) itemData.get("actions"), player)));
             }
 
             try {

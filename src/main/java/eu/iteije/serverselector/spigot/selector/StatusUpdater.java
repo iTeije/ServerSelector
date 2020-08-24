@@ -40,8 +40,9 @@ public class StatusUpdater {
 
         String redisHost = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
         String redisPassword = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
+        Integer redisPort = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_PORT).getInt(StorageKey.CONFIG_REDIS_PORT);
 
-        this.jedis = new Jedis(redisHost, 6379, 5000);
+        this.jedis = new Jedis(redisHost, redisPort, 5000);
         this.jedis.auth(redisPassword);
         this.pipeline = jedis.pipelined();
 

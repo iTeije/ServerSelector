@@ -22,7 +22,6 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeQueueManager queueManager;
     private BungeeListenerModule listenerModule;
 
-//    private BungeeSocketManager bungeeSocketManager;
     private BungeeRedisManager bungeeRedisManager;
 
     // Bungee plugin instance
@@ -53,16 +52,11 @@ public class ServerSelectorBungee extends Plugin {
         this.fileModule = new BungeeFileModule(this);
 
         this.bungeeRedisManager = new BungeeRedisManager(this);
-        bungeeRedisManager.initializeSchedulers();
-
-//        this.bungeeSocketManager = new BungeeSocketManager(this);
-//        bungeeSocketManager.initializeSockets();
     }
 
     @Override
     public void onDisable() {
-//        bungeeSocketManager.closeSockets();
-        bungeeRedisManager.getJedis().close();
+        bungeeRedisManager.getJedisPool().close();
 
         ServerSelector.getInstance().disable();
     }
