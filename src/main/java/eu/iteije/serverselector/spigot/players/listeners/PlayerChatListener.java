@@ -5,18 +5,19 @@ import eu.iteije.serverselector.spigot.players.ServerSelectorPlayer;
 import eu.iteije.serverselector.spigot.services.actionqueue.Action;
 import eu.iteije.serverselector.spigot.services.actionqueue.ActionType;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
 public class PlayerChatListener implements Listener {
 
-    private ServerSelectorSpigot instance;
+    private final ServerSelectorSpigot instance;
 
     public PlayerChatListener(ServerSelectorSpigot instance) {
         this.instance = instance;
     }
 
-    @EventHandler
+    @EventHandler (priority = EventPriority.HIGH)
     public void onPlayerChat(AsyncPlayerChatEvent event) {
         ServerSelectorPlayer player = instance.getPlayerModule().getPlayer(event.getPlayer().getUniqueId());
         if (player.hasAction(ActionType.CHAT)) {

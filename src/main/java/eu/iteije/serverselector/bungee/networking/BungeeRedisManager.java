@@ -23,9 +23,9 @@ public class BungeeRedisManager {
 
         String redisHost = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
         String redisPassword = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
-        String redisPort = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_PORT).getString(StorageKey.CONFIG_REDIS_PORT);
+        Integer redisPort = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_PORT).getInt(StorageKey.CONFIG_REDIS_PORT);
 
-        this.jedisPool = new JedisPool(new JedisPoolConfig(), redisHost, 6379, Protocol.DEFAULT_TIMEOUT, redisPassword);
+        this.jedisPool = new JedisPool(new JedisPoolConfig(), redisHost, redisPort, Protocol.DEFAULT_TIMEOUT, redisPassword);
 
         initializeSchedulers();
     }
