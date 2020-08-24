@@ -35,8 +35,10 @@ selector-drop: false
 bungee-ip: "0.0.0.0"
 
 # Redis credentials
+# You're forced to use Redis authentication, you could fork the plugin on github and make your own changes though
 redis-host: localhost
 redis-password: 'yoursecurepasswordhere'
+redis-port: 6379
 
 # How period the server waits before updating their information (at least 5 seconds)
 # This information includes; status (whitelist/online), player capacity, max players

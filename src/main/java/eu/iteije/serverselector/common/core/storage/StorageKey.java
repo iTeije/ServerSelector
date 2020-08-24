@@ -101,7 +101,7 @@ public enum StorageKey {
 
     CONFIG_REDIS_HOST("redis-host", StorageLocation.CONFIG_FILE),
     CONFIG_REDIS_PASSWORD("redis-password", StorageLocation.CONFIG_FILE),
-
+    CONFIG_REDIS_PORT("redis-port", StorageLocation.CONFIG_FILE),
 
     ;
 
