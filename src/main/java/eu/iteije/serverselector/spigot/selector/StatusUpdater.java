@@ -5,6 +5,7 @@ import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
+import eu.iteije.serverselector.spigot.metrics.SpigotMetricsModule;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -35,8 +36,11 @@ public class StatusUpdater {
     @Getter private final Jedis jedis;
     @Getter private final Pipeline pipeline;
 
+    private final SpigotMetricsModule metrics;
+
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
         this.instance = serverSelectorSpigot;
+        this.metrics = instance.getSpigotMetricsModule();
 
         String redisHost = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
         String redisPassword = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
@@ -116,6 +120,8 @@ public class StatusUpdater {
 
                 pipeline.hmset("serverselector_" + instance.getServer().getPort(), serverData);
                 pipeline.sync();
+
+                metrics.redisCall();
             } else {
                 ServerSelectorLogger.console("Couldn't update server data -> Not connected to Redis server.");
             }

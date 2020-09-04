@@ -1,11 +1,10 @@
-package eu.iteije.serverselector.spigot.metrics;
+package eu.iteije.serverselector.bungee.metrics;
 
+import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.common.core.logging.ServerSelectorLogger;
 import eu.iteije.serverselector.common.core.storage.StorageKey;
-import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
-import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.influxdb.InfluxDB;
 import org.influxdb.InfluxDBFactory;
 import org.influxdb.dto.Point;
@@ -13,20 +12,21 @@ import org.influxdb.dto.Pong;
 
 import java.util.concurrent.TimeUnit;
 
-public class SpigotMetricsModule extends SpigotMetrics {
+public class BungeeMetricsModule extends BungeeMetrics {
 
-    @Getter private final InfluxDB influx;
-    private final ServerSelectorSpigot instance;
+    @Getter
+    private final InfluxDB influx;
+    private final ServerSelectorBungee instance;
 
-    public SpigotMetricsModule(ServerSelectorSpigot instance) {
+    public BungeeMetricsModule(ServerSelectorBungee instance) {
         super();
         this.instance = instance;
 
-        String database = SpigotFileModule.getFile(StorageKey.INFLUX_DATABASE).getString(StorageKey.INFLUX_DATABASE);
+        String database = BungeeFileModule.getFile(StorageKey.INFLUX_DATABASE).getString(StorageKey.INFLUX_DATABASE);
 
-        String url = SpigotFileModule.getFile(StorageKey.INFLUX_URL).getString(StorageKey.INFLUX_URL);
-        String user = SpigotFileModule.getFile(StorageKey.INFLUX_USERNAME).getString(StorageKey.INFLUX_USERNAME);
-        String password = SpigotFileModule.getFile(StorageKey.INFLUX_PASSWORD).getString(StorageKey.INFLUX_PASSWORD);
+        String url = BungeeFileModule.getFile(StorageKey.INFLUX_URL).getString(StorageKey.INFLUX_URL);
+        String user = BungeeFileModule.getFile(StorageKey.INFLUX_USERNAME).getString(StorageKey.INFLUX_USERNAME);
+        String password = BungeeFileModule.getFile(StorageKey.INFLUX_PASSWORD).getString(StorageKey.INFLUX_PASSWORD);
 
         this.influx = InfluxDBFactory.connect(url, user, password);
 
@@ -49,10 +49,11 @@ public class SpigotMetricsModule extends SpigotMetrics {
     }
 
     private void updateData() {
-        Bukkit.getScheduler().runTaskLaterAsynchronously(instance, () -> {
+        instance.getProxy().getScheduler().schedule(instance, () -> {
             try {
+                // Proxy data
                 Point point = Point
-                        .measurement("serverselector_spigot")
+                        .measurement("serverselector_bungee")
                         .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                         .addField("redis_calls", getRedisCalls())
                         .build();
@@ -64,6 +65,7 @@ public class SpigotMetricsModule extends SpigotMetrics {
                 ServerSelectorLogger.console("Exception caught while collecting/updating data", exception);
                 setEnabled(false);
             }
-        }, 20 * 2L);
+        }, 2000, TimeUnit.MILLISECONDS);
     }
+
 }

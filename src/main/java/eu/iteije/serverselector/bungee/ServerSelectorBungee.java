@@ -5,6 +5,7 @@ import eu.iteije.serverselector.bungee.cache.ClientCacheModule;
 import eu.iteije.serverselector.bungee.files.BungeeFileModule;
 import eu.iteije.serverselector.bungee.listeners.BungeeListenerModule;
 import eu.iteije.serverselector.bungee.messaging.BungeeCommunicationModule;
+import eu.iteije.serverselector.bungee.metrics.BungeeMetricsModule;
 import eu.iteije.serverselector.bungee.networking.BungeeRedisManager;
 import eu.iteije.serverselector.bungee.queue.BungeeQueueManager;
 import eu.iteije.serverselector.common.platform.Platform;
@@ -23,6 +24,7 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeListenerModule listenerModule;
 
     private BungeeRedisManager bungeeRedisManager;
+    private BungeeMetricsModule bungeeMetricsModule;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -42,6 +44,7 @@ public class ServerSelectorBungee extends Plugin {
         }
 
         this.clientCacheModule = new ClientCacheModule(this);
+        this.bungeeMetricsModule = new BungeeMetricsModule(this);
 
         this.queueManager = new BungeeQueueManager(this);
         this.communicationModule = new BungeeCommunicationModule(this);
