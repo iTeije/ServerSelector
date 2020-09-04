@@ -103,6 +103,11 @@ public enum StorageKey {
     CONFIG_REDIS_PASSWORD("redis-password", StorageLocation.CONFIG_FILE),
     CONFIG_REDIS_PORT("redis-port", StorageLocation.CONFIG_FILE),
 
+    INFLUX_URL("influxdb.url", StorageLocation.CONFIG_FILE),
+    INFLUX_USERNAME("influxdb.user", StorageLocation.CONFIG_FILE),
+    INFLUX_PASSWORD("influxdb.password", StorageLocation.CONFIG_FILE),
+    INFLUX_DATABASE("influxdb.database", StorageLocation.CONFIG_FILE),
+
     ;
 
     @Getter private String path;

@@ -57,8 +57,15 @@ offline-time: 30
 
 
 # ------------------------------------ #
-#            Server Pinging            #
+#             Other things             #
 # ------------------------------------ #
 
 # The server a player will be queued for when typing /hub or /lobby
 lobby-server: lobby
+
+# InfluxDB credentials
+influxdb:
+  url: "url"
+  user: "username"
+  password: "password"
+  database: "database"
