@@ -44,7 +44,6 @@ public class ServerSelectorBungee extends Plugin {
         }
 
         this.clientCacheModule = new ClientCacheModule(this);
-        this.bungeeMetricsModule = new BungeeMetricsModule(this);
 
         this.queueManager = new BungeeQueueManager(this);
         this.communicationModule = new BungeeCommunicationModule(this);
@@ -53,6 +52,7 @@ public class ServerSelectorBungee extends Plugin {
         this.listenerModule = new BungeeListenerModule(this);
 
         this.fileModule = new BungeeFileModule(this);
+        this.bungeeMetricsModule = new BungeeMetricsModule(this, fileModule);
 
         this.bungeeRedisManager = new BungeeRedisManager(this);
     }

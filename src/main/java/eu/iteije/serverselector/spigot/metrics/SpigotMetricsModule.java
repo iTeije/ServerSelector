@@ -36,7 +36,7 @@ public class SpigotMetricsModule extends SpigotMetrics {
             return;
         }
 
-        this.influx.setLogLevel(InfluxDB.LogLevel.FULL);
+        this.influx.setLogLevel(InfluxDB.LogLevel.NONE);
         this.influx.enableGzip();
         if (!this.influx.databaseExists(database)) this.influx.createDatabase(database);
         this.influx.setRetentionPolicy("autogen");
@@ -62,6 +62,7 @@ public class SpigotMetricsModule extends SpigotMetrics {
                 updateData();
             } catch (Exception exception) { // This was a database not found exception, but just for the sake of development...
                 ServerSelectorLogger.console("Exception caught while collecting/updating data", exception);
+                exception.printStackTrace();
                 setEnabled(false);
             }
         }, 20 * 2L);
