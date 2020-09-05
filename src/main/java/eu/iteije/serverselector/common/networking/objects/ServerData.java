@@ -29,6 +29,8 @@ public class ServerData {
     public long currentMemoryUsage;
     public long maxMemoryUsage;
 
+    public Integer redisCalls;
+
 
 
     public boolean isAccessible(UUID uuid) {

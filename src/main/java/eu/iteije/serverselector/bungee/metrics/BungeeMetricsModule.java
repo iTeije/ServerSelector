@@ -52,13 +52,21 @@ public class BungeeMetricsModule extends BungeeMetrics {
         instance.getProxy().getScheduler().schedule(instance, () -> {
             try {
                 // Proxy data
-                Point point = Point
+                Point proxyData = Point
                         .measurement("serverselector_bungee")
                         .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
                         .addField("redis_calls", getRedisCalls())
                         .build();
 
-                this.influx.write(point);
+                // Spigot data
+                Point spigotData = Point
+                        .measurement("serverselector_spigot")
+                        .time(System.currentTimeMillis(), TimeUnit.MILLISECONDS)
+                        .addField("redis_calls", getSpigotRedisCalls())
+                        .build();
+
+                this.influx.write(proxyData);
+                this.influx.write(spigotData);
 
                 updateData();
             } catch (Exception exception) { // This was a database not found exception, but just for the sake of development...

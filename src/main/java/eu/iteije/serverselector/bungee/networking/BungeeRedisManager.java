@@ -22,7 +22,7 @@ public class BungeeRedisManager {
 
     public BungeeRedisManager(ServerSelectorBungee instance) {
         this.instance = instance;
-        this.metrics = instance.getBungeeMetricsModule();
+        this.metrics = instance.getMetricsModule();
 
         String redisHost = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
         String redisPassword = BungeeFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
@@ -75,7 +75,8 @@ public class BungeeRedisManager {
                                     data.get("tps"),
                                     Long.parseLong(data.get("uptime")),
                                     Long.parseLong(data.get("current_memory")),
-                                    Long.parseLong(data.get("max_memory"))
+                                    Long.parseLong(data.get("max_memory")),
+                                    Integer.parseInt(data.get("redis_calls"))
                             );
 
                             instance.getClientCacheModule().updateServerData(serverData);

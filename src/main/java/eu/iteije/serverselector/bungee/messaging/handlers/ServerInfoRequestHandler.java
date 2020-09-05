@@ -54,6 +54,7 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(serverData.getUptime());
                 output.writeLong(serverData.getCurrentMemoryUsage());
                 output.writeLong(serverData.getMaxMemoryUsage());
+                output.writeInt(serverData.getRedisCalls());
             } else {
                 output.writeUTF(server);
                 output.writeUTF("OFFLINE");
@@ -70,6 +71,7 @@ public class ServerInfoRequestHandler implements BungeeHandlerImplementation {
                 output.writeLong(0L);
                 output.writeLong(0L);
                 output.writeLong(0L);
+                output.writeInt(0);
             }
 
             senderInfo.sendData(MessageChannel.BUNGEE_GLOBAL.getChannel(), bytes.toByteArray());

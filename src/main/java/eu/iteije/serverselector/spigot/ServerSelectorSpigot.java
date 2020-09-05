@@ -7,7 +7,6 @@ import eu.iteije.serverselector.spigot.files.SpigotFileModule;
 import eu.iteije.serverselector.spigot.menus.MenuModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotCommunicationModule;
 import eu.iteije.serverselector.spigot.messaging.SpigotMessageModule;
-import eu.iteije.serverselector.spigot.metrics.SpigotMetricsModule;
 import eu.iteije.serverselector.spigot.players.PlayerModule;
 import eu.iteije.serverselector.spigot.runnables.SpigotRunnableManager;
 import eu.iteije.serverselector.spigot.selector.SelectorModule;
@@ -32,8 +31,6 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     private SelectorModule selectorModule;
 
     private SpigotRunnableManager runnableManager;
-
-    private SpigotMetricsModule spigotMetricsModule;
 
     // Spigot plugin instance
     @Getter private static ServerSelectorSpigot instance;
@@ -60,7 +57,6 @@ public final class ServerSelectorSpigot extends JavaPlugin {
         this.messageModule = new SpigotMessageModule();
         this.communicationModule = new SpigotCommunicationModule(this);
         this.menuModule = new MenuModule(this);
-        this.spigotMetricsModule = new SpigotMetricsModule(this);
         this.playerModule = new PlayerModule(this);
         this.selectorModule = new SelectorModule(this);
         this.commandModule = new SpigotCommandModule(this);

@@ -5,7 +5,7 @@ import eu.iteije.serverselector.common.core.storage.StorageKey;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import eu.iteije.serverselector.spigot.ServerSelectorSpigot;
 import eu.iteije.serverselector.spigot.files.SpigotFileModule;
-import eu.iteije.serverselector.spigot.metrics.SpigotMetricsModule;
+import eu.iteije.serverselector.spigot.metrics.SpigotMetrics;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class StatusUpdater {
+public class StatusUpdater extends SpigotMetrics {
 
     private final ServerSelectorSpigot instance;
 
@@ -36,11 +36,9 @@ public class StatusUpdater {
     @Getter private final Jedis jedis;
     @Getter private final Pipeline pipeline;
 
-    private final SpigotMetricsModule metrics;
-
     public StatusUpdater(ServerSelectorSpigot serverSelectorSpigot) {
+        super();
         this.instance = serverSelectorSpigot;
-        this.metrics = instance.getSpigotMetricsModule();
 
         String redisHost = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_HOST).getString(StorageKey.CONFIG_REDIS_HOST);
         String redisPassword = SpigotFileModule.getFile(StorageKey.CONFIG_REDIS_PASSWORD).getString(StorageKey.CONFIG_REDIS_PASSWORD);
@@ -118,10 +116,13 @@ public class StatusUpdater {
                 // Max memory usage (long)
                 serverData.put("max_memory", String.valueOf(Runtime.getRuntime().maxMemory() / 1048576L));
 
+                // New redis calls
+                serverData.put("redis_calls", String.valueOf(getRedisCalls()));
+
                 pipeline.hmset("serverselector_" + instance.getServer().getPort(), serverData);
                 pipeline.sync();
 
-                metrics.redisCall();
+                redisCall();
             } else {
                 ServerSelectorLogger.console("Couldn't update server data -> Not connected to Redis server.");
             }

@@ -1,25 +1,32 @@
 package eu.iteije.serverselector.bungee.cache;
 
 import eu.iteije.serverselector.bungee.ServerSelectorBungee;
+import eu.iteije.serverselector.bungee.metrics.BungeeMetrics;
 import eu.iteije.serverselector.common.networking.objects.ServerData;
 import lombok.Getter;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class ClientCacheModule {
 
-    @Getter private HashMap<String, ServerData> serverData = new HashMap<>();
+    @Getter private final Map<String, ServerData> serverData;
 
-    private ServerSelectorBungee instance;
+    private final ServerSelectorBungee instance;
+    private final BungeeMetrics metrics;
 
-    public ClientCacheModule(ServerSelectorBungee instance) {
+    public ClientCacheModule(ServerSelectorBungee instance, BungeeMetrics metrics) {
         this.instance = instance;
+
+        this.serverData = new HashMap<>();
+        this.metrics = metrics;
     }
 
     /**
      * @param data received server information (sockets)
      */
     public void updateServerData(ServerData data) {
+        metrics.spigotRedisCall(data.getRedisCalls());
         // Update queue processing based on received status
         if (data.getStatus().equalsIgnoreCase("ONLINE")) {
             // Get the previous ServerData entry for the specific server

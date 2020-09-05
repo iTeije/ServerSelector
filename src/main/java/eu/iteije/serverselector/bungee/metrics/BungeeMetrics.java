@@ -6,6 +6,7 @@ import lombok.Setter;
 public class BungeeMetrics {
 
     private Integer redisCalls;
+    private Integer spigotRedisCalls;
 
     @Getter @Setter private Boolean enabled;
 
@@ -13,6 +14,7 @@ public class BungeeMetrics {
         this.enabled = false;
 
         this.redisCalls = 0;
+        this.spigotRedisCalls = 0;
     }
 
     public void redisCall() {
@@ -22,6 +24,16 @@ public class BungeeMetrics {
     public int getRedisCalls() {
         int back = redisCalls;
         redisCalls = 0;
+        return back;
+    }
+
+    public void spigotRedisCall(Integer calls) {
+        spigotRedisCalls += calls;
+    }
+
+    public int getSpigotRedisCalls() {
+        int back = spigotRedisCalls;
+        spigotRedisCalls = 0;
         return back;
     }
 

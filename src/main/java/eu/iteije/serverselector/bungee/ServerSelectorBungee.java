@@ -24,7 +24,7 @@ public class ServerSelectorBungee extends Plugin {
     private BungeeListenerModule listenerModule;
 
     private BungeeRedisManager bungeeRedisManager;
-    private BungeeMetricsModule bungeeMetricsModule;
+    private BungeeMetricsModule metricsModule;
 
     // Bungee plugin instance
     @Getter private static ServerSelectorBungee instance;
@@ -43,7 +43,10 @@ public class ServerSelectorBungee extends Plugin {
             return;
         }
 
-        this.clientCacheModule = new ClientCacheModule(this);
+        this.fileModule = new BungeeFileModule(this);
+        this.metricsModule = new BungeeMetricsModule(this, fileModule);
+
+        this.clientCacheModule = new ClientCacheModule(this, metricsModule);
 
         this.queueManager = new BungeeQueueManager(this);
         this.communicationModule = new BungeeCommunicationModule(this);
@@ -51,15 +54,19 @@ public class ServerSelectorBungee extends Plugin {
 
         this.listenerModule = new BungeeListenerModule(this);
 
-        this.fileModule = new BungeeFileModule(this);
-        this.bungeeMetricsModule = new BungeeMetricsModule(this, fileModule);
-
         this.bungeeRedisManager = new BungeeRedisManager(this);
     }
 
     @Override
     public void onDisable() {
         bungeeRedisManager.getJedisPool().close();
+
+        // Close influxdb connection
+        if (this.metricsModule != null && this.metricsModule.getInflux() != null) {
+            if (!this.metricsModule.getInflux().ping().getVersion().equalsIgnoreCase("unknown")) {
+                this.metricsModule.getInflux().close();
+            }
+        }
 
         ServerSelector.getInstance().disable();
     }

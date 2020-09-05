@@ -106,7 +106,7 @@ public class BungeeQueueManager {
         }
 
 
-        if (instance.getClientCacheModule().getServerData(server) != null) {
+        if (instance.getClientCacheModule().getServerData(server) != null) { // todo fix whitelisted queue
             String[] whitelist = instance.getClientCacheModule().getServerData(server).getWhitelist();
 
             if (whitelist.length > 0) {

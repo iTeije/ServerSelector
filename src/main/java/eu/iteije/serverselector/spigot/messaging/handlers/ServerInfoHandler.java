@@ -36,7 +36,8 @@ public class ServerInfoHandler implements SpigotHandlerImplementation {
                     input.readUTF(),
                     input.readLong(),
                     input.readLong(),
-                    input.readLong()
+                    input.readLong(),
+                    input.readInt()
             );
 
             selectorModule.getStatusUpdater().updateServerInfo(data);

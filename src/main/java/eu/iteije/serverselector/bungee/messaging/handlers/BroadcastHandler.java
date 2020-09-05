@@ -11,7 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Map;
 
 public class BroadcastHandler implements BungeeHandlerImplementation {
 
@@ -33,7 +33,7 @@ public class BroadcastHandler implements BungeeHandlerImplementation {
             output.writeUTF(message);
 
             // Check which servers have more than 1 player online, since we don't want a spam of broadcast messages once the first player connects
-            HashMap<String, ServerData> serverData = instance.getClientCacheModule().getServerData();
+            Map<String, ServerData> serverData = instance.getClientCacheModule().getServerData();
 
             ProxyServer.getInstance().getServers().values().forEach(server -> {
                 if (message.charAt(0) == '/') {
