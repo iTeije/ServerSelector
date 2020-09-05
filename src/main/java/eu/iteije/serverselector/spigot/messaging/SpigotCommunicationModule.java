@@ -9,6 +9,7 @@ import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotHandlerImpleme
 import eu.iteije.serverselector.spigot.messaging.interfaces.SpigotRequestImplementation;
 import eu.iteije.serverselector.spigot.messaging.requests.LeaveQueueRequest;
 import eu.iteije.serverselector.spigot.messaging.requests.UpdateMessageRequest;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.messaging.PluginMessageListener;
 
@@ -67,9 +68,12 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             try {
                 outputStream.writeUTF(optional);
                 outputStream.writeUTF(context);
-                for (String player : playerNames) {
-                    outputStream.writeUTF(player);
-                    instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                Player[] players = Bukkit.getServer().getOnlinePlayers().toArray(new Player[]{});
+                if (players.length > 0) {
+                    for (String player : playerNames) {
+                        outputStream.writeUTF(player);
+                        players[0].sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                    }
                 }
             } catch (IOException exception) {
                 exception.printStackTrace();
@@ -78,7 +82,10 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             try {
                 outputStream.writeUTF(optional);
                 outputStream.writeUTF(context);
-                instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                Player[] players = Bukkit.getServer().getOnlinePlayers().toArray(new Player[]{});
+                if (players.length > 0) {
+                    players[0].sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+                }
             } catch (IOException exception) {
                 exception.printStackTrace();
             }
@@ -93,7 +100,10 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             outputStream.writeUTF("SendPlayer");
             outputStream.writeUTF(server);
             outputStream.writeUTF(playerName);
-            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            Player[] players = Bukkit.getServer().getOnlinePlayers().toArray(new Player[]{});
+            if (players.length > 0) {
+                players[0].sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            }
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -106,7 +116,10 @@ public class SpigotCommunicationModule implements PluginMessageListener {
         try {
             outputStream.writeUTF("ServerInfoRequest");
             outputStream.writeUTF(server);
-            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            Player[] players = Bukkit.getServer().getOnlinePlayers().toArray(new Player[]{});
+            if (players.length > 0) {
+                players[0].sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            }
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -120,7 +133,10 @@ public class SpigotCommunicationModule implements PluginMessageListener {
             outputStream.writeUTF("QueuePlayer");
             outputStream.writeUTF(player.getName());
             outputStream.writeUTF(servers);
-            instance.getServer().sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            Player[] players = Bukkit.getServer().getOnlinePlayers().toArray(new Player[]{});
+            if (players.length > 0) {
+                players[0].sendPluginMessage(instance, MessageChannel.BUNGEE_GLOBAL.getChannel(), stream.toByteArray());
+            }
         } catch (IOException exception) {
             exception.printStackTrace();
         }
