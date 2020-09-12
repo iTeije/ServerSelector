@@ -31,6 +31,10 @@ public class ClientCacheModule {
         // Get the previous ServerData entry for the specific server
         ServerData previous = serverData.get(data.getServerName());
 
+        // Replace the existing ServerData entry with the new one
+        serverData.remove(data.getServerName());
+        serverData.put(data.getServerName(), data);
+
         // Update queue processing based on received status
         if (data.getStatus().equalsIgnoreCase("ONLINE")) {
             // Check whether the previous serverdata actually exists
@@ -60,10 +64,6 @@ public class ClientCacheModule {
             }
 
         }
-
-        // Replace the existing ServerData entry with the new one
-        serverData.remove(data.getServerName());
-        serverData.put(data.getServerName(), data);
     }
 
     /**

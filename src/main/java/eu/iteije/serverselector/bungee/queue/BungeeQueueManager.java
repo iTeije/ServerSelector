@@ -105,36 +105,31 @@ public class BungeeQueueManager {
             getScheduledTask(server).cancel();
         }
 
-
         /*
          * why is it not working? well the server data is usually updated once every second,
          * but it doesn't quite work if the runnable is cancelled every second, while it takes
          * 1.5 seconds by default to process the first person in the queue
          */
         if (instance.getClientCacheModule().getServerData(server) != null) {
-            String[] whitelist = instance.getClientCacheModule().getServerData(server).getWhitelist();
-
-            if (whitelist.length > 0) {
+            queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
+                String[] whitelist = instance.getClientCacheModule().getServerData(server).getWhitelist();
                 LinkedList<UUID> currentQueue = getQueue(server);
 
-                queueTasks.put(server, instance.getProxy().getScheduler().schedule(instance, () -> {
-                    if (currentQueue.size() > 0) {
-                        for (String uuid : whitelist) {
-                            if (uuid == null || uuid.equals("")) break;
-                            UUID validUUID = UUID.fromString(uuid);
-                            if (currentQueue.contains(validUUID)) {
-                                instance.getCommunicationModule().sendPlayer(validUUID, server);
-                                quitQueue(validUUID);
-                                currentQueue.remove(validUUID);
-                                break;
-                            }
+                if (currentQueue.size() > 0) {
+                    for (String uuid : whitelist) {
+                        if (uuid == null || uuid.equals("")) break;
+                        UUID validUUID = UUID.fromString(uuid);
+                        if (currentQueue.contains(validUUID)) {
+                            instance.getCommunicationModule().sendPlayer(validUUID, server);
+                            quitQueue(validUUID);
+                            currentQueue.remove(validUUID);
+                            break;
                         }
                     }
-                }, delay, delay, TimeUnit.MILLISECONDS));
-            }
+                }
+            }, delay, delay, TimeUnit.MILLISECONDS));
+
         }
-
-
 
     }
 
