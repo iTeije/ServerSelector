@@ -106,7 +106,12 @@ public class BungeeQueueManager {
         }
 
 
-        if (instance.getClientCacheModule().getServerData(server) != null) { // todo fix whitelisted queue
+        /*
+         * why is it not working? well the server data is usually updated once every second,
+         * but it doesn't quite work if the runnable is cancelled every second, while it takes
+         * 1.5 seconds by default to process the first person in the queue
+         */
+        if (instance.getClientCacheModule().getServerData(server) != null) {
             String[] whitelist = instance.getClientCacheModule().getServerData(server).getWhitelist();
 
             if (whitelist.length > 0) {

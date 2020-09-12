@@ -27,10 +27,12 @@ public class ClientCacheModule {
      */
     public void updateServerData(ServerData data) {
         metrics.spigotRedisCall(data.getRedisCalls());
+
+        // Get the previous ServerData entry for the specific server
+        ServerData previous = serverData.get(data.getServerName());
+
         // Update queue processing based on received status
         if (data.getStatus().equalsIgnoreCase("ONLINE")) {
-            // Get the previous ServerData entry for the specific server
-            ServerData previous = serverData.get(data.getServerName());
             // Check whether the previous serverdata actually exists
             if (previous != null) {
                 // Start processing the queue if it isn't already
@@ -46,7 +48,17 @@ public class ClientCacheModule {
 
         // Pause the queue if the server is whitelisted
         if (data.getStatus().equalsIgnoreCase("WHITELISTED")) {
-            instance.getQueueManager().pauseQueue(data.getServerName(), data.getQueueDelay());
+            // Check whether the previous serverdata exists
+            if (previous != null) {
+                // If the previous status is not equal to 'whitelisted', the queue should be
+                // paused and a whitelist queue should start. If it is, it shouldn't cancel the whitelist queue
+                if (!previous.getStatus().equalsIgnoreCase("WHITELISTED")) {
+                    instance.getQueueManager().pauseQueue(data.getServerName(), data.getQueueDelay());
+                }
+            } else {
+                instance.getQueueManager().pauseQueue(data.getServerName(), data.getQueueDelay());
+            }
+
         }
 
         // Replace the existing ServerData entry with the new one
