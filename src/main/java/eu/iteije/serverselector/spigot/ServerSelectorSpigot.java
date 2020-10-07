@@ -20,6 +20,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
     private long start;
 
+    private boolean pluginEnabled;
+
     // Spigot module instances
     private SpigotCommandModule commandModule;
     private SpigotFileModule fileModule;
@@ -39,6 +41,7 @@ public final class ServerSelectorSpigot extends JavaPlugin {
     public void onEnable() {
         // Plugin startup logic
         instance = this;
+        pluginEnabled = false;
 
         start = System.currentTimeMillis() / 1000L;
 
@@ -66,6 +69,8 @@ public final class ServerSelectorSpigot extends JavaPlugin {
 
         // Cache menus
         this.selectorModule.cacheMenus();
+
+        pluginEnabled = true;
     }
 
     @Override
