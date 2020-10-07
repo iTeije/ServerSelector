@@ -17,6 +17,15 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>Github iTeije Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/iTeije/ServerSelector</url>
+        </repository>
+    </distributionManagement>
+
     <build>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
