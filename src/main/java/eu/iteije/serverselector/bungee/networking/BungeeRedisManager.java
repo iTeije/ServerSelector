@@ -80,6 +80,15 @@ public class BungeeRedisManager {
                             );
 
                             instance.getClientCacheModule().updateServerData(serverData);
+                        } catch (NumberFormatException exception) {
+                            ServerSelectorLogger.console("Parsing failed (" + port + "). " +
+                                    "Unix: " + data.get("unix") +
+                                    ", Queue delay: " + data.get("queue_delay") +
+                                    ", Uptime: " + data.get("uptime") +
+                                    ", Current memory: " + data.get("current_memory") +
+                                    ", Max memory: " + data.get("max_memory") +
+                                    ", Redis calls: " + data.get("redis_calls")
+                            );
                         } catch (Exception exception) {
                             exception.printStackTrace();
                         }
