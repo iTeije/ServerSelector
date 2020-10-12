@@ -142,8 +142,8 @@ public class SelectorModule {
         }
 
         line = line.replace("{status}", online ? serverData.getStatus() : "OFFLINE");
-        line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "0");
-        line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "0");
+        line = line.replace("{current_players}", online ? serverData.getCurrentPlayers() : "-");
+        line = line.replace("{max_players}", online ? serverData.getMaxPlayers() : "-");
         line = line.replace("{queue}", serverData != null ? String.valueOf(serverData.getQueue()) : "0");
         line = line.replace("{motd}", serverData != null ? serverData.getMotd() : "-");
         line = line.replace("{version}", serverData != null ? serverData.getVersion() : "-");
