@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eu.iteije</groupId>
-    <artifactId>ServerSelector</artifactId>
-    <version>1.0.3.1</version>
+    <artifactId>serverselector</artifactId>
+    <version>1.0.3.2</version>
     <packaging>jar</packaging>
 
     <name>ServerSelector</name>
