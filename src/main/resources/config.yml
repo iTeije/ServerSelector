@@ -64,6 +64,7 @@ offline-time: 30
 lobby-server: lobby
 
 # InfluxDB credentials
+metrics-enabled: false
 influxdb:
   url: "url"
   user: "username"

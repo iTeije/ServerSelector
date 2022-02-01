@@ -15,12 +15,18 @@ import java.util.concurrent.TimeUnit;
 public class BungeeMetricsModule extends BungeeMetrics {
 
     @Getter
-    private final InfluxDB influx;
+    private InfluxDB influx;
     private final ServerSelectorBungee instance;
 
-    public BungeeMetricsModule(ServerSelectorBungee instance, BungeeFileModule fileModule) {
+    public BungeeMetricsModule(ServerSelectorBungee instance) {
         super();
         this.instance = instance;
+
+        boolean enabled = BungeeFileModule.getFile(StorageKey.METRICS_ENABLED).getBoolean(StorageKey.METRICS_ENABLED);
+        if (!enabled) {
+            ServerSelectorLogger.console("Cancelling startup of BungeeMetricsModule.");
+            return;
+        }
 
         String database = BungeeFileModule.getFile(StorageKey.INFLUX_DATABASE).getString(StorageKey.INFLUX_DATABASE);
 

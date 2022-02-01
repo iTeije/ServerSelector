@@ -107,6 +107,7 @@ public enum StorageKey {
     INFLUX_USERNAME("influxdb.user", StorageLocation.CONFIG_FILE),
     INFLUX_PASSWORD("influxdb.password", StorageLocation.CONFIG_FILE),
     INFLUX_DATABASE("influxdb.database", StorageLocation.CONFIG_FILE),
+    METRICS_ENABLED("metrics-enabled", StorageLocation.CONFIG_FILE)
 
     ;
 
